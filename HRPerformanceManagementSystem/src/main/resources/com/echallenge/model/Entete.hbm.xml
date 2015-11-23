@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 22, 2015 2:12:26 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping package="com.echallenge.model">
+
+    <class name="Entete" table="entete">
+        <id name="id" type="java.lang.Long">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="dateDebutIntervention" type="java.util.Date">
+            <column name="dateDebutIntervention" />
+        </property>
+        <property name="dateFinIntervention" type="java.util.Date">
+            <column name="dateFinIntervention" />
+        </property>
+        <property name="role" type="java.lang.String">
+            <column name="ROLE" />
+        </property>
+        <property name="nombreJoursValorises" type="int">
+            <column name="nombreJoursValorises" />
+        </property>
+        <many-to-one name="projet" class="Projet" fetch="join">
+            <column name="idProjet" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

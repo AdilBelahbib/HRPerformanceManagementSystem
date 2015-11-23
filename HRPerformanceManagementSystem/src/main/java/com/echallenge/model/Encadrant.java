@@ -1,63 +1,73 @@
 package com.echallenge.model;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class Encadrant extends Utilisateur{
-	private Profile profile;
-	/**La liste des évaluations faites par l'encadrant
+	/**La liste des Ã©valuations faites par l'encadrant
 	 * N.B: Nous pouvons en sortir les objectifs de l'encadrant*/
-	private HashSet<Evaluation> evaluations;	
-
-	public Encadrant(int id, String email, String motDePasse, String nom, String prenom, Profile profile,
-			HashSet<Evaluation> evaluations) {
-		super(id, email, motDePasse, nom, prenom);
-		this.profile = profile;
-		this.evaluations = evaluations;
-	}
-
-	public Encadrant(int id, String email, String motDePasse, String nom, String prenom, Profile profile) {
-		super(id, email, motDePasse, nom, prenom);
-		this.profile = profile;
+	private Set<Evaluation> evaluations;
+	private Set<Feedback> feedbacks;
+	
+	public Encadrant() {
+		super();
 		this.evaluations = new HashSet<Evaluation>();
+		this.feedbacks = new HashSet<Feedback>();
 	}
 
-	/**
-	 * @return the profile
-	 */
-	public Profile getProfile() {
-		return profile;
+	public Encadrant(Long id, String email, String motDePasse, String nom, String prenom, Profile profile,
+			Set<Evaluation> evaluations, Set<Feedback> feedbacks) {
+		super(id, email, motDePasse, nom, prenom, profile);
+		this.evaluations = evaluations;
+		this.feedbacks = feedbacks;
 	}
 
-	/**
-	 * @param profile the profile to set
-	 */
-	public void setProfile(Profile profile) {
-		this.profile = profile;
+	public Encadrant(Long id, String email, String motDePasse, String nom, String prenom, Profile profile) {
+		super(id, email, motDePasse, nom, prenom, profile);
+		this.evaluations = new HashSet<Evaluation>();
+		this.feedbacks = new HashSet<Feedback>();
 	}
 
+	
 	/**
 	 * @return the evaluations
 	 */
-	public HashSet<Evaluation> getEvaluations() {
+	public Set<Evaluation> getEvaluations() {
 		return evaluations;
 	}
 
 	/**
 	 * @param evaluations the evaluations to set
 	 */
-	public void setEvaluations(HashSet<Evaluation> evaluations) {
+	public void setEvaluations(Set<Evaluation> evaluations) {
 		this.evaluations = evaluations;
 	}
 	
 	/**
-	 * Récuperer la liste des objectifs de l'encadrant
-	 * @return La liste des objectifs évalués
+	 * Rï¿½cuperer la liste des objectifs de l'encadrant
+	 * @return La liste des objectifs ï¿½valuï¿½s
 	 */
-	public HashSet<Objectif> getObjectifs() {
+	public Set<Objectif> getObjectifs() {
 		HashSet<Objectif> result = new HashSet<Objectif>();
 	    for (Evaluation evaluation : this.evaluations) {
 	        result.add(evaluation.getObjectif());
 	    }
 	    return result;
 	}
+
+	/**
+	 * @return the feedbacks
+	 */
+	public Set<Feedback> getFeedbacks() {
+		return feedbacks;
+	}
+
+	/**
+	 * @param feedbacks the feedbacks to set
+	 */
+	public void setFeedbacks(Set<Feedback> feedbacks) {
+		this.feedbacks = feedbacks;
+	}
+	
+	
 }

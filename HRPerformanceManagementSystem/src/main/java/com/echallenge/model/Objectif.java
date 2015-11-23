@@ -1,7 +1,7 @@
 package com.echallenge.model;
 
 public class Objectif {
-	private int id;
+	private Long id;
 	private String descriptionObjectif;
 	private String mesureObjectif;
 	private double avancementObjectif;
@@ -10,7 +10,7 @@ public class Objectif {
 		
 	}
 
-	public Objectif(int id, String descriptionObjectif, String mesureObjectif, double avancementObjectif) {
+	public Objectif(Long id, String descriptionObjectif, String mesureObjectif, double avancementObjectif) {
 		this.id = id;
 		this.descriptionObjectif = descriptionObjectif;
 		this.mesureObjectif = mesureObjectif;
@@ -18,17 +18,17 @@ public class Objectif {
 	}
 
 	/**
-	 * @return the idObjectif
+	 * @return the id
 	 */
-	public int getIdObjectif() {
+	public Long getId() {
 		return id;
 	}
 
 	/**
-	 * @param idObjectif the idObjectif to set
+	 * @param id the id to set
 	 */
-	public void setIdObjectif(int idObjectif) {
-		this.id = idObjectif;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	/**
@@ -80,7 +80,10 @@ public class Objectif {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		if(id != null)
+			result = prime * result + id.intValue();
+		else
+			result = prime * result + descriptionObjectif.hashCode();
 		return result;
 	}
 

@@ -1,60 +1,96 @@
 package com.echallenge.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Collaborateur extends Utilisateur{
-	private Profile profile;
-	private FicheObjectifs ficheObjectifs;
-	private FicheEvaluations ficheEvaluations;
+	private Set<FicheObjectifs> ficheObjectifs;
+	private Set<FicheEvaluations> fichesEvaluations;
+	private Set<PlanAmelioration> plansAmelioration;
+	private ManagerRh manager;
 	
+	public Collaborateur() {
+		super();
+		this.ficheObjectifs = new HashSet<FicheObjectifs>();
+		this.fichesEvaluations = new HashSet<FicheEvaluations>();
+		this.plansAmelioration = new HashSet<PlanAmelioration>();
+	}
 
-	public Collaborateur(int id, String email, String motDePasse, String nom, String prenom, Profile profile,
-			FicheObjectifs ficheObjectifs, FicheEvaluations ficheEvaluations) {
-		super(id, email, motDePasse, nom, prenom);
-		this.profile = profile;
+	public Collaborateur(Long id, String email, String motDePasse, String nom, String prenom, Profile profile,
+			ManagerRh manager) {
+		super(id, email, motDePasse, nom, prenom, profile);
+		this.manager = manager;
+		this.ficheObjectifs = new HashSet<FicheObjectifs>();
+		this.fichesEvaluations = new HashSet<FicheEvaluations>();
+		this.plansAmelioration = new HashSet<PlanAmelioration>();
+	}
+
+	public Collaborateur(Long id, String email, String motDePasse, String nom, String prenom, Profile profile,
+			Set<FicheObjectifs> ficheObjectifs, Set<FicheEvaluations> fichesEvaluations, ManagerRh manager
+			,Set<PlanAmelioration> plansAmelioration) {
+		super(id, email, motDePasse, nom, prenom, profile);
 		this.ficheObjectifs = ficheObjectifs;
-		this.ficheEvaluations = ficheEvaluations;
-	}
-
-	/**
-	 * @return the profile
-	 */
-	public Profile getProfile() {
-		return profile;
-	}
-
-	/**
-	 * @param profile the profile to set
-	 */
-	public void setProfile(Profile profile) {
-		this.profile = profile;
+		this.fichesEvaluations = fichesEvaluations;
+		this.manager = manager;
+		this.plansAmelioration = plansAmelioration;
 	}
 
 	/**
 	 * @return the ficheObjectifs
 	 */
-	public FicheObjectifs getFicheObjectifs() {
+	public Set<FicheObjectifs> getFicheObjectifs() {
 		return ficheObjectifs;
 	}
 
 	/**
 	 * @param ficheObjectifs the ficheObjectifs to set
 	 */
-	public void setFicheObjectifs(FicheObjectifs ficheObjectifs) {
+	public void setFicheObjectifs(Set<FicheObjectifs> ficheObjectifs) {
 		this.ficheObjectifs = ficheObjectifs;
 	}
 
 	/**
-	 * @return the ficheEvaluations
+	 * @return the fichesEvaluations
 	 */
-	public FicheEvaluations getFicheEvaluations() {
-		return ficheEvaluations;
+	public Set<FicheEvaluations> getFichesEvaluations() {
+		return fichesEvaluations;
 	}
 
 	/**
-	 * @param ficheEvaluations the ficheEvaluations to set
+	 * @param fichesEvaluations the fichesEvaluations to set
 	 */
-	public void setFicheEvaluations(FicheEvaluations ficheEvaluations) {
-		this.ficheEvaluations = ficheEvaluations;
+	public void setFichesEvaluations(Set<FicheEvaluations> fichesEvaluations) {
+		this.fichesEvaluations = fichesEvaluations;
 	}
+
+	/**
+	 * @return the manager
+	 */
+	public ManagerRh getManager() {
+		return manager;
+	}
+
+	/**
+	 * @param manager the manager to set
+	 */
+	public void setManager(ManagerRh manager) {
+		this.manager = manager;
+	}
+
+	/**
+	 * @return the plansAmelioration
+	 */
+	public Set<PlanAmelioration> getPlansAmelioration() {
+		return plansAmelioration;
+	}
+
+	/**
+	 * @param plansAmelioration the plansAmelioration to set
+	 */
+	public void setPlansAmelioration(Set<PlanAmelioration> plansAmelioration) {
+		this.plansAmelioration = plansAmelioration;
+	}
+	
 	
 	
 }

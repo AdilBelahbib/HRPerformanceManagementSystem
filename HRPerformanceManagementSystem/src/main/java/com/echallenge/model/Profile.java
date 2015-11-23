@@ -1,16 +1,15 @@
 package com.echallenge.model;
 
 public class Profile {
-	private int id;
+	private Long id;
 	private String codeProfile;
 	private String descriptionProfile;
 	
 	
 	public Profile() {
-		super();
 	}
 	
-	public Profile(int id, String codeProfile, String descriptionProfile) {
+	public Profile(Long id, String codeProfile, String descriptionProfile) {
 		this.id = id;
 		this.codeProfile = codeProfile;
 		this.descriptionProfile = descriptionProfile;
@@ -20,7 +19,7 @@ public class Profile {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -28,7 +27,7 @@ public class Profile {
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -72,7 +71,11 @@ public class Profile {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((codeProfile == null) ? 0 : codeProfile.hashCode());
+		if(id != null)
+			result = prime * result + id.intValue();
+		else
+			result = prime * result + codeProfile.hashCode();
+		
 		return result;
 	}
 

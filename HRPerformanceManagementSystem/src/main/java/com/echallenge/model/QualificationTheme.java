@@ -1,10 +1,10 @@
 package com.echallenge.model;
 
 public class QualificationTheme {
-	private int id;
-	/**Les thèmes sont énumérés dans l'enum. 'Theme'*/
+	private Long id;
+	/**Les thÃ¨mes sont Ã©numÃ©rÃ©s dans l'enum. 'Theme'*/
 	private Theme theme;
-	/**Les qualifications sont énumérées dans l'enum. 'Qualification'*/
+	/**Les qualifications sont ï¿½numï¿½rï¿½es dans l'enum. 'Qualification'*/
 	private Qualification qualification;
 	/**La remarque est optionnelle*/
 	private String remarque;
@@ -13,14 +13,14 @@ public class QualificationTheme {
 		this.remarque = "";
 	}
 
-	public QualificationTheme(int id, Theme theme, Qualification qualification, String remarque) {
+	public QualificationTheme(Long id, Theme theme, Qualification qualification, String remarque) {
 		this.id = id;
 		this.theme = theme;
 		this.qualification = qualification;
 		this.remarque = remarque;
 	}
 
-	public QualificationTheme(int id, Theme theme, Qualification qualification) {
+	public QualificationTheme(Long id, Theme theme, Qualification qualification) {
 		this.id = id;
 		this.theme = theme;
 		this.qualification = qualification;
@@ -30,14 +30,14 @@ public class QualificationTheme {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -90,7 +90,10 @@ public class QualificationTheme {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		if(id != null) 
+			result = prime * result + id.intValue();
+		else
+			result = prime * result + (theme.hashCode()*qualification.hashCode());
 		return result;
 	}
 

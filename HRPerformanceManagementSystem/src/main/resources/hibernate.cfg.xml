@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/hrperformancemanagementsystem</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		<property name="hibernate.current_session_context_class">thread</property>
+
+		<property name="show_sql">true</property>
+		<property name="format_sql">true</property>
+
+		<mapping resource="com/echallenge/model/Action.hbm.xml"></mapping>
+		<mapping resource="com/echallenge/model/BAP.hbm.xml"></mapping>
+		<mapping resource="com/echallenge/model/BIP.hbm.xml"></mapping>
+		<mapping resource="com/echallenge/model/Entete.hbm.xml"></mapping>
+		<mapping resource="com/echallenge/model/Evaluation.hbm.xml"></mapping>
+		<mapping resource="com/echallenge/model/Feedback.hbm.xml"></mapping>
+		<mapping resource="com/echallenge/model/FicheEvaluations.hbm.xml"></mapping>
+		<mapping resource="com/echallenge/model/FicheObjectifs.hbm.xml"></mapping>
+		<mapping resource="com/echallenge/model/Formation.hbm.xml"></mapping>
+		<mapping resource="com/echallenge/model/Objectif.hbm.xml"></mapping>
+		<mapping resource="com/echallenge/model/PlanAmelioration.hbm.xml"></mapping>
+		<mapping resource="com/echallenge/model/Profile.hbm.xml"></mapping>
+		<mapping resource="com/echallenge/model/Projet.hbm.xml"></mapping>
+		<mapping resource="com/echallenge/model/QualificationTheme.hbm.xml"></mapping>
+		<mapping resource="com/echallenge/model/Utilisateur.hbm.xml"></mapping>
+
+	</session-factory>
+</hibernate-configuration>

@@ -3,16 +3,18 @@ package com.echallenge.model;
 import java.util.Date;
 
 public abstract class Bilan {
-	private int id;
+	private Long id;
 	private Date dateBilan;
-	/**La fiche des objectifs traités
-	*(modifiés dans le cas de BIP et validés dans le cas de BAP)*/
+	/**
+	 * La fiche des objectifs traitÃ©s (modifiÃ©s dans le cas de BIP et validï¿½s
+	 * dans le cas de BAP)
+	 */
 	private FicheObjectifs ficheObjectifsTraites;
-	
+
 	public Bilan() {
 	}
 
-	public Bilan(int id, Date dateBilan, FicheObjectifs ficheObjectifs) {
+	public Bilan(Long id, Date dateBilan, FicheObjectifs ficheObjectifs) {
 		this.id = id;
 		this.dateBilan = dateBilan;
 		this.ficheObjectifsTraites = ficheObjectifs;
@@ -21,14 +23,15 @@ public abstract class Bilan {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -40,40 +43,47 @@ public abstract class Bilan {
 	}
 
 	/**
-	 * @param dateBilan the dateBilan to set
+	 * @param dateBilan
+	 *            the dateBilan to set
 	 */
 	public void setDateBilan(Date dateBilan) {
 		this.dateBilan = dateBilan;
 	}
 
-	
-
 	/**
-	 * @return the ficheObjectifs
+	 * @return the ficheObjectifsTraites
 	 */
-	public FicheObjectifs getFicheObjectifs() {
+	public FicheObjectifs getFicheObjectifsTraites() {
 		return ficheObjectifsTraites;
 	}
 
 	/**
-	 * @param ficheObjectifs the ficheObjectifs to set
+	 * @param ficheObjectifsTraites
+	 *            the ficheObjectifsTraites to set
 	 */
-	public void setFicheObjectifs(FicheObjectifs ficheObjectifs) {
-		this.ficheObjectifsTraites = ficheObjectifs;
+	public void setFicheObjectifsTraites(FicheObjectifs ficheObjectifsTraites) {
+		this.ficheObjectifsTraites = ficheObjectifsTraites;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		if (id != null)
+			result = prime * result + id.intValue();
+		else
+			result = prime * result + dateBilan.hashCode() * ficheObjectifsTraites.hashCode();
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -89,16 +99,16 @@ public abstract class Bilan {
 			return false;
 		return true;
 	}
-	
+
 	/**
-	 * Récuperer le collaborateur concerné
-	 * @return Le collaborateur concerné par le Bilan
+	 * Rï¿½cuperer le collaborateur concernï¿½
+	 * 
+	 * @return Le collaborateur concernï¿½ par le Bilan
 	 */
-	public Collaborateur getCollaborateur()
-	{
-		if(this.ficheObjectifsTraites != null)
+	public Collaborateur getCollaborateur() {
+		if (this.ficheObjectifsTraites != null)
 			return this.ficheObjectifsTraites.getCollaborateur();
-		
+
 		return null;
 	}
 }

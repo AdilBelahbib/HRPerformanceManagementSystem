@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 22, 2015 2:12:26 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping package="com.echallenge.model">
+
+	<class name="BIP" table="bip">
+	
+		<id name="id" type="java.lang.Long">
+			<column name="ID" />
+			<generator class="native" />
+		</id>
+		
+		<property name="dateBilan" type="java.util.Date">
+			<column name="dateBIP" />
+		</property>
+		
+		<many-to-one name="ficheObjectifsTraites" class="FicheObjectifs" fetch="join">
+			<column name="idFicheObjectifsTraites" />
+		</many-to-one>
+
+		<set name="plansAmelioration" table="plan_amelioration" inverse="false" lazy="true" cascade="all">
+			<key column="idBip"/>
+			<one-to-many class="PlanAmelioration" />
+		</set>
+	</class>
+</hibernate-mapping>

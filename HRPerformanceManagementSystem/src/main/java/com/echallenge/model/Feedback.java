@@ -1,37 +1,45 @@
 package com.echallenge.model;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class Feedback {
-	private int id;
-	/**Le collaborateur concerné*/
+	private Long id;
+	/**Le collaborateur concernï¿½*/
 	private Collaborateur collaborateur;
 	private String remarqueGenerale;
 	private boolean validation;
-	/**L'entête du feedback*/
+	/**L'encadrant ayant fait le feedback*/
+	private Encadrant encadrant;
+	/**L'entï¿½te du feedback*/
 	private Entete entete;
-	/**Les qualifications par thème*/
-	private HashSet<QualificationTheme> qualificationsTheme;
+	/**Les qualifications par thï¿½me*/
+	private Set<QualificationTheme> qualificationsTheme;
 	
 	public Feedback() {
 		this.qualificationsTheme = new HashSet<QualificationTheme>();
 	}
-
-	public Feedback(int id, Collaborateur collaborateur, String remarqueGenerale, boolean validation, Entete entete,
-			HashSet<QualificationTheme> qualificationsTheme) {
+	
+	public Feedback(Long id, Collaborateur collaborateur, String remarqueGenerale, boolean validation,
+			Encadrant encadrant, Entete entete, Set<QualificationTheme> qualificationsTheme) {
+		super();
 		this.id = id;
 		this.collaborateur = collaborateur;
 		this.remarqueGenerale = remarqueGenerale;
 		this.validation = validation;
+		this.encadrant = encadrant;
 		this.entete = entete;
 		this.qualificationsTheme = qualificationsTheme;
 	}
 
-	public Feedback(int id, Collaborateur collaborateur, String remarqueGenerale, boolean validation, Entete entete) {
+	public Feedback(Long id, Collaborateur collaborateur, String remarqueGenerale, boolean validation,
+			Encadrant encadrant, Entete entete) {
+		super();
 		this.id = id;
 		this.collaborateur = collaborateur;
 		this.remarqueGenerale = remarqueGenerale;
 		this.validation = validation;
+		this.encadrant = encadrant;
 		this.entete = entete;
 		this.qualificationsTheme = new HashSet<QualificationTheme>();
 	}
@@ -39,14 +47,14 @@ public class Feedback {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -91,6 +99,20 @@ public class Feedback {
 	public void setValidation(boolean validation) {
 		this.validation = validation;
 	}
+	
+	/**
+	 * @return the encadrant
+	 */
+	public Encadrant getEncadrant() {
+		return encadrant;
+	}
+
+	/**
+	 * @param encadrant the encadrant to set
+	 */
+	public void setEncadrant(Encadrant encadrant) {
+		this.encadrant = encadrant;
+	}
 
 	/**
 	 * @return the entete
@@ -109,14 +131,14 @@ public class Feedback {
 	/**
 	 * @return the qualificationsTheme
 	 */
-	public HashSet<QualificationTheme> getQualificationsTheme() {
+	public Set<QualificationTheme> getQualificationsTheme() {
 		return qualificationsTheme;
 	}
 
 	/**
 	 * @param qualificationsTheme the qualificationsTheme to set
 	 */
-	public void setQualificationsTheme(HashSet<QualificationTheme> qualificationsTheme) {
+	public void setQualificationsTheme(Set<QualificationTheme> qualificationsTheme) {
 		this.qualificationsTheme = qualificationsTheme;
 	}
 
@@ -127,7 +149,10 @@ public class Feedback {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		if(id != null)
+			result = prime * result + id.intValue();
+		else
+			result = prime * result + entete.hashCode()*collaborateur.hashCode();
 		return result;
 	}
 

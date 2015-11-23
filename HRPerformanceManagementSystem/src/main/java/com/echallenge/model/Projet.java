@@ -1,18 +1,20 @@
 package com.echallenge.model;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class Projet {
-	private int id;
+	private Long id;
 	private String codeProjet;
 	private String nomProjet;
 	/**La liste des objectifs contenus dans le projet*/
-	private HashSet<Objectif> objectifs;
+	private Set<Objectif> objectifs;
 	
 	public Projet() {
+		this.objectifs = new HashSet<Objectif>();
 	}
 
-	public Projet(int id, String codeProjet, String nomProjet, HashSet<Objectif> objectifs) {
+	public Projet(Long id, String codeProjet, String nomProjet, Set<Objectif> objectifs) {
 		this.id = id;
 		this.codeProjet = codeProjet;
 		this.nomProjet = nomProjet;
@@ -22,14 +24,14 @@ public class Projet {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -64,14 +66,14 @@ public class Projet {
 	/**
 	 * @return the objectifs
 	 */
-	public HashSet<Objectif> getObjectifs() {
+	public Set<Objectif> getObjectifs() {
 		return objectifs;
 	}
 
 	/**
 	 * @param objectifs the objectifs to set
 	 */
-	public void setObjectifs(HashSet<Objectif> objectifs) {
+	public void setObjectifs(Set<Objectif> objectifs) {
 		this.objectifs = objectifs;
 	}
 
@@ -82,7 +84,10 @@ public class Projet {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		if(id != null)
+			result = prime * result + id.intValue();
+		else
+			result = prime * result + codeProjet.hashCode();
 		return result;
 	}
 

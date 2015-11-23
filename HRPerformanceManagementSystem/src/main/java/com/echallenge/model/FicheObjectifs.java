@@ -2,23 +2,24 @@ package com.echallenge.model;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Set;
 
 public class FicheObjectifs {
-	private int id;
-	/**Le collaborateur concerné*/
+	private Long id;
+	/**Le collaborateur concernÃ©*/
 	private Collaborateur collaborateur;
 	private Date dateFicheObjectifs;
-	/**Le droit d'accès pour le collaborateur concerné*/
+	/**Le droit d'accÃ¨s pour le collaborateur concernï¿½*/
 	private boolean autorisationAcces;
 	/**La liste des objectifs composant la fiche*/
-	private HashSet<Objectif> objectifs;
+	private Set<Objectif> objectifs;
 	
 	public FicheObjectifs() {
 		this.objectifs = new HashSet<Objectif>();
 	}
 
-	public FicheObjectifs(int id, Collaborateur collaborateur, Date dateFicheObjectifs, boolean autorisationAcces,
-			HashSet<Objectif> objectifs) {
+	public FicheObjectifs(Long id, Collaborateur collaborateur, Date dateFicheObjectifs, boolean autorisationAcces,
+			Set<Objectif> objectifs) {
 		this.id = id;
 		this.collaborateur = collaborateur;
 		this.dateFicheObjectifs = dateFicheObjectifs;
@@ -26,7 +27,7 @@ public class FicheObjectifs {
 		this.objectifs = objectifs;
 	}
 
-	public FicheObjectifs(int id, Collaborateur collaborateur, Date dateFicheObjectifs, boolean autorisationAcces) {
+	public FicheObjectifs(Long id, Collaborateur collaborateur, Date dateFicheObjectifs, boolean autorisationAcces) {
 		this.id = id;
 		this.collaborateur = collaborateur;
 		this.dateFicheObjectifs = dateFicheObjectifs;
@@ -37,14 +38,14 @@ public class FicheObjectifs {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -93,14 +94,14 @@ public class FicheObjectifs {
 	/**
 	 * @return the objectifs
 	 */
-	public HashSet<Objectif> getObjectifs() {
+	public Set<Objectif> getObjectifs() {
 		return objectifs;
 	}
 
 	/**
 	 * @param objectifs the objectifs to set
 	 */
-	public void setObjectifs(HashSet<Objectif> objectifs) {
+	public void setObjectifs(Set<Objectif> objectifs) {
 		this.objectifs = objectifs;
 	}
 
@@ -111,7 +112,10 @@ public class FicheObjectifs {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		if(id != null)
+			result = prime * result + id.intValue();
+		else
+			result = prime * result + objectifs.hashCode();
 		return result;
 	}
 

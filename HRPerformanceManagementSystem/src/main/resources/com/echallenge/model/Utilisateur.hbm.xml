@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 22, 2015 2:12:26 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping package="com.echallenge.model">
+	<class name="Utilisateur" table="UTILISATEUR">
+		<id name="id" type="java.lang.Long">
+			<column name="ID" />
+			<generator class="native" />
+		</id>
+		<discriminator column="typeUtilisateur" type="string" />
+		<property name="email" type="java.lang.String">
+			<column name="EMAIL" />
+		</property>
+		<property name="motDePasse" type="java.lang.String">
+			<column name="MOTDEPASSE" />
+		</property>
+		<property name="nom" type="java.lang.String">
+			<column name="NOM" />
+		</property>
+		<property name="prenom" type="java.lang.String">
+			<column name="PRENOM" />
+		</property>
+		<many-to-one name="profile" class="Profile" not-null="false">
+			<column name="idProfile"/>
+		</many-to-one>
+
+		<subclass name="ManagerRh" discriminator-value="M">
+			<set name="collaborateurs" table="COLLABORATEUR" inverse="true"
+				lazy="true">
+				<key column="id_manager" not-null="true" />
+				<one-to-many class="Collaborateur" />
+			</set>
+		</subclass>
+
+		<subclass name="Administrateur" discriminator-value="A" />
+
+		<subclass name="Collaborateur" discriminator-value="C">
+
+			<set name="ficheObjectifs" table="fiche_objectifs" inverse="true"
+				lazy="true" cascade="delete,refresh">
+				<key column="idCollaborateur" />
+				<one-to-many class="FicheObjectifs" />
+			</set>
+
+			<set name="fichesEvaluations" table="fiche_evaluations" inverse="true"
+				lazy="true" cascade="delete,refresh">
+				<key column="idCollaborateur" />
+				<one-to-many class="FicheEvaluations" />
+			</set>
+			
+			<set name="plansAmelioration" table="plan_amelioration" inverse="true"
+				lazy="true" cascade="delete,refresh">
+				<key column="idCollaborateur" />
+				<one-to-many class="PlanAmelioration" />
+			</set>
+
+			<join table="collaborateur">
+				<key column="id" />
+
+				<many-to-one name="manager" class="ManagerRh" fetch="join">
+					<column name="id_manager" />
+				</many-to-one>
+
+			</join>
+
+		</subclass>
+
+		<subclass name="Encadrant" discriminator-value="E">
+			<set name="evaluations" table="EVALUATION" inverse="true" lazy="true">
+				<key column="idEncadrant" />
+				<one-to-many class="Evaluation" />
+			</set>
+			
+			<set name="feedbacks" table="FEEDBACK" inverse="true" lazy="true">
+				<key column="idEncadrant" />
+				<one-to-many class="Feedback" />
+			</set>
+		</subclass>
+	</class>
+</hibernate-mapping>

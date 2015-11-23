@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 22, 2015 2:12:26 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping package="com.echallenge.model">
+
+	<class name="BAP" table="bap">
+		<id name="id" type="java.lang.Long">
+			<column name="ID" />
+			<generator class="native" />
+		</id>
+		
+		<property name="dateBilan" type="java.util.Date">
+			<column name="dateBAP" />
+		</property>
+		
+		<many-to-one name="ficheObjectifsTraites" class="FicheObjectifs" fetch="join">
+			<column name="idFicheObjectifsTraites" />
+		</many-to-one>
+		
+		<many-to-one name="ficheObjectifsRediges" class="FicheObjectifs" cascade="all">
+			<column name="idFicheObjectifsRediges" />
+		</many-to-one>
+		
+		<many-to-one name="ficheEvaluations" class="FicheEvaluations" fetch="join" >
+			<column name="idFicheEvaluations" />
+		</many-to-one>
+		
+		<property name="statut" column="StatutBAP" >
+			<type name="org.hibernate.type.EnumType">
+				<param name="enumClass">com.echallenge.model.StatutBAP</param>
+				<param name="useNamed">true</param>
+			</type>
+		</property>
+		
+		<set name="feedbacks" table="feedback" inverse="false" lazy="true" cascade="all">
+            <key>
+                <column name="idBap" />
+            </key>
+            <one-to-many class="Feedback" />
+        </set>
+	</class>
+</hibernate-mapping>

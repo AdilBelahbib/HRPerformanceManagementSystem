@@ -1,18 +1,18 @@
 package com.echallenge.model;
 
 public class Evaluation {
-	private int id;
-	/**L'encadrant ayant fait l'évaluation*/
+	private Long id;
+	/** L'encadrant ayant fait l'ï¿½valuation */
 	private Encadrant encadrant;
-	/**L'objectif concerné par l'évaluation*/
+	/** L'objectif concernï¿½ par l'ï¿½valuation */
 	private Objectif objectif;
 	private int poids;
 	private double resultat;
-	
+
 	public Evaluation() {
 	}
 
-	public Evaluation(int id, Encadrant encadrant, Objectif objectif, int poids, double resultat) {
+	public Evaluation(Long id, Encadrant encadrant, Objectif objectif, int poids, double resultat) {
 		this.id = id;
 		this.encadrant = encadrant;
 		this.objectif = objectif;
@@ -23,14 +23,15 @@ public class Evaluation {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -42,7 +43,8 @@ public class Evaluation {
 	}
 
 	/**
-	 * @param encadrant the encadrant to set
+	 * @param encadrant
+	 *            the encadrant to set
 	 */
 	public void setEncadrant(Encadrant encadrant) {
 		this.encadrant = encadrant;
@@ -56,7 +58,8 @@ public class Evaluation {
 	}
 
 	/**
-	 * @param objectif the objectif to set
+	 * @param objectif
+	 *            the objectif to set
 	 */
 	public void setObjectif(Objectif objectif) {
 		this.objectif = objectif;
@@ -70,7 +73,8 @@ public class Evaluation {
 	}
 
 	/**
-	 * @param poids the poids to set
+	 * @param poids
+	 *            the poids to set
 	 */
 	public void setPoids(int poids) {
 		this.poids = poids;
@@ -84,24 +88,33 @@ public class Evaluation {
 	}
 
 	/**
-	 * @param resultat the resultat to set
+	 * @param resultat
+	 *            the resultat to set
 	 */
 	public void setResultat(double resultat) {
 		this.resultat = resultat;
 	}
+	
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		if (id != null)
+			result = prime * result + id.intValue();
+		else
+			result = prime * result + encadrant.hashCode() * objectif.hashCode();
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -117,6 +130,5 @@ public class Evaluation {
 			return false;
 		return true;
 	}
-	
-	
+
 }

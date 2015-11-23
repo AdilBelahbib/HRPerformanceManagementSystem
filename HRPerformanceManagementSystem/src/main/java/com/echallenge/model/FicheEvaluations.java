@@ -2,22 +2,23 @@ package com.echallenge.model;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Set;
 
 public class FicheEvaluations {
-	private int id;
+	private Long id;
 	private Date dateEvaluation;
-	/**Le collaborateur concerné*/
+	/**Le collaborateur concernï¿½*/
 	private Collaborateur collaborateur;
-	/**Le droit d'accès pour le collaborateur concerné*/
+	/**Le droit d'accï¿½s pour le collaborateur concernï¿½*/
 	private boolean autorisationAcces;
-	/**La liste des évaluations composant la fiche*/
-	private HashSet<Evaluation> evaluations;
+	/**La liste des ï¿½valuations composant la fiche*/
+	private Set<Evaluation> evaluations;
 	
 	public FicheEvaluations() {
 		this.evaluations = new HashSet<Evaluation>();
 	}
 
-	public FicheEvaluations(int id, Date dateEvaluation, boolean autorisationAcces, Collaborateur collaborateur) {
+	public FicheEvaluations(Long id, Date dateEvaluation, boolean autorisationAcces, Collaborateur collaborateur) {
 		this.id = id;
 		this.dateEvaluation = dateEvaluation;
 		this.autorisationAcces = autorisationAcces;
@@ -25,8 +26,8 @@ public class FicheEvaluations {
 		this.evaluations = new HashSet<Evaluation>();
 	}
 
-	public FicheEvaluations(int id, Date dateEvaluation, Collaborateur collaborateur, boolean autorisationAcces,
-			HashSet<Evaluation> evaluations) {
+	public FicheEvaluations(Long id, Date dateEvaluation, Collaborateur collaborateur, boolean autorisationAcces,
+			Set<Evaluation> evaluations) {
 		this.id = id;
 		this.dateEvaluation = dateEvaluation;
 		this.collaborateur = collaborateur;
@@ -34,17 +35,19 @@ public class FicheEvaluations {
 		this.evaluations = evaluations;
 	}
 
+	
+	
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -61,7 +64,6 @@ public class FicheEvaluations {
 	public void setDateEvaluation(Date dateEvaluation) {
 		this.dateEvaluation = dateEvaluation;
 	}
-	
 
 	/**
 	 * @return the collaborateur
@@ -90,22 +92,21 @@ public class FicheEvaluations {
 	public void setAutorisationAcces(boolean autorisationAcces) {
 		this.autorisationAcces = autorisationAcces;
 	}
-	
 
 	/**
-	 * @return the objectifs
+	 * @return the evaluations
 	 */
-	public HashSet<Evaluation> getObjectifs() {
+	public Set<Evaluation> getEvaluations() {
 		return evaluations;
 	}
 
 	/**
-	 * @param objectifs the objectifs to set
+	 * @param evaluations the evaluations to set
 	 */
-	public void setObjectifs(HashSet<Evaluation> evaluations) {
+	public void setEvaluations(Set<Evaluation> evaluations) {
 		this.evaluations = evaluations;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -113,7 +114,10 @@ public class FicheEvaluations {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		if(id != null)
+			result = prime * result + id.intValue();
+		else
+			result = prime * result + collaborateur.hashCode()*dateEvaluation.hashCode();
 		return result;
 	}
 

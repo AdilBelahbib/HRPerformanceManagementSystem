@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 22, 2015 2:12:26 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping package="com.echallenge.model">
+
+    <class name="Profile" table="profile">
+        <id name="id" type="java.lang.Long">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="codeProfile" type="java.lang.String">
+            <column name="codeProfile" />
+        </property>
+        <property name="descriptionProfile" type="java.lang.String">
+            <column name="descriptionProfile" />
+        </property>
+    </class>
+</hibernate-mapping>

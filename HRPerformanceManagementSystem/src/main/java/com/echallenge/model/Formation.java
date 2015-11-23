@@ -1,25 +1,26 @@
 package com.echallenge.model;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class Formation extends PlanAmelioration{
 	private boolean autoformation;
 	/**La liste des objectifs de la formation*/
-	private HashSet<Objectif> objectifs;
+	private Set<Objectif> objectifs;
 
 	public Formation() {
 		super();
 		this.objectifs = new HashSet<Objectif>();
 	}
 
-	public Formation(int id, boolean autoformation, HashSet<Objectif> objectifs) {
-		super(id);
+	public Formation(Long id, Collaborateur collaborateur, BIP bip, boolean autoformation, Set<Objectif> objectifs) {
+		super(id, collaborateur, bip);
 		this.autoformation = autoformation;
 		this.objectifs = objectifs;
 	}
 
-	public Formation(int id, boolean autoformation) {
-		super(id);
+	public Formation(Long id, Collaborateur collaborateur, BIP bip, boolean autoformation) {
+		super(id, collaborateur, bip);
 		this.autoformation = autoformation;
 		this.objectifs = new HashSet<Objectif>();
 	}
@@ -41,14 +42,14 @@ public class Formation extends PlanAmelioration{
 	/**
 	 * @return the objectifs
 	 */
-	public HashSet<Objectif> getObjectifs() {
+	public Set<Objectif> getObjectifs() {
 		return objectifs;
 	}
 
 	/**
 	 * @param objectifs the objectifs to set
 	 */
-	public void setObjectifs(HashSet<Objectif> objectifs) {
+	public void setObjectifs(Set<Objectif> objectifs) {
 		this.objectifs = objectifs;
 	}
 	

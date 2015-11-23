@@ -1,27 +1,63 @@
 package com.echallenge.model;
 
+import java.util.Random;
+
 public class PlanAmelioration {
-	private int id;
+	private Long id;
+	private Collaborateur collaborateur;
+	private BIP bip;
 	
 	public PlanAmelioration() {
 	}
 	
-	public PlanAmelioration(int id) {
+	public PlanAmelioration(Long id, Collaborateur collaborateur, BIP bip) {
 		this.id = id;
+		this.collaborateur = collaborateur;
+		this.bip = bip;
 	}
 
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return the collaborateur
+	 */
+	public Collaborateur getCollaborateur() {
+		return collaborateur;
+	}
+
+	/**
+	 * @param collaborateur the collaborateur to set
+	 */
+	public void setCollaborateur(Collaborateur collaborateur) {
+		this.collaborateur = collaborateur;
+	}
+	
+	
+	
+	/**
+	 * @return the bip
+	 */
+	public BIP getBip() {
+		return bip;
+	}
+
+	/**
+	 * @param bip the bip to set
+	 */
+	public void setBip(BIP bip) {
+		this.bip = bip;
 	}
 
 	/* (non-Javadoc)
@@ -31,7 +67,12 @@ public class PlanAmelioration {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		if(id != null)
+			result = prime * result + id.intValue();
+		else
+			result = prime * result + collaborateur.hashCode();
+
+			
 		return result;
 	}
 

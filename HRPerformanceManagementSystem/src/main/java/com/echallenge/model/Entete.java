@@ -3,18 +3,18 @@ package com.echallenge.model;
 import java.util.Date;
 
 public class Entete {
-	private int id;
+	private Long id;
 	private Date dateDebutIntervention;
 	private Date dateFinIntervention;
 	private String role;
 	private int nombreJoursValorises;
-	/**Le projet concerné par l'entête*/
+	/**Le projet concernï¿½ par l'entï¿½te*/
 	private Projet projet;
 	
 	public Entete() {
 	}
 
-	public Entete(int id, Date dateDebutIntervention, Date dateFinIntervention, String role, int nombreJoursValorises,
+	public Entete(Long id, Date dateDebutIntervention, Date dateFinIntervention, String role, int nombreJoursValorises,
 			Projet projet) {
 		this.id = id;
 		this.dateDebutIntervention = dateDebutIntervention;
@@ -27,14 +27,14 @@ public class Entete {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -115,7 +115,10 @@ public class Entete {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		if(id != null)
+			result = prime * result + id.intValue();
+		else
+			result = prime * result + dateDebutIntervention.hashCode()*role.hashCode()*nombreJoursValorises;
 		return result;
 	}
 

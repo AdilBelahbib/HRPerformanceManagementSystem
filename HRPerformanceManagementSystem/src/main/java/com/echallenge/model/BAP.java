@@ -1,38 +1,45 @@
 package com.echallenge.model;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class BAP extends Bilan{
 	/**La fiche des objectifs du collaborateur*/
 	private FicheObjectifs ficheObjectifsRediges;
-	/**La fiche des évaluations du collaborateur*/
+	/**La fiche des Ã©valuations du collaborateur*/
 	private FicheEvaluations ficheEvaluations;
-	/**Le feedback concernant l'utilisateur*/
-	private Feedback feedback;	
-	/**Les statuts du BAP sont énumérées dans l'enum. 'StatusBAP'*/
+	/**Les feedbacks concernant l'utilisateur*/
+	private Set<Feedback> feedbacks;	
+	/**Les statuts du BAP sont Ã©numÃ©rÃ©s dans l'enum. 'StatusBAP'*/
 	private StatutBAP statut;
+	
+	public BAP() {
+		super();
+		this.feedbacks = new HashSet<Feedback>();
+	}
 
-	public BAP(int id, Date dateBilan, FicheObjectifs ficheObjectifsTraites, FicheObjectifs ficheObjectifsRediges,
-			FicheEvaluations ficheEvaluations, Feedback feedback, StatutBAP statut) {
+	public BAP(Long id, Date dateBilan, FicheObjectifs ficheObjectifsTraites, FicheObjectifs ficheObjectifsRediges,
+			FicheEvaluations ficheEvaluations, Set<Feedback> feedbacks, StatutBAP statut) {
 		super(id, dateBilan, ficheObjectifsTraites);
 		this.ficheObjectifsRediges = ficheObjectifsRediges;
 		this.ficheEvaluations = ficheEvaluations;
-		this.feedback = feedback;
+		this.feedbacks = feedbacks;
 		this.statut = statut;
 	}
 
 	/**
-	 * @return the ficheObjectifs
+	 * @return the ficheObjectifsRediges
 	 */
-	public FicheObjectifs getFicheObjectifs() {
+	public FicheObjectifs getFicheObjectifsRediges() {
 		return ficheObjectifsRediges;
 	}
 
 	/**
-	 * @param ficheObjectifs the ficheObjectifs to set
+	 * @param ficheObjectifsRediges the ficheObjectifsRediges to set
 	 */
-	public void setFicheObjectifs(FicheObjectifs ficheObjectifs) {
-		this.ficheObjectifsRediges = ficheObjectifs;
+	public void setFicheObjectifsRediges(FicheObjectifs ficheObjectifsRediges) {
+		this.ficheObjectifsRediges = ficheObjectifsRediges;
 	}
 
 	/**
@@ -49,19 +56,7 @@ public class BAP extends Bilan{
 		this.ficheEvaluations = ficheEvaluations;
 	}
 
-	/**
-	 * @return the feedback
-	 */
-	public Feedback getFeedback() {
-		return feedback;
-	}
-
-	/**
-	 * @param feedback the feedback to set
-	 */
-	public void setFeedback(Feedback feedback) {
-		this.feedback = feedback;
-	}
+	
 
 	/**
 	 * @return the statut
@@ -76,5 +71,20 @@ public class BAP extends Bilan{
 	public void setStatut(StatutBAP statut) {
 		this.statut = statut;
 	}
+
+	/**
+	 * @return the feedbacks
+	 */
+	public Set<Feedback> getFeedbacks() {
+		return feedbacks;
+	}
+
+	/**
+	 * @param feedbacks the feedbacks to set
+	 */
+	public void setFeedbacks(Set<Feedback> feedbacks) {
+		this.feedbacks = feedbacks;
+	}
+
 	
 }

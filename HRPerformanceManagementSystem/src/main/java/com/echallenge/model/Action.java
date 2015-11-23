@@ -7,8 +7,8 @@ public class Action extends PlanAmelioration {
 		super();
 	}
 
-	public Action(int id, String descriptionAction) {
-		super(id);
+	public Action(Long id, Collaborateur collaborateur, BIP bip, String descriptionAction) {
+		super(id, collaborateur, bip);
 		this.descriptionAction = descriptionAction;
 	}
 
