@@ -1,0 +1,103 @@
+﻿<html>
+<head>
+
+	<title>HR Performance Management System  </title>
+<!-- injecter les fichiers css en utilisant grunt -->
+
+<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="assets/css/themify-icons.css">
+<link rel="stylesheet" type="text/css" href="assets/css/main.css">
+
+</head>
+ <body ng-app="hrPerformanceApp">
+    
+    <nav class="first-nav">
+    <div class="container">
+      <ul class="pull-left">
+        
+        <li> <a href="#" id="menu-toggle"><span class="ti-menu big-menu"></span>HR Performance Management System </a></li>
+
+      </ul>
+      <ul class="pull-right menu-right">
+        
+        <li><a href="">Hamza Tanji Cherkaoui</a></li>
+        <li><a href=""><span class="notification">10</span></a></li>
+        <li><a href="">Déconnexion</a></li>
+      </ul>
+      <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
+  </nav>
+  
+
+   <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        HRPMS
+                    </a>
+                </li>
+                <li>
+                    <a href="#"><span class="ti-layout-tab-window menu-icon"></span>Tableau de bord</a>
+                </li>
+                <li>
+                    <a href="#"><span class="ti-user menu-icon"></span>Gestion des collaborateurs</a>
+                </li>
+                <li>
+                    <a href="#"><span class="ti-eye menu-icon"></span>Gestion des Encadrants</a>
+                </li>
+                <li>
+                    <a href="#"><span class="ti-id-badge menu-icon"></span>Gestion des Managers RH</a>
+                </li>
+                <li>
+                    <a href="#"><span class="ti-settings menu-icon"></span>Configuration</a>
+                </li>
+                <li>
+                    <a href="#"><span class="ti-server menu-icon"></span>Exporter/importer</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper --> 
+	<div class="container" ui-view="content">
+<br>
+   
+
+        
+      </div>
+
+
+
+</div>
+    
+
+
+
+  <script type="text/javascript" src="assets/js/jquery-2.1.4.js"></script>
+  <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+  <script src="assets/js/angular.js"></script>
+  <script src="assets/js/angular-resource.js"></script>
+
+	<script src="assets/js/angular-ui-router.js"></script>
+	<!-- HRMP :injecter les scripts en utilisant grunt  -->
+
+	<!-- app.js -->
+	<script src="scripts/app/app.js"></script>
+	<!-- user -->
+	<script src="scripts/app/entities/user/user.service.js"></script>
+	<script src="scripts/app/entities/user/user.controller.js"></script>
+	<script src="scripts/app/entities/user/user.js"></script>
+	
+	 <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
+
+	  
+  </body>
+
+</html>
