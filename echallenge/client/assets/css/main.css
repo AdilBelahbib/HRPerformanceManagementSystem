@@ -12,7 +12,7 @@ body
 	max-width:100%;
 }
 .first-nav {
-    background-color: rgba(0, 0, 0, 0.71);
+    background-color: rgb(100, 99, 99);
     height: 40px;
     border-bottom: 3px solid rgba(23, 22, 22, 0.19);
     margin-bottom: 40px!important;
@@ -32,7 +32,7 @@ text-decoration:none;
 	}
 .menu-right li 
 {
-    border-right: 1px solid #CA6C6E;
+    border-right: 1px solid #7F7F7F;
     padding-right:5px;
 }	
 .menu-right li:last-child
@@ -164,7 +164,7 @@ text-decoration:none;
 }
 .notification
 {
-    background-color: #9A0508;
+    background-color: #818181;
     padding:5px;
     border-radius:5px;
 }
