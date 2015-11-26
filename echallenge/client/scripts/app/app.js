@@ -1,5 +1,9 @@
 var app=angular.module('hrPerformanceApp',['ui.router','ngResource']);
-console.log("test");
+app.config(['$locationProvider', function($locationProvider) {
+     // 
 
+  }]);
+
+console.log('after-config');
 
 

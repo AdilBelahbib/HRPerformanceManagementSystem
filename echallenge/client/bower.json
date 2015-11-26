@@ -1,0 +1,32 @@
+{
+  "name": "hrpms",
+  "description": "This system will help the HR Manager that are in need to keep an eye on the performance of the collaborators inside a company. The platform will offer the possibility of generating annual and eventual checkups.",
+  "main": "index.html",
+  "authors": [
+    "hamza Tanji Cherkaoui & Adil Belahbib"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "Hr",
+    "performance",
+    "management",
+    "system",
+    "evaluation"
+  ],
+  "moduleType": [],
+  "homepage": "index.html",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "test",
+    "tests",
+    "bower_components"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "angular-ui-router": "~0.2.15",
+    "angular": "~1.4.8",
+    "angular-resource": "~1.4.8"
+  }
+}

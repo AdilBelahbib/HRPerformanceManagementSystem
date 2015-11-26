@@ -3,6 +3,9 @@
 
 	<title>HR Performance Management System  </title>
 <!-- injecter les fichiers css en utilisant grunt -->
+  
+  <!-- injector:css -->
+  <!-- endinjector -->
 
 <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="assets/css/themify-icons.css">
@@ -11,7 +14,7 @@
 </head>
  <body ng-app="hrPerformanceApp">
     
-    <nav class="first-nav">
+    <nav class="first-nav navbar-fixed-top">
     <div class="container">
       <ul class="pull-left">
         
@@ -28,7 +31,7 @@
     </div>
     <div class="clearfix"></div>
   </nav>
-  
+  <div class="clearfix"></div>
 
    <div id="wrapper">
 
@@ -72,15 +75,19 @@
 
 </div>
     
+  <!-- bower:js -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="bower_components/angular-resource/angular-resource.js"></script>
+  <!-- endbower -->
 
+  <!-- injector:js -->
+  <!-- endinjector -->
 
+  
 
-  <script type="text/javascript" src="assets/js/jquery-2.1.4.js"></script>
-  <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
-  <script src="assets/js/angular.js"></script>
-  <script src="assets/js/angular-resource.js"></script>
-
-	<script src="assets/js/angular-ui-router.js"></script>
+	
 	<!-- HRMP :injecter les scripts en utilisant grunt  -->
 
 	<!-- app.js -->
