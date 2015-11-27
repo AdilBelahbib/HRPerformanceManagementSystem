@@ -19,7 +19,9 @@ module.exports = function(grunt) {
     }
 	},
 	injector: {
-    options: {},
+    options: {
+    	addRootSlash:false
+    },
     local_dependencies: {
       files: {
         'index.html': ['scripts/**/*.js', 'assets/css/*.css'],

@@ -2,6 +2,7 @@ body
 {
     font-size:15px;
     font-family:'Lato';
+    background-color: rgba(201, 48, 44, 0.08);
 }
 .form-control,.btn 
 {
@@ -12,10 +13,12 @@ body
 	max-width:100%;
 }
 .first-nav {
-    background-color: rgb(100, 99, 99);
-    height: 40px;
+    height: 50px;
+    padding-top: 5px;
     border-bottom: 3px solid rgba(23, 22, 22, 0.19);
-    margin-bottom: 40px!important;
+    background-color: #621E1E;
+    background-image: radial-gradient(at 50% top, rgba(181, 131, 61, 0.57) 0%, rgba(84,90,182,0) 75%),radial-gradient(at right top, #d64242 0%, rgba(162, 74, 74, 0) 57%);
+    background-size: 100% 1000px;
 }
 .first-nav ul li {
     float: left;
@@ -32,7 +35,7 @@ text-decoration:none;
 	}
 .menu-right li 
 {
-    border-right: 1px solid #7F7F7F;
+    border-right: 1px solid rgba(0, 0, 0, 0.18);
     padding-right:5px;
 }	
 .menu-right li:last-child
@@ -137,7 +140,7 @@ text-decoration:none;
 @media(min-width:768px) {
     #wrapper {
         padding-left: 250px;
-        margin-top: 41px;
+        margin-top: 50px;
     }
 
     #wrapper.toggled {
@@ -164,7 +167,7 @@ text-decoration:none;
 }
 .notification
 {
-    background-color: #818181;
+    background-color: rgba(0, 0, 0, 0.18);
     padding:5px;
     border-radius:5px;
 }
@@ -183,7 +186,7 @@ text-decoration:none;
 .jumbotron
 {
     padding:15px !important;
-    background-color:#fdada;
+    background-color:#fff;
 }
 .table
 {
@@ -244,6 +247,12 @@ h1,h2,h3,h4,h5
     
 }
 .list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
-    background-color: #9A0508;
-    border-color: #9A0508;
+    
+background-color: #9A0508;
+    
+border-color: #9A0508;
+}
+.content
+{
+    margin-top:10px;
 }
