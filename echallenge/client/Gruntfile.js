@@ -45,8 +45,28 @@ module.exports = function(grunt) {
       // https://github.com/taptapship/wiredep#configuration
     }
   }
-}
-
+},
+less: {
+      development: {
+        options: {
+          compress: true,
+          yuicompress: true,
+          optimization: 2
+        },
+        files: {
+          "assets/css/main.css": "assets/less/main.less" // destination file and source file
+        }
+      }
+    },
+    watch: {
+      styles: {
+        files: ['assets/less/*.less'], // which files to watch
+        tasks: ['less'],
+        options: {
+          nospawn: true
+        }
+      }
+    }
   })
 
   // Définition des tâches Grunt
@@ -54,11 +74,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-asset-injector');
   grunt.loadNpmTasks('grunt-wiredep');
-
+  grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
   grunt.registerTask('build', ['concat','uglify']);
   
   grunt.registerTask('dependencies', ['injector']);
 
+   grunt.registerTask('design', ['less', 'watch']);
 
 }

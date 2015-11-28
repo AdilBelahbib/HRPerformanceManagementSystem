@@ -1,0 +1,307 @@
+
+// sqli inspired design palette
+
+@gradient-color1:#d64242;
+@gradient-color2:rgba(181,131,61,0.57);
+@gradient-color3:rgba(84,90,182,0);
+@gradient-color4:#d64242;
+@gradient-color5:rgb(162, 74, 74);
+
+@primary-color:#d64242;
+@body-background:lighten(@primary-color, 42%);
+
+//second style
+
+// @gradient-color1:#5594CB;
+// @gradient-color2:rgba(61, 126, 181, 0.57);
+// @gradient-color4:#BF42D6;
+// @gradient-color5:#644AA2;
+// @primary-color:#5594CB;
+// @body-background:lighten(@primary-color, 40%);
+body
+{
+    font-size:15px;
+    font-family:'Lato';
+    background-color: @body-background;
+}
+.form-control,.btn 
+{
+    font-size:13px;
+}
+.btn-primary
+{
+    background-color: @gradient-color1;
+    background-image: radial-gradient(at 70% top, @gradient-color2 0%,
+     @gradient-color3 100%),radial-gradient(at right top, @gradient-color4 0%,
+      @gradient-color5 60%);
+    background-size: 100% 1000px;
+    border: 1px solid lighten(@gradient-color2, 10%);
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+}
+ .btn-primary:focus, .btn-primary:hover, .open>.btn-primary.dropdown-toggle
+{
+    background-color: @gradient-color1;
+    background-image: radial-gradient(at 70% top, lighten(@gradient-color4, 5%)   0%,
+     @gradient-color3 100%),radial-gradient(at right top, @gradient-color4 0%,
+      @gradient-color5 60%);
+    background-size: 100% 1000px;
+    border: 1px solid lighten(@gradient-color2, 10%);
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+    border: 1px solid lighten(@gradient-color2, 35%);   
+}
+.container
+{
+	max-width:100%;
+}
+.first-nav {
+    height: 50px;
+    padding-top: 5px;
+    border-bottom: 3px solid rgba(23, 22, 22, 0.19);
+    background-color: @gradient-color1;
+    background-image: radial-gradient(at 50% top, @gradient-color2 0%,
+     @gradient-color3 75%),radial-gradient(at right top, @gradient-color4 0%,
+      @gradient-color5 57%);
+    background-size: 100% 1000px;
+}
+.first-nav ul li {
+    float: left;
+    margin-right: 5px;
+    margin-top: 10px;
+    font-size: 12px;
+}
+.first-nav ul li a
+{
+
+color: #fff;
+	
+text-decoration:none;
+	}
+.menu-right li 
+{
+    border-right: 1px solid rgba(0, 0, 0, 0.18);
+    padding-right:5px;
+}	
+.menu-right li:last-child
+{
+    border-right:none;
+    
+}	
+   #wrapper {
+    padding-left: 0;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    margin-top: 50px;
+}
+
+#wrapper.toggled {
+    padding-left: 250px;
+}
+
+#sidebar-wrapper {
+    z-index: 1000;
+    position: fixed;
+    left: 250px;
+    width: 0;
+    height: 100%;
+    margin-left: -250px;
+    overflow-y: auto;
+    z-index: 1;
+    background: #fafafa;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    width: 250px;
+}
+
+#page-content-wrapper {
+    width: 100%;
+    position: absolute;
+    padding: 15px;
+}
+
+#wrapper.toggled #page-content-wrapper {
+    position: absolute;
+    margin-right: -250px;
+}
+
+/* Sidebar Styles */
+
+.sidebar-nav {
+    position: absolute;
+    top: 0;
+    width: 250px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.sidebar-nav li {
+    text-indent: 20px;
+    line-height: 40px;
+}
+
+.sidebar-nav li a {
+    display: block;
+    text-decoration: none;
+    color: @primary-color !important;
+    font-weight: bold;
+}
+
+.sidebar-nav li a:hover {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(255,255,255,0.2);
+}
+
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+    text-decoration: none;
+}
+
+.sidebar-nav > .sidebar-brand {
+    height: 65px;
+    font-size: 18px;
+    line-height: 60px;
+    background-color: #EAEAEA;
+}
+
+.sidebar-nav > .sidebar-brand a {
+    color: #999999;
+}
+
+.sidebar-nav > .sidebar-brand a:hover {
+    color: #fff;
+    background: none;
+}
+
+@media(min-width:768px) {
+    #wrapper {
+        padding-left: 250px;
+        margin-top: 50px;
+    }
+
+    #wrapper.toggled {
+        padding-left: 0;
+    }
+
+    #sidebar-wrapper {
+        width: 250px;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        width: 0;
+    }
+
+    #page-content-wrapper {
+        padding: 20px;
+        position: relative;
+    }
+
+    #wrapper.toggled #page-content-wrapper {
+        position: relative;
+        margin-right: 0;
+    }
+}
+.notification
+{
+    background-color: rgba(0, 0, 0, 0.18);
+    padding:5px;
+    border-radius:5px;
+}
+.menu-icon
+{
+    font-size:20px;
+    color:#000;
+    margin-right:5px;
+
+}
+.big-menu
+{
+    font-size:15px;
+    margin-right:5px;
+}
+.jumbotron
+{
+    padding:15px !important;
+    background-color:#fff;
+}
+.table
+{
+    border:1px solid #c9302c !important;
+    border-top:none !important;
+    background-color:#fff;
+    margin-bottom:0px;
+}
+.table th ,.table td
+{
+    padding:5px;
+}
+.table-bordered, .table-bordered td, .table-bordered th {
+       border: 1px solid #564847 !important;
+       border-top:none !important;
+       margin-bottom:0px;
+}
+h1,h2,h3,h4,h5
+{
+    color: @primary-color;
+}
+.table-header
+{
+    background-color: #564847;
+    padding:5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    margin-top:30px;
+}
+.table-footer
+{
+    background-color: #564847;
+    padding:5px; 
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius:  5px;
+}
+.sidebar-nav li a:hover {
+ background-color:#FDFDFD;   
+ color:#000 !important;
+}
+.dropdown-menu li a 
+{
+    color :#000;
+    text-align: center;
+    text-decoration : none;
+    display: block;
+    padding:2px;
+    
+}
+.dropdown-menu li a:hover 
+{
+    color :#000;
+    text-align: center;
+    text-decoration : none;
+    display: block;
+    background-color:#fafafa;
+    color: @primary-color;
+    
+}
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+    
+background-color: darken(@primary-color, 15%);
+    
+border-color:darken(@primary-color, 15%);
+}
+.content
+{
+    margin-top:10px;
+}
