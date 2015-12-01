@@ -35,7 +35,7 @@ public class EncadrantService {
 
 		return encadrant;
 	}
-
+	
 	@Path("{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

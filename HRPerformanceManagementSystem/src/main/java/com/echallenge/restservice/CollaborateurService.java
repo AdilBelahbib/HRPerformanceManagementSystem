@@ -1,5 +1,7 @@
 package com.echallenge.restservice;
 
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -13,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import org.hibernate.Session;
 
 import com.echallenge.model.Collaborateur;
+import com.echallenge.model.Encadrant;
 import com.echallenge.model.ManagerRh;
 import com.echallenge.util.HibernateUtil;
 import com.echallenge.util.Security;
@@ -51,7 +54,37 @@ public class CollaborateurService {
 		session.getTransaction().commit();
 		return collaborateur;
 	}
-
+	
+	@Path("/byencadrant/{id}")
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public List<Collaborateur> getCollaborateurByEncadrant(@PathParam("id") int id) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		Encadrant encadrant = (Encadrant) session.get(Encadrant.class, new Long(id));
+		
+		List<Collaborateur> collaborateurs = session.createQuery(
+				"select distinct col from Collaborateur as col"
+				+ " join col.fichesEvaluations as fiche"
+				+ " join fiche.evaluations as eval"
+				+ " where eval.encadrant = :encadrant")
+				.setEntity("encadrant", encadrant).list();
+		
+		session.getTransaction().commit();
+		return collaborateurs;
+	}
+	
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public List<Collaborateur> getAllEncadrant() {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		
+		List<Collaborateur> collaborateurs = session.createQuery("from Collaborateur").list();
+		
+		session.getTransaction().commit();
+		return collaborateurs;
+	}
 	
 	@Path("{id}")
 	@PUT
