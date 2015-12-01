@@ -34,7 +34,7 @@
 			</type>
 		</property>
 		
-		<set name="feedbacks" table="feedback" inverse="false" lazy="true" cascade="all">
+		<set name="feedbacks" table="feedback" inverse="false" lazy="false" cascade="all">
             <key>
                 <column name="idBap" />
             </key>

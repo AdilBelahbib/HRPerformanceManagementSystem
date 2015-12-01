@@ -3,6 +3,11 @@ package com.echallenge.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "formation")
 public class Formation extends PlanAmelioration{
 	private boolean autoformation;
 	/**La liste des objectifs de la formation*/
@@ -28,6 +33,7 @@ public class Formation extends PlanAmelioration{
 	/**
 	 * @return the autoformation
 	 */
+	@XmlElement
 	public boolean isAutoformation() {
 		return autoformation;
 	}
@@ -42,6 +48,8 @@ public class Formation extends PlanAmelioration{
 	/**
 	 * @return the objectifs
 	 */
+	@XmlElementWrapper(name = "objectifs")
+	@XmlElement
 	public Set<Objectif> getObjectifs() {
 		return objectifs;
 	}

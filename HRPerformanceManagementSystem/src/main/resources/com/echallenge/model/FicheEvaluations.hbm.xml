@@ -22,7 +22,7 @@
             <column name="autorisationAcces	" />
         </property>
         
-        <set name="evaluations" table="EVALUATION" inverse="false" lazy="true" cascade="all">
+        <set name="evaluations" table="EVALUATION" inverse="false" lazy="false" cascade="all">
             <key>
                 <column name="idFicheEvaluations"/>
             </key>

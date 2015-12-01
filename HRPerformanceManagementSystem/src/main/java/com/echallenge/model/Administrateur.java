@@ -1,5 +1,8 @@
 package com.echallenge.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "administrateur")
 public class Administrateur extends Utilisateur {
 	
 	public Administrateur() {

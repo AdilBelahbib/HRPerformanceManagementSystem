@@ -18,7 +18,7 @@
             <column name="nomProjet" />
         </property>
         
-        <set name="objectifs" table="OBJECTIF" inverse="false" lazy="true" cascade="persist,refresh">
+        <set name="objectifs" table="OBJECTIF" inverse="false" lazy="false" cascade="persist,refresh">
             <key>
                 <column name="idProjet" />
             </key>

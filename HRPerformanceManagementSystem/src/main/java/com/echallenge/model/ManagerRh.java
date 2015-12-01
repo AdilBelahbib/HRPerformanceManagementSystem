@@ -3,6 +3,11 @@ package com.echallenge.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "managerRh")
 public class ManagerRh extends Utilisateur {
 	/**La liste des collaborateurs affect�s au Manager RH*/
 	private Set<Collaborateur> collaborateurs;
@@ -26,6 +31,8 @@ public class ManagerRh extends Utilisateur {
 	/**
 	 * @return the collaborateurs
 	 */
+	@XmlElementWrapper(name = "collaborateurs")
+	@XmlElement
 	public Set<Collaborateur> getCollaborateurs() {
 		return collaborateurs;
 	}

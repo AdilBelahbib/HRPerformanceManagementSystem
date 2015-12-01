@@ -1,5 +1,10 @@
 package com.echallenge.model;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+@XmlRootElement(name = "evaluation")
 public class Evaluation {
 	private Long id;
 	/** L'encadrant ayant fait l'�valuation */
@@ -7,7 +12,7 @@ public class Evaluation {
 	/** L'objectif concern� par l'�valuation */
 	private Objectif objectif;
 	private int poids;
-	private double resultat;
+	private Double resultat;
 
 	public Evaluation() {
 	}
@@ -23,13 +28,14 @@ public class Evaluation {
 	/**
 	 * @return the id
 	 */
+	@XmlElement
 	public Long getId() {
 		return id;
 	}
 
 	/**
 	 * @param id
-	 *            the id to set
+	 * the id to set
 	 */
 	public void setId(Long id) {
 		this.id = id;
@@ -38,6 +44,7 @@ public class Evaluation {
 	/**
 	 * @return the encadrant
 	 */
+	@XmlTransient
 	public Encadrant getEncadrant() {
 		return encadrant;
 	}
@@ -53,6 +60,7 @@ public class Evaluation {
 	/**
 	 * @return the objectif
 	 */
+	@XmlElement
 	public Objectif getObjectif() {
 		return objectif;
 	}
@@ -68,6 +76,7 @@ public class Evaluation {
 	/**
 	 * @return the poids
 	 */
+	@XmlElement
 	public int getPoids() {
 		return poids;
 	}
@@ -83,7 +92,8 @@ public class Evaluation {
 	/**
 	 * @return the resultat
 	 */
-	public double getResultat() {
+	@XmlElement
+	public Double getResultat() {
 		return resultat;
 	}
 
@@ -91,7 +101,7 @@ public class Evaluation {
 	 * @param resultat
 	 *            the resultat to set
 	 */
-	public void setResultat(double resultat) {
+	public void setResultat(Double resultat) {
 		this.resultat = resultat;
 	}
 	

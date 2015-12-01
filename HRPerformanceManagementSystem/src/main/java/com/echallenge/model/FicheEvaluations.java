@@ -4,6 +4,12 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+@XmlRootElement(name = "ficheevaluations")
 public class FicheEvaluations {
 	private Long id;
 	private Date dateEvaluation;
@@ -40,6 +46,7 @@ public class FicheEvaluations {
 	/**
 	 * @return the id
 	 */
+	@XmlElement
 	public Long getId() {
 		return id;
 	}
@@ -54,6 +61,7 @@ public class FicheEvaluations {
 	/**
 	 * @return the dateEvaluation
 	 */
+	@XmlElement
 	public Date getDateEvaluation() {
 		return dateEvaluation;
 	}
@@ -68,6 +76,7 @@ public class FicheEvaluations {
 	/**
 	 * @return the collaborateur
 	 */
+	@XmlTransient
 	public Collaborateur getCollaborateur() {
 		return collaborateur;
 	}
@@ -82,6 +91,7 @@ public class FicheEvaluations {
 	/**
 	 * @return the autorisationAcces
 	 */
+	@XmlElement
 	public boolean isAutorisationAcces() {
 		return autorisationAcces;
 	}
@@ -96,6 +106,8 @@ public class FicheEvaluations {
 	/**
 	 * @return the evaluations
 	 */
+	@XmlElementWrapper(name = "evaluations")
+	@XmlElement
 	public Set<Evaluation> getEvaluations() {
 		return evaluations;
 	}

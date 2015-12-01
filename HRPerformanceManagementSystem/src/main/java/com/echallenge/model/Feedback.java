@@ -3,6 +3,8 @@ package com.echallenge.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 public class Feedback {
 	private Long id;
 	/**Le collaborateur concern�*/
@@ -103,6 +105,7 @@ public class Feedback {
 	/**
 	 * @return the encadrant
 	 */
+	@XmlTransient
 	public Encadrant getEncadrant() {
 		return encadrant;
 	}

@@ -13,7 +13,7 @@
             <column name="autoformation" />
         </property>
         
-        <set name="objectifs" table="OBJECTIF" inverse="false" lazy="true" cascade="all">
+        <set name="objectifs" table="OBJECTIF" inverse="false" lazy="false" cascade="all">
             <key>
                 <column name="idFormation" />
             </key>

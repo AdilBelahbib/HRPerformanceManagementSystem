@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 23, 2015 at 04:48 PM
+-- Generation Time: Dec 01, 2015 at 09:34 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -32,14 +32,6 @@ CREATE TABLE IF NOT EXISTS `action` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `action`
---
-
-INSERT INTO `action` (`id`, `descriptionAction`) VALUES
-(19, 'Action 1'),
-(21, 'Action 2');
-
 -- --------------------------------------------------------
 
 --
@@ -57,14 +49,7 @@ CREATE TABLE IF NOT EXISTS `bap` (
   KEY `idFicheObjectifsTraites` (`idFicheObjectifsTraites`),
   KEY `idFicheObjectifsRediges` (`idFicheObjectifsRediges`),
   KEY `idFicheEvaluations` (`idFicheEvaluations`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
-
---
--- Dumping data for table `bap`
---
-
-INSERT INTO `bap` (`id`, `dateBAP`, `StatutBAP`, `idFicheObjectifsTraites`, `idFicheObjectifsRediges`, `idFicheEvaluations`) VALUES
-(19, '2015-11-23 15:24:01', 'EN_COURS', 49, 50, 25);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -78,14 +63,7 @@ CREATE TABLE IF NOT EXISTS `bip` (
   `idFicheObjectifsTraites` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idFicheObjectifsTraites` (`idFicheObjectifsTraites`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
-
---
--- Dumping data for table `bip`
---
-
-INSERT INTO `bip` (`id`, `dateBIP`, `idFicheObjectifsTraites`) VALUES
-(10, '2015-11-23 15:24:05', 53);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -105,11 +83,8 @@ CREATE TABLE IF NOT EXISTS `collaborateur` (
 --
 
 INSERT INTO `collaborateur` (`id`, `id_manager`) VALUES
-(131, 130),
-(134, 133),
-(137, 136),
-(139, 138),
-(143, 141);
+(154, 151),
+(155, 151);
 
 -- --------------------------------------------------------
 
@@ -126,27 +101,7 @@ CREATE TABLE IF NOT EXISTS `entete` (
   `idProjet` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idProjet` (`idProjet`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
-
---
--- Dumping data for table `entete`
---
-
-INSERT INTO `entete` (`id`, `dateDebutIntervention`, `dateFinIntervention`, `role`, `nombreJoursValorises`, `idProjet`) VALUES
-(9, '2015-11-23', '2015-11-23', 'Rien', 20, 11),
-(10, '2015-11-23', '2015-11-23', 'Rien', 20, 12),
-(11, '2015-11-23', '2015-11-23', 'Rien', 20, 13),
-(12, '2015-11-23', '2015-11-23', 'Rien', 20, 14),
-(13, '2015-11-23', '2015-11-23', 'Rien 2', 25, 15),
-(14, '2015-11-23', '2015-11-23', 'Rien', 20, 15),
-(15, '2015-11-23', '2015-11-23', 'Rien', 20, 16),
-(16, '2015-11-23', '2015-11-23', 'Rien 2', 25, 16),
-(17, '2015-11-23', '2015-11-23', 'Rien', 20, 17),
-(18, '2015-11-23', '2015-11-23', 'Rien 2', 25, 17),
-(19, '2015-11-23', '2015-11-23', 'Rien 2', 25, 18),
-(20, '2015-11-23', '2015-11-23', 'Rien', 20, 18),
-(21, '2015-11-23', '2015-11-23', 'Rien 2', 25, 19),
-(22, '2015-11-23', '2015-11-23', 'Rien', 20, 19);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -165,17 +120,7 @@ CREATE TABLE IF NOT EXISTS `evaluation` (
   KEY `idEncadrant` (`idEncadrant`,`idObjectif`),
   KEY `foreign key` (`idObjectif`),
   KEY `idFicheEvaluations` (`idFicheEvaluations`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=31 ;
-
---
--- Dumping data for table `evaluation`
---
-
-INSERT INTO `evaluation` (`id`, `poids`, `resultat`, `idEncadrant`, `idObjectif`, `idFicheEvaluations`) VALUES
-(27, 52, 215.3, 132, 136, 25),
-(28, 5, 15.3, 132, 135, 25),
-(29, 5, 15.3, 135, 141, 26),
-(30, 52, 215.3, 135, 142, 26);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -189,22 +134,14 @@ CREATE TABLE IF NOT EXISTS `feedback` (
   `validation` bit(1) NOT NULL,
   `idEntete` int(11) DEFAULT NULL,
   `idCollaborateur` int(11) NOT NULL,
-  `idEndacrant` int(11) NOT NULL,
+  `idEncadrant` int(11) NOT NULL,
   `idBap` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idCollaborateur` (`idCollaborateur`),
-  KEY `idEndacrant` (`idEndacrant`),
+  KEY `idEndacrant` (`idEncadrant`),
   KEY `idEntete` (`idEntete`),
   KEY `idBap` (`idBap`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
-
---
--- Dumping data for table `feedback`
---
-
-INSERT INTO `feedback` (`id`, `remarqueGenerale`, `validation`, `idEntete`, `idCollaborateur`, `idEndacrant`, `idBap`) VALUES
-(20, 'Ceci est une remarque 2', b'0', 21, 131, 132, 19),
-(21, 'Ceci est une remarque', b'1', 22, 131, 132, 19);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -219,15 +156,7 @@ CREATE TABLE IF NOT EXISTS `fiche_evaluations` (
   `idCollaborateur` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idCollaborateur` (`idCollaborateur`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
-
---
--- Dumping data for table `fiche_evaluations`
---
-
-INSERT INTO `fiche_evaluations` (`id`, `dateEvaluation`, `autorisationAcces`, `idCollaborateur`) VALUES
-(25, '2015-11-23 15:24:01', b'1', 131),
-(26, '2015-11-23 15:24:05', b'1', 137);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -242,18 +171,7 @@ CREATE TABLE IF NOT EXISTS `fiche_objectifs` (
   `idCollaborateur` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `foreign key` (`idCollaborateur`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=54 ;
-
---
--- Dumping data for table `fiche_objectifs`
---
-
-INSERT INTO `fiche_objectifs` (`id`, `dateFicheObjectifs`, `autorisationAcces`, `idCollaborateur`) VALUES
-(49, '2015-11-23 15:24:01', b'1', 131),
-(50, '2015-11-23 15:24:01', b'0', 131),
-(51, '2015-11-23 15:24:05', b'1', 134),
-(52, '2015-11-23 15:24:05', b'1', 137),
-(53, '2015-11-23 15:24:05', b'1', 139);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -266,13 +184,6 @@ CREATE TABLE IF NOT EXISTS `formation` (
   `autoformation` bit(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `formation`
---
-
-INSERT INTO `formation` (`id`, `autoformation`) VALUES
-(20, b'1');
 
 -- --------------------------------------------------------
 
@@ -292,25 +203,7 @@ CREATE TABLE IF NOT EXISTS `objectif` (
   KEY `idFicheObjectifs` (`idFicheObjectifs`),
   KEY `idFormation` (`idFormation`),
   KEY `idProjet` (`idProjet`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=147 ;
-
---
--- Dumping data for table `objectif`
---
-
-INSERT INTO `objectif` (`id`, `descriptionObjectif`, `mesureObjectif`, `avancementObjectif`, `idFicheObjectifs`, `idFormation`, `idProjet`) VALUES
-(135, 'Objectif 1', 'Mesuré par blabla', 5.66, 49, NULL, NULL),
-(136, 'Objectif 2', 'Mesuré par blabla 2 :D', 115.66, 49, NULL, NULL),
-(137, 'Objectif 5', 'Mesuré par blabla 5', 5.66, 50, NULL, NULL),
-(138, 'Objectif 6', 'Mesuré par blabla 6 :D', 115.66, 50, NULL, NULL),
-(139, 'Objectif 1', 'Mesuré par blabla', 5.66, 51, NULL, NULL),
-(140, 'Objectif 2', 'Mesuré par blabla 2 :D', 115.66, 51, NULL, NULL),
-(141, 'Objectif 1', 'Mesuré par blabla', 5.66, 52, NULL, NULL),
-(142, 'Objectif 2', 'Mesuré par blabla 2 :D', 115.66, 52, NULL, NULL),
-(143, 'Objectif 1', 'Mesuré par blabla', 5.66, 53, NULL, NULL),
-(144, 'Objectif 2', 'Mesuré par blabla 2 :D', 115.66, 53, NULL, NULL),
-(145, 'Objectif 3', 'Mesuré par blabla 3', 5.66, NULL, 20, NULL),
-(146, 'Objectif 4', 'Mesuré par blabla 4 :D', 115.66, NULL, 20, NULL);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -325,16 +218,7 @@ CREATE TABLE IF NOT EXISTS `plan_amelioration` (
   PRIMARY KEY (`id`),
   KEY `id_collaborateur` (`idCollaborateur`),
   KEY `id_bip` (`idBip`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
-
---
--- Dumping data for table `plan_amelioration`
---
-
-INSERT INTO `plan_amelioration` (`id`, `idBip`, `idCollaborateur`) VALUES
-(19, 10, 139),
-(20, 10, 139),
-(21, 10, 139);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -392,17 +276,7 @@ CREATE TABLE IF NOT EXISTS `qualification_theme` (
   `idFeedback` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idFeedback` (`idFeedback`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=44 ;
-
---
--- Dumping data for table `qualification_theme`
---
-
-INSERT INTO `qualification_theme` (`id`, `theme`, `qualification`, `remarque`, `idFeedback`) VALUES
-(40, 'POLYVALENCE', 'SELON_ATTENTE', '', 20),
-(41, 'GESTION_DE_RELATION_CLIENT', 'CRITIQUE', 'Une remarque 3', 21),
-(42, 'GESTION_DE_PROJET', 'SELON_ATTENTE', '', 21),
-(43, 'CONCEPTION', 'A_DEVELOPPER', 'Une remarque', 21);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -421,27 +295,18 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   KEY `idProfile` (`idProfile`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=144 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=156 ;
 
 --
 -- Dumping data for table `utilisateur`
 --
 
 INSERT INTO `utilisateur` (`id`, `email`, `motDePasse`, `nom`, `prenom`, `typeUtilisateur`, `idProfile`) VALUES
-(130, 'manager5@mail.com', 'motDePasseManager2', 'nomManager2', 'prenomManager2', 'M', NULL),
-(131, 'collaborateur5@mail.com', 'motDePasseCollaborateur2', 'nomCollaborateur2', 'prenomCollaborateur2', 'C', NULL),
-(132, 'encadrant5@mail.com', 'motDePasseEncadrant', 'nomEncadrant', 'prenomEncadrant', 'E', NULL),
-(133, 'manager2@mail.com', 'motDePasseManager2', 'nomManager2', 'prenomManager2', 'M', NULL),
-(134, 'collaborateur2@mail.com', 'motDePasseCollaborateur2', 'nomCollaborateur2', 'prenomCollaborateur2', 'C', NULL),
-(135, 'encadrant3@mail.com', 'motDePasseEncadrant', 'nomEncadrant', 'prenomEncadrant', 'E', NULL),
-(136, 'manager3@mail.com', 'motDePasseManager2', 'nomManager2', 'prenomManager2', 'M', NULL),
-(137, 'collaborateur3@mail.com', 'motDePasseCollaborateur2', 'nomCollaborateur2', 'prenomCollaborateur2', 'C', NULL),
-(138, 'manager4@mail.com', 'motDePasseManager2', 'nomManager2', 'prenomManager2', 'M', NULL),
-(139, 'collaborateur4@mail.com', 'motDePasseCollaborateur2', 'nomCollaborateur2', 'prenomCollaborateur2', 'C', NULL),
-(140, 'admin@mail.com', 'motDePasseAdmin', 'nomAdmin', 'prenomAdmin', 'A', NULL),
-(141, 'manager@mail.com', 'motDePasseManager', 'nomManager', 'prenomManager', 'M', NULL),
-(142, 'encadrant@mail.com', 'motDePasseEncadrant', 'nomEncadrant', 'prenomEncadrant', 'E', NULL),
-(143, 'collaborateur@mail.com', 'motDePasseCollaborateur', 'nomCollaborateur', 'prenomCollaborateur', 'C', NULL);
+(149, 'adil@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB', 'Adil', 'E', NULL),
+(150, 'hamza@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'TANJI', 'Hamza', 'A', NULL),
+(151, 'tanji@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'TANJI', 'Hamza', 'M', NULL),
+(154, 'belahbib@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB', 'Adil', 'C', NULL),
+(155, 'belahbib2@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB2', 'Adil2', 'C', NULL);
 
 --
 -- Constraints for dumped tables
@@ -457,9 +322,9 @@ ALTER TABLE `action`
 -- Constraints for table `bap`
 --
 ALTER TABLE `bap`
-  ADD CONSTRAINT `bap_ibfk_4` FOREIGN KEY (`idFicheObjectifsTraites`) REFERENCES `fiche_objectifs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `bap_ibfk_2` FOREIGN KEY (`idFicheObjectifsRediges`) REFERENCES `fiche_objectifs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `bap_ibfk_3` FOREIGN KEY (`idFicheEvaluations`) REFERENCES `fiche_evaluations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `bap_ibfk_3` FOREIGN KEY (`idFicheEvaluations`) REFERENCES `fiche_evaluations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `bap_ibfk_4` FOREIGN KEY (`idFicheObjectifsTraites`) REFERENCES `fiche_objectifs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `bip`
@@ -478,7 +343,7 @@ ALTER TABLE `collaborateur`
 -- Constraints for table `entete`
 --
 ALTER TABLE `entete`
-  ADD CONSTRAINT `entete_ibfk_1` FOREIGN KEY (`idProjet`) REFERENCES `projet` (`id`);
+  ADD CONSTRAINT `entete_ibfk_1` FOREIGN KEY (`idProjet`) REFERENCES `projet` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `evaluation`
@@ -493,7 +358,7 @@ ALTER TABLE `evaluation`
 --
 ALTER TABLE `feedback`
   ADD CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`idCollaborateur`) REFERENCES `collaborateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `feedback_ibfk_2` FOREIGN KEY (`idEndacrant`) REFERENCES `utilisateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `feedback_ibfk_2` FOREIGN KEY (`idEncadrant`) REFERENCES `utilisateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `feedback_ibfk_3` FOREIGN KEY (`idEntete`) REFERENCES `entete` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
   ADD CONSTRAINT `feedback_ibfk_4` FOREIGN KEY (`idBap`) REFERENCES `bap` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 

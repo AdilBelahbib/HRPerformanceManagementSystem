@@ -562,4 +562,5 @@ public class HibernateMappingTest {
 
 	}
 
+
 }

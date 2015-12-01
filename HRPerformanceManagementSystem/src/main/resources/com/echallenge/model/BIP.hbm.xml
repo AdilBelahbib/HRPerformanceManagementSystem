@@ -20,7 +20,7 @@
 			<column name="idFicheObjectifsTraites" />
 		</many-to-one>
 
-		<set name="plansAmelioration" table="plan_amelioration" inverse="false" lazy="true" cascade="all">
+		<set name="plansAmelioration" table="plan_amelioration" inverse="false" lazy="false" cascade="all">
 			<key column="idBip"/>
 			<one-to-many class="PlanAmelioration" />
 		</set>

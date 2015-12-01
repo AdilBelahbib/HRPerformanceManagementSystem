@@ -1,5 +1,9 @@
 package com.echallenge.model;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "utilisateur")
 public class Utilisateur {
 	/** l'identifiant de l'utilisateur*/
 	private Long id;
@@ -36,6 +40,7 @@ public class Utilisateur {
 	/**
 	 * @return the id
 	 */
+	@XmlElement
 	public Long getId() {
 		return id;
 	}
@@ -50,6 +55,7 @@ public class Utilisateur {
 	/**
 	 * @return the email
 	 */
+	@XmlElement
 	public String getEmail() {
 		return email;
 	}
@@ -64,6 +70,7 @@ public class Utilisateur {
 	/**
 	 * @return the motDePasse
 	 */
+	@XmlElement
 	public String getMotDePasse() {
 		return motDePasse;
 	}
@@ -78,6 +85,7 @@ public class Utilisateur {
 	/**
 	 * @return the nom
 	 */
+	@XmlElement
 	public String getNom() {
 		return nom;
 	}
@@ -92,6 +100,7 @@ public class Utilisateur {
 	/**
 	 * @return the prenom
 	 */
+	@XmlElement
 	public String getPrenom() {
 		return prenom;
 	}
@@ -106,6 +115,7 @@ public class Utilisateur {
 	/**
 	 * @return the profile
 	 */
+	@XmlElement
 	public Profile getProfile() {
 		return profile;
 	}
@@ -147,6 +157,5 @@ public class Utilisateur {
 			return false;
 		return true;
 	}
-	
 	
 }

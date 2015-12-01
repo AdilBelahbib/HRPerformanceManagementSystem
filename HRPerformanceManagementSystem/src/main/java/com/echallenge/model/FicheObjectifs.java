@@ -4,6 +4,12 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+@XmlRootElement(name = "ficheobjectifs")
 public class FicheObjectifs {
 	private Long id;
 	/**Le collaborateur concerné*/
@@ -38,6 +44,7 @@ public class FicheObjectifs {
 	/**
 	 * @return the id
 	 */
+	@XmlElement
 	public Long getId() {
 		return id;
 	}
@@ -52,6 +59,7 @@ public class FicheObjectifs {
 	/**
 	 * @return the collaborateur
 	 */
+	@XmlTransient
 	public Collaborateur getCollaborateur() {
 		return collaborateur;
 	}
@@ -66,6 +74,7 @@ public class FicheObjectifs {
 	/**
 	 * @return the dateFicheObjectifs
 	 */
+	@XmlElement
 	public Date getDateFicheObjectifs() {
 		return dateFicheObjectifs;
 	}
@@ -80,6 +89,7 @@ public class FicheObjectifs {
 	/**
 	 * @return the autorisationAcces
 	 */
+	@XmlElement
 	public boolean isAutorisationAcces() {
 		return autorisationAcces;
 	}
@@ -94,6 +104,8 @@ public class FicheObjectifs {
 	/**
 	 * @return the objectifs
 	 */
+	@XmlElementWrapper(name = "objectifs")
+	@XmlElement
 	public Set<Objectif> getObjectifs() {
 		return objectifs;
 	}

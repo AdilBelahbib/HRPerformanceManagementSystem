@@ -1,7 +1,10 @@
 package com.echallenge.model;
 
-import java.util.Random;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlTransient;
 
+@XmlSeeAlso({Action.class, Formation.class}) 
 public class PlanAmelioration {
 	private Long id;
 	private Collaborateur collaborateur;
@@ -19,6 +22,7 @@ public class PlanAmelioration {
 	/**
 	 * @return the id
 	 */
+	@XmlElement
 	public Long getId() {
 		return id;
 	}
@@ -33,6 +37,7 @@ public class PlanAmelioration {
 	/**
 	 * @return the collaborateur
 	 */
+	@XmlTransient
 	public Collaborateur getCollaborateur() {
 		return collaborateur;
 	}
@@ -49,6 +54,7 @@ public class PlanAmelioration {
 	/**
 	 * @return the bip
 	 */
+	@XmlTransient
 	public BIP getBip() {
 		return bip;
 	}

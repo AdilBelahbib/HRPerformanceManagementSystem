@@ -24,14 +24,14 @@
 			<column name="validation" />
 		</property>
 		<many-to-one name="encadrant" class="Encadrant" fetch="join">
-			<column name="idEndacrant" />
+			<column name="idEncadrant" />
 		</many-to-one>
 
-		<many-to-one name="entete" class="Entete" unique="true" not-null="true" cascade="all">
+		<many-to-one name="entete" class="Entete" unique="true" not-null="true" cascade="all" lazy="false">
 			<column name="idEntete" />
 		</many-to-one>
 		
-		<set name="qualificationsTheme" table="qualification_theme" inverse="false" lazy="true" cascade="all">
+		<set name="qualificationsTheme" table="qualification_theme" inverse="false" lazy="false" cascade="all">
 			<key>
 				<column name="idFeedback" />
 			</key>

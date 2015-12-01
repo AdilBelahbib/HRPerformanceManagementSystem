@@ -3,6 +3,11 @@ package com.echallenge.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "encadrant")
 public class Encadrant extends Utilisateur{
 	/**La liste des évaluations faites par l'encadrant
 	 * N.B: Nous pouvons en sortir les objectifs de l'encadrant*/
@@ -32,6 +37,8 @@ public class Encadrant extends Utilisateur{
 	/**
 	 * @return the evaluations
 	 */
+	@XmlElementWrapper(name = "evaluations")
+	@XmlElement
 	public Set<Evaluation> getEvaluations() {
 		return evaluations;
 	}
@@ -58,6 +65,8 @@ public class Encadrant extends Utilisateur{
 	/**
 	 * @return the feedbacks
 	 */
+	@XmlElementWrapper(name = "feedbacks")
+	@XmlElement
 	public Set<Feedback> getFeedbacks() {
 		return feedbacks;
 	}

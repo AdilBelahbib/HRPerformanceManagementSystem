@@ -3,7 +3,15 @@ package com.echallenge.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementRef;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+@XmlRootElement(name = "collaborateur")
 public class Collaborateur extends Utilisateur{
+	
 	private Set<FicheObjectifs> ficheObjectifs;
 	private Set<FicheEvaluations> fichesEvaluations;
 	private Set<PlanAmelioration> plansAmelioration;
@@ -38,6 +46,8 @@ public class Collaborateur extends Utilisateur{
 	/**
 	 * @return the ficheObjectifs
 	 */
+	@XmlElementWrapper(name = "fichesobjectifs")
+	@XmlElement
 	public Set<FicheObjectifs> getFicheObjectifs() {
 		return ficheObjectifs;
 	}
@@ -52,6 +62,8 @@ public class Collaborateur extends Utilisateur{
 	/**
 	 * @return the fichesEvaluations
 	 */
+	@XmlElementWrapper(name = "fichesevaluations")
+	@XmlElement
 	public Set<FicheEvaluations> getFichesEvaluations() {
 		return fichesEvaluations;
 	}
@@ -66,6 +78,7 @@ public class Collaborateur extends Utilisateur{
 	/**
 	 * @return the manager
 	 */
+	@XmlTransient
 	public ManagerRh getManager() {
 		return manager;
 	}
@@ -80,6 +93,8 @@ public class Collaborateur extends Utilisateur{
 	/**
 	 * @return the plansAmelioration
 	 */
+	@XmlElementWrapper(name = "plansamelioration")
+	@XmlElementRef
 	public Set<PlanAmelioration> getPlansAmelioration() {
 		return plansAmelioration;
 	}
