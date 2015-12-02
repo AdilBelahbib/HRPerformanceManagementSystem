@@ -15,7 +15,7 @@ public class Collaborateur extends Utilisateur{
 	private Set<FicheObjectifs> ficheObjectifs;
 	private Set<FicheEvaluations> fichesEvaluations;
 	private Set<PlanAmelioration> plansAmelioration;
-	private ManagerRh manager;
+	private ManagerRh managerRh;
 	
 	public Collaborateur() {
 		super();
@@ -27,7 +27,7 @@ public class Collaborateur extends Utilisateur{
 	public Collaborateur(Long id, String email, String motDePasse, String nom, String prenom, Profile profile,
 			ManagerRh manager) {
 		super(id, email, motDePasse, nom, prenom, profile);
-		this.manager = manager;
+		this.managerRh = manager;
 		this.ficheObjectifs = new HashSet<FicheObjectifs>();
 		this.fichesEvaluations = new HashSet<FicheEvaluations>();
 		this.plansAmelioration = new HashSet<PlanAmelioration>();
@@ -39,7 +39,7 @@ public class Collaborateur extends Utilisateur{
 		super(id, email, motDePasse, nom, prenom, profile);
 		this.ficheObjectifs = ficheObjectifs;
 		this.fichesEvaluations = fichesEvaluations;
-		this.manager = manager;
+		this.managerRh = manager;
 		this.plansAmelioration = plansAmelioration;
 	}
 
@@ -79,15 +79,15 @@ public class Collaborateur extends Utilisateur{
 	 * @return the manager
 	 */
 	@XmlTransient
-	public ManagerRh getManager() {
-		return manager;
+	public ManagerRh getManagerRh() {
+		return managerRh;
 	}
 
 	/**
 	 * @param manager the manager to set
 	 */
-	public void setManager(ManagerRh manager) {
-		this.manager = manager;
+	public void setManagerRh(ManagerRh manager) {
+		this.managerRh = manager;
 	}
 
 	/**

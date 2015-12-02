@@ -59,7 +59,7 @@
 			<join table="collaborateur">
 				<key column="id" />
 
-				<many-to-one name="manager" class="ManagerRh" lazy="false">
+				<many-to-one name="managerRh" class="ManagerRh" lazy="false">
 					<column name="id_manager" />
 				</many-to-one>
 

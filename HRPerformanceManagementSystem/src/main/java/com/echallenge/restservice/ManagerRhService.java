@@ -1,5 +1,7 @@
 package com.echallenge.restservice;
 
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -12,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.hibernate.Session;
 
+import com.echallenge.model.Encadrant;
 import com.echallenge.model.ManagerRh;
 import com.echallenge.util.HibernateUtil;
 import com.echallenge.util.Security;
@@ -34,6 +37,18 @@ public class ManagerRhService {
 		session.getTransaction().commit();
 
 		return managerRh;
+	}
+	
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public List<ManagerRh> getAllManagerRh() {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+
+		List<ManagerRh> managersRh = session.createQuery("from ManagerRh").list();
+
+		session.getTransaction().commit();
+		return managersRh;
 	}
 
 	@Path("{id}")

@@ -58,7 +58,7 @@ public class HibernateMappingTest {
 		collaborateur.setPrenom("prenomCollaborateur");
 		collaborateur.setNom("nomCollaborateur");
 		collaborateur.setMotDePasse("motDePasseCollaborateur");
-		collaborateur.setManager(manager);
+		collaborateur.setManagerRh(manager);
 		
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
@@ -102,7 +102,7 @@ public class HibernateMappingTest {
 		collaborateur.setPrenom("prenomCollaborateur2");
 		collaborateur.setNom("nomCollaborateur2");
 		collaborateur.setMotDePasse("motDePasseCollaborateur2");
-		collaborateur.setManager(manager);
+		collaborateur.setManagerRh(manager);
 		
 		Objectif obj1 = new Objectif();
 		obj1.setDescriptionObjectif("Objectif 1");
@@ -164,7 +164,7 @@ public class HibernateMappingTest {
 		collaborateur.setPrenom("prenomCollaborateur2");
 		collaborateur.setNom("nomCollaborateur2");
 		collaborateur.setMotDePasse("motDePasseCollaborateur2");
-		collaborateur.setManager(manager);
+		collaborateur.setManagerRh(manager);
 		
 		
 		Objectif obj1 = new Objectif();
@@ -255,7 +255,7 @@ public class HibernateMappingTest {
 		collaborateur.setPrenom("prenomCollaborateur2");
 		collaborateur.setNom("nomCollaborateur2");
 		collaborateur.setMotDePasse("motDePasseCollaborateur2");
-		collaborateur.setManager(manager);
+		collaborateur.setManagerRh(manager);
 		
 		
 		Objectif obj1 = new Objectif();
@@ -377,7 +377,7 @@ public class HibernateMappingTest {
 		collaborateur.setPrenom("prenomCollaborateur2");
 		collaborateur.setNom("nomCollaborateur2");
 		collaborateur.setMotDePasse("motDePasseCollaborateur2");
-		collaborateur.setManager(manager);
+		collaborateur.setManagerRh(manager);
 		
 		Encadrant encadrant = new Encadrant();
 		encadrant.setEmail("encadrant5@mail.com");
