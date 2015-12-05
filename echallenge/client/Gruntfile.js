@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
-
+grunt.file.preserveBOM = true;
   // Configuration de Grunt
   grunt.initConfig({
   	concat: {
