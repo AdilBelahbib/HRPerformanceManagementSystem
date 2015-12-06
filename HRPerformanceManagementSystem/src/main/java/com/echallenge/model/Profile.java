@@ -1,5 +1,9 @@
 package com.echallenge.model;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "profile")
 public class Profile {
 	private Long id;
 	private String codeProfile;
@@ -19,6 +23,7 @@ public class Profile {
 	/**
 	 * @return the id
 	 */
+	@XmlElement
 	public Long getId() {
 		return id;
 	}
@@ -35,6 +40,7 @@ public class Profile {
 	/**
 	 * @return the codeProfile
 	 */
+	@XmlElement
 	public String getCodeProfile() {
 		return codeProfile;
 	}
@@ -51,6 +57,7 @@ public class Profile {
 	/**
 	 * @return the descriptionProfile
 	 */
+	@XmlElement
 	public String getDescriptionProfile() {
 		return descriptionProfile;
 	}

@@ -3,6 +3,10 @@ package com.echallenge.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "projet")
 public class Projet {
 	private Long id;
 	private String codeProjet;
@@ -24,6 +28,7 @@ public class Projet {
 	/**
 	 * @return the id
 	 */
+	@XmlElement
 	public Long getId() {
 		return id;
 	}
@@ -38,6 +43,7 @@ public class Projet {
 	/**
 	 * @return the codeProjet
 	 */
+	@XmlElement
 	public String getCodeProjet() {
 		return codeProjet;
 	}
@@ -52,6 +58,7 @@ public class Projet {
 	/**
 	 * @return the nomProjet
 	 */
+	@XmlElement
 	public String getNomProjet() {
 		return nomProjet;
 	}
@@ -66,6 +73,7 @@ public class Projet {
 	/**
 	 * @return the objectifs
 	 */
+	@XmlElement
 	public Set<Objectif> getObjectifs() {
 		return objectifs;
 	}
