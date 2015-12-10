@@ -1,10 +1,14 @@
 package com.echallenge.model;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "qualificationtheme")
 public class QualificationTheme {
 	private Long id;
 	/**Les thèmes sont énumérés dans l'enum. 'Theme'*/
 	private Theme theme;
-	/**Les qualifications sont �num�r�es dans l'enum. 'Qualification'*/
+	/**Les qualifications sont énumurées dans l'enum. 'Qualification'*/
 	private Qualification qualification;
 	/**La remarque est optionnelle*/
 	private String remarque;
@@ -30,6 +34,7 @@ public class QualificationTheme {
 	/**
 	 * @return the id
 	 */
+	@XmlElement
 	public Long getId() {
 		return id;
 	}
@@ -44,6 +49,7 @@ public class QualificationTheme {
 	/**
 	 * @return the theme
 	 */
+	@XmlElement
 	public Theme getTheme() {
 		return theme;
 	}
@@ -58,6 +64,7 @@ public class QualificationTheme {
 	/**
 	 * @return the qualification
 	 */
+	@XmlElement
 	public Qualification getQualification() {
 		return qualification;
 	}
@@ -72,6 +79,7 @@ public class QualificationTheme {
 	/**
 	 * @return the remarque
 	 */
+	@XmlElement
 	public String getRemarque() {
 		return remarque;
 	}

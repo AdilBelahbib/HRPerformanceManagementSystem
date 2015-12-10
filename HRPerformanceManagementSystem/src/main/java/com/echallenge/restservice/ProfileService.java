@@ -15,9 +15,7 @@ import javax.ws.rs.core.MediaType;
 import org.hibernate.Session;
 
 import com.echallenge.model.Profile;
-import com.echallenge.model.Profile;
 import com.echallenge.util.HibernateUtil;
-import com.echallenge.util.Security;
 
 @Path("/profiles")
 public class ProfileService {
@@ -28,6 +26,7 @@ public class ProfileService {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
+		@SuppressWarnings("unchecked")
 		List<Profile> profiles = session.createQuery("from Profile").list();
 
 		session.getTransaction().commit();

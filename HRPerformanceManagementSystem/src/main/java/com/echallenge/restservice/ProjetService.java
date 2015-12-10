@@ -26,6 +26,7 @@ public class ProjetService {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
+		@SuppressWarnings("unchecked")
 		List<Projet> projets = session.createQuery("from Projet").list();
 
 		session.getTransaction().commit();

@@ -49,6 +49,7 @@ public class CollaborateurService {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
+		@SuppressWarnings("unchecked")
 		List<Collaborateur> collaborateurs = session.createQuery("from Collaborateur").list();
 
 		session.getTransaction().commit();
@@ -76,6 +77,7 @@ public class CollaborateurService {
 		session.beginTransaction();
 		Encadrant encadrant = (Encadrant) session.get(Encadrant.class, new Long(id));
 
+		@SuppressWarnings("unchecked")
 		List<Collaborateur> collaborateurs = session
 				.createQuery("select distinct col from Collaborateur as col"
 						+ " join col.fichesEvaluations as fiche"
@@ -87,6 +89,7 @@ public class CollaborateurService {
 		return collaborateurs;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Path("/bymanagerrh/{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -105,22 +108,29 @@ public class CollaborateurService {
 		return collaborateurs;
 	}
 
-	@Path("/bybapstatut/{statut}")
+	@SuppressWarnings("unchecked")
+	@Path("/bybapstatut/{idencadrant}/{statut}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public List<Collaborateur> getCollaborateurByBapStatut(@PathParam("statut") StatutBAP statut) {
+	public List<Collaborateur> getCollaborateurByBapStatut(@PathParam("idencadrant") int id, @PathParam("statut") StatutBAP statut) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
+		ManagerRh managerRh = (ManagerRh) session.get(ManagerRh.class, new Long(id));
 		List<Collaborateur> collaborateurs = null;
+
+		if (managerRh != null) {
 
 		collaborateurs = session.createQuery(
 				"select distinct col"
 				+ " from Collaborateur as col, BAP as bap"
 				+ " where bap.ficheObjectifsTraites IN elements(col.ficheObjectifs)"
-				+ " AND bap.statut = :statut")
+				+ " AND bap.statut = :statut"
+				+ " AND col.managerRh = :managerRh")
 				.setString("statut", statut.name())
+				.setEntity("managerRh", managerRh)
 				.list();
+		}
 
 		session.getTransaction().commit();
 		return collaborateurs;

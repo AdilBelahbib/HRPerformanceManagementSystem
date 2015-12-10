@@ -19,6 +19,7 @@ public class FicheEvaluations {
 	private boolean autorisationAcces;
 	/**La liste des �valuations composant la fiche*/
 	private Set<Evaluation> evaluations;
+	private double noteFinale;
 	
 	public FicheEvaluations() {
 		this.evaluations = new HashSet<Evaluation>();
@@ -117,6 +118,20 @@ public class FicheEvaluations {
 	 */
 	public void setEvaluations(Set<Evaluation> evaluations) {
 		this.evaluations = evaluations;
+	}
+
+	/**
+	 * @return the noteFinale
+	 */
+	public double getNoteFinale() {
+		return noteFinale;
+	}
+
+	/**
+	 * @param noteFinale the noteFinale to set
+	 */
+	public void setNoteFinale(double noteFinale) {
+		this.noteFinale = noteFinale;
 	}
 
 	/* (non-Javadoc)

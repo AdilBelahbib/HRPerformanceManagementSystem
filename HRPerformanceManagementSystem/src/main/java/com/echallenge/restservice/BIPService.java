@@ -14,92 +14,94 @@ import javax.ws.rs.core.MediaType;
 
 import org.hibernate.Session;
 
+import com.echallenge.model.BIP;
 import com.echallenge.model.Collaborateur;
-import com.echallenge.model.Formation;
 import com.echallenge.util.HibernateUtil;
 
-@Path("/formations")
-public class FormationService {
+@Path("/bips")
+public class BIPService {
 
 	@Path("{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Formation getFormationById(@PathParam("id") int id) {
+	public BIP getBIPById(@PathParam("id") int id) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
-		Formation formation = (Formation) session.get(Formation.class, new Long(id));
-
+		BIP bip = (BIP) session.get(BIP.class, new Long(id));
+		
 		session.getTransaction().commit();
-		return formation;
+		return bip;
 	}
-
+	
 	@SuppressWarnings("unchecked")
-	@Path("/bycollaborateur/{id}")
+	@Path("/collaborateur/{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public List<Formation> getFormationByCollaborateur(@PathParam("id") int id) {
+	public List<BIP> getBapByCollaborateur(@PathParam("id") int id) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
 		Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
 
-		List<Formation> formations = null;
+		List<BIP> bips = null;
 
 		if(collaborateur != null)
 		{
-			formations = session.createQuery(
-					"from Formation form WHERE form.collaborateur = :collaborateur")
-			.setEntity("collaborateur", collaborateur)
-			.list();
+			bips = session.createQuery(
+					" select bip from BIP bip , Collaborateur col"
+					+ " where col = :collaborateur"
+					+ " AND bip.ficheObjectifsTraites IN elements(col.ficheObjectifs)"
+					+ " ORDER BY bip.dateBilan DESC")
+					.setEntity("collaborateur", collaborateur)
+					.list();
 		}
 
 		session.getTransaction().commit();
-		return formations;
+		return bips;
 	}
 	
 	@Path("{id}")
 	@PUT
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Formation modifierFormation(Formation formation) {
+	public BIP modifierBIP(BIP bip) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
-		session.saveOrUpdate(formation);
+		session.saveOrUpdate(bip);
 
 		session.getTransaction().commit();
 
-		return formation;
+		return bip;
 	}
 
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Formation ajouterFormation(Formation formation) {
+	public BIP ajouterBIP(BIP bip) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
-		session.save(formation);
+		session.save(bip);
 
 		session.getTransaction().commit();
 
-		return formation;
+		return bip;
 	}
 
 	@Path("{id}")
 	@DELETE
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Formation supprimerFormation(@PathParam("id") int id) {
+	public BIP supprimerBIP(@PathParam("id") int id) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
-		Formation formation = (Formation) session.get(Formation.class, new Long(id));
-		session.delete(formation);
+		BIP bip = (BIP) session.get(BIP.class, new Long(id));
+		session.delete(bip);
 
 		session.getTransaction().commit();
 
-		return formation;
+		return bip;
 	}
-
 }

@@ -16,6 +16,7 @@
 		<mapping resource="com/echallenge/model/Action.hbm.xml"></mapping>
 		<mapping resource="com/echallenge/model/BAP.hbm.xml"></mapping>
 		<mapping resource="com/echallenge/model/BIP.hbm.xml"></mapping>
+		<mapping resource="com/echallenge/model/DemandeBIP.hbm.xml"></mapping>
 		<mapping resource="com/echallenge/model/Entete.hbm.xml"></mapping>
 		<mapping resource="com/echallenge/model/Evaluation.hbm.xml"></mapping>
 		<mapping resource="com/echallenge/model/Feedback.hbm.xml"></mapping>

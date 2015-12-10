@@ -4,6 +4,11 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "bap")
 public class BAP extends Bilan{
 	/**La fiche des objectifs du collaborateur*/
 	private FicheObjectifs ficheObjectifsRediges;
@@ -31,6 +36,7 @@ public class BAP extends Bilan{
 	/**
 	 * @return the ficheObjectifsRediges
 	 */
+	@XmlElement
 	public FicheObjectifs getFicheObjectifsRediges() {
 		return ficheObjectifsRediges;
 	}
@@ -45,6 +51,7 @@ public class BAP extends Bilan{
 	/**
 	 * @return the ficheEvaluations
 	 */
+	@XmlElement
 	public FicheEvaluations getFicheEvaluations() {
 		return ficheEvaluations;
 	}
@@ -56,11 +63,10 @@ public class BAP extends Bilan{
 		this.ficheEvaluations = ficheEvaluations;
 	}
 
-	
-
 	/**
 	 * @return the statut
 	 */
+	@XmlElement
 	public StatutBAP getStatut() {
 		return statut;
 	}
@@ -75,6 +81,8 @@ public class BAP extends Bilan{
 	/**
 	 * @return the feedbacks
 	 */
+	@XmlElementWrapper(name = "feedbacks")
+	@XmlElement
 	public Set<Feedback> getFeedbacks() {
 		return feedbacks;
 	}

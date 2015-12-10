@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 9, 2015 3:27:21 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.echallenge.model.DemandeBIP" table="DEMANDE_BIP">
+        <id name="id" type="java.lang.Long">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="dateDemande" type="java.util.Date">
+            <column name="DATEDEMANDE" />
+        </property>
+        <many-to-one name="encadrant" class="com.echallenge.model.Encadrant" fetch="join">
+            <column name="idEncadrant" />
+        </many-to-one>
+        <many-to-one name="collaborateur" class="com.echallenge.model.Collaborateur" fetch="join">
+            <column name="idCollaborateur" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

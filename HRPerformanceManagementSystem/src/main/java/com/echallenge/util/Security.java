@@ -2,16 +2,12 @@ package com.echallenge.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.SecureRandom;
 
 public class Security {
 	
 	public static String get_SHA_1_SecurePassword(String passwordToHash)
     {
-        String generatedPassword = null;
-        String salt = Security.getSalt();
-        
+        String generatedPassword = null;        
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-1");
             //md.update(salt.getBytes());
@@ -30,23 +26,4 @@ public class Security {
         return generatedPassword;
     }
 	
-	private static String getSalt()
-    {
-        //Always use a SecureRandom generator
-        SecureRandom sr;
-		try {
-			sr = SecureRandom.getInstance("SHA1PRNG", "SUN");
-			//Create array for salt
-	        byte[] salt = new byte[16];
-	        //Get a random salt
-	        sr.nextBytes(salt);
-	        //return salt
-	        return salt.toString();
-		} catch (NoSuchAlgorithmException | NoSuchProviderException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return null;
-    }
 }

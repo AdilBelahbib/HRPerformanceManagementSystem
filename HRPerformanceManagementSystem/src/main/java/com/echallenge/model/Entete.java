@@ -2,6 +2,10 @@ package com.echallenge.model;
 
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "entete")
 public class Entete {
 	private Long id;
 	private Date dateDebutIntervention;
@@ -27,6 +31,7 @@ public class Entete {
 	/**
 	 * @return the id
 	 */
+	@XmlElement
 	public Long getId() {
 		return id;
 	}
@@ -41,6 +46,7 @@ public class Entete {
 	/**
 	 * @return the dateDebutIntervention
 	 */
+	@XmlElement
 	public Date getDateDebutIntervention() {
 		return dateDebutIntervention;
 	}
@@ -55,6 +61,7 @@ public class Entete {
 	/**
 	 * @return the dateFinIntervention
 	 */
+	@XmlElement
 	public Date getDateFinIntervention() {
 		return dateFinIntervention;
 	}
@@ -69,6 +76,7 @@ public class Entete {
 	/**
 	 * @return the role
 	 */
+	@XmlElement
 	public String getRole() {
 		return role;
 	}
@@ -83,6 +91,7 @@ public class Entete {
 	/**
 	 * @return the nombreJoursValorises
 	 */
+	@XmlElement
 	public int getNombreJoursValorises() {
 		return nombreJoursValorises;
 	}
@@ -97,6 +106,7 @@ public class Entete {
 	/**
 	 * @return the projet
 	 */
+	@XmlElement
 	public Projet getProjet() {
 		return projet;
 	}

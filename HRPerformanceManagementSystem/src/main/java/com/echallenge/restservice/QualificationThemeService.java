@@ -14,92 +14,95 @@ import javax.ws.rs.core.MediaType;
 
 import org.hibernate.Session;
 
-import com.echallenge.model.Collaborateur;
-import com.echallenge.model.Formation;
+import com.echallenge.model.Feedback;
+import com.echallenge.model.QualificationTheme;
 import com.echallenge.util.HibernateUtil;
 
-@Path("/formations")
-public class FormationService {
+@Path("/qualificationthemes")
+public class QualificationThemeService {
 
 	@Path("{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Formation getFormationById(@PathParam("id") int id) {
+	public QualificationTheme getQualificationThemeById(@PathParam("id") int id) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
-		Formation formation = (Formation) session.get(Formation.class, new Long(id));
+		QualificationTheme qualificationTheme = (QualificationTheme) session.get(QualificationTheme.class, new Long(id));
 
 		session.getTransaction().commit();
-		return formation;
+		return qualificationTheme;
 	}
 
 	@SuppressWarnings("unchecked")
-	@Path("/bycollaborateur/{id}")
+	@Path("/feedback/{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public List<Formation> getFormationByCollaborateur(@PathParam("id") int id) {
+	public List<QualificationTheme> getQualificationThemeByFeedback(@PathParam("id") int id) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
-		Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
+		Feedback feedback = (Feedback) session.get(Feedback.class, new Long(id));
 
-		List<Formation> formations = null;
+		List<QualificationTheme> qualificationThemes = null;
 
-		if(collaborateur != null)
+		if(feedback != null)
 		{
-			formations = session.createQuery(
-					"from Formation form WHERE form.collaborateur = :collaborateur")
-			.setEntity("collaborateur", collaborateur)
+			qualificationThemes = session.createQuery(
+					"select qt"
+					+ " from QualificationTheme qt, Feedback feed"
+					+ " WHERE feed = :feedback"
+					+ " AND qt IN elements(feed.qualificationsTheme)")
+			.setEntity("feedback", feedback)
 			.list();
 		}
 
 		session.getTransaction().commit();
-		return formations;
+		return qualificationThemes;
 	}
 	
 	@Path("{id}")
 	@PUT
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Formation modifierFormation(Formation formation) {
+	public QualificationTheme modifierQualificationTheme(QualificationTheme qualificationTheme) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
-		session.saveOrUpdate(formation);
+		session.saveOrUpdate(qualificationTheme);
 
 		session.getTransaction().commit();
 
-		return formation;
+		return qualificationTheme;
 	}
 
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Formation ajouterFormation(Formation formation) {
+	public QualificationTheme ajouterQualificationTheme(QualificationTheme qualificationTheme) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
-		session.save(formation);
+		session.save(qualificationTheme);
 
 		session.getTransaction().commit();
 
-		return formation;
+		return qualificationTheme;
 	}
 
 	@Path("{id}")
 	@DELETE
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Formation supprimerFormation(@PathParam("id") int id) {
+	public QualificationTheme supprimerQualificationTheme(@PathParam("id") int id) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
-		Formation formation = (Formation) session.get(Formation.class, new Long(id));
-		session.delete(formation);
+		QualificationTheme qualificationTheme = (QualificationTheme) session.get(QualificationTheme.class, new Long(id));
+		session.delete(qualificationTheme);
 
 		session.getTransaction().commit();
 
-		return formation;
+		return qualificationTheme;
 	}
 
 }

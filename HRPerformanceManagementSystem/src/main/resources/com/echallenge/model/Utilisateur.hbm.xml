@@ -77,6 +77,11 @@
 				<key column="idEncadrant" />
 				<one-to-many class="Feedback" />
 			</set>
+
+			<set name="demandesBIP" table="DEMANDE_BIP" inverse="true" lazy="false">
+				<key column="idEncadrant" />
+				<one-to-many class="DemandeBIP" />
+			</set>
 		</subclass>
 	</class>
 </hibernate-mapping>

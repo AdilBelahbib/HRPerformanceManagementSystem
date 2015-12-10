@@ -8,6 +8,10 @@ import javax.ws.rs.core.MediaType;
 
 import org.hibernate.Session;
 
+import com.echallenge.model.Administrateur;
+import com.echallenge.model.Collaborateur;
+import com.echallenge.model.Encadrant;
+import com.echallenge.model.ManagerRh;
 import com.echallenge.model.Utilisateur;
 import com.echallenge.util.HibernateUtil;
 import com.echallenge.util.Security;
@@ -29,6 +33,16 @@ public class UtilisateurService {
 				.setString(0, email).setString(1, Security.get_SHA_1_SecurePassword(mdp)).uniqueResult();
 		
 		session.getTransaction().commit();
+		
+		if(utilisateur instanceof Collaborateur)
+			utilisateur.setType("C");
+		else if(utilisateur instanceof ManagerRh)
+			utilisateur.setType("M");
+		else if(utilisateur instanceof Encadrant)
+			utilisateur.setType("E");
+		else if(utilisateur instanceof Administrateur)
+			utilisateur.setType("A");
+		
 		return utilisateur;
 	}
 

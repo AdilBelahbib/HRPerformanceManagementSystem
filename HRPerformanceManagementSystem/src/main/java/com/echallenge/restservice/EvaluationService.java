@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -34,7 +35,7 @@ public class EvaluationService {
 		return evaluation;
 	}
 	
-	@Path("ficheevaluationscourantes/bycollaborateur/{id}")
+	@Path("ficheevaluationscourantes/collaborateur/{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public FicheEvaluations getFicheEvaluationsCourantesByCollaborateur(@PathParam("id") int id)
@@ -60,7 +61,7 @@ public class EvaluationService {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Path("ficheevaluations/bycollaborateur/{id}")
+	@Path("ficheevaluations/collaborateur/{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<FicheEvaluations> getFicheEvaluationsByCollaborateur(@PathParam("id") int id)
@@ -70,11 +71,11 @@ public class EvaluationService {
 
 		Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
 		
-		List<FicheEvaluations> fichesObjectifs = null;
+		List<FicheEvaluations> fichesEvaluations = null;
 		
 		if(collaborateur != null)
 		{
-			fichesObjectifs = session.createQuery(
+			fichesEvaluations = session.createQuery(
 					"from FicheEvaluations fiche"
 					+ " WHERE fiche.collaborateur = :collaborateur"
 					+ " ORDER BY fiche.dateEvaluation DESC")
@@ -82,7 +83,72 @@ public class EvaluationService {
 		}
 		
 		session.getTransaction().commit();
-		return fichesObjectifs;
+		return fichesEvaluations;
+	}
+	
+	@Path("/link/ficheevaluation/{idevaluation}/{idficheevaluations}")
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public FicheEvaluations linkObjectifToProjet(@PathParam("idevaluation") int idEvaluation,@PathParam("idficheevaluations") int idFicheEvaluations)
+	{
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+
+		Evaluation evaluation = (Evaluation) session.get(Evaluation.class, new Long(idEvaluation));
+		FicheEvaluations ficheEvaluations = (FicheEvaluations) session.get(FicheEvaluations.class, new Long(idFicheEvaluations));
+				
+		if((evaluation != null) && (ficheEvaluations != null))
+		{
+			ficheEvaluations.getEvaluations().add(evaluation);
+			session.update(ficheEvaluations);
+		}
+		
+		session.getTransaction().commit();
+		return ficheEvaluations;
+	}
+	
+	@Path("/ficheevaluations")
+	@POST
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public FicheEvaluations ajouterFicheEvaluations(FicheEvaluations ficheEvaluations) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+
+		session.save(ficheEvaluations);
+
+		session.getTransaction().commit();
+
+		return ficheEvaluations;
+	}
+	
+	@POST
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public Evaluation ajouterEvaluation(Evaluation evaluation) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+
+		session.save(evaluation);
+
+		session.getTransaction().commit();
+
+		return evaluation;
+	}
+	
+	@Path("/ficheevaluations/{id}")
+	@PUT
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public FicheEvaluations modifierFicheEvaluations(FicheEvaluations ficheEvaluations) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+
+		session.saveOrUpdate(ficheEvaluations);
+
+		session.getTransaction().commit();
+
+		return ficheEvaluations;
 	}
 	
 	@Path("{id}")
@@ -98,6 +164,21 @@ public class EvaluationService {
 		session.getTransaction().commit();
 
 		return evaluation;
+	}
+	
+	@Path("/ficheevaluations/{id}")
+	@DELETE
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public FicheEvaluations supprimerFicheEvaluations(@PathParam("id") int id) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+
+		FicheEvaluations ficheEvaluations = (FicheEvaluations) session.get(FicheEvaluations.class, new Long(id));
+		session.delete(ficheEvaluations);
+
+		session.getTransaction().commit();
+
+		return ficheEvaluations;
 	}
 	
 	@Path("{id}")

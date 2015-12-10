@@ -14,7 +14,6 @@ import javax.ws.rs.core.MediaType;
 
 import org.hibernate.Session;
 
-import com.echallenge.model.Encadrant;
 import com.echallenge.model.ManagerRh;
 import com.echallenge.util.HibernateUtil;
 import com.echallenge.util.Security;
@@ -45,6 +44,7 @@ public class ManagerRhService {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
+		@SuppressWarnings("unchecked")
 		List<ManagerRh> managersRh = session.createQuery("from ManagerRh").list();
 
 		session.getTransaction().commit();

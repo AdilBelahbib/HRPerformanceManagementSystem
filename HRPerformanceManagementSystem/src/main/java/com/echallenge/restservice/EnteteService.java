@@ -1,7 +1,5 @@
 package com.echallenge.restservice;
 
-import java.util.List;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -14,92 +12,94 @@ import javax.ws.rs.core.MediaType;
 
 import org.hibernate.Session;
 
-import com.echallenge.model.Collaborateur;
-import com.echallenge.model.Formation;
+import com.echallenge.model.Entete;
+import com.echallenge.model.Feedback;
 import com.echallenge.util.HibernateUtil;
 
-@Path("/formations")
-public class FormationService {
+@Path("/entetes")
+public class EnteteService {
 
 	@Path("{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Formation getFormationById(@PathParam("id") int id) {
+	public Entete getEnteteById(@PathParam("id") int id) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
-		Formation formation = (Formation) session.get(Formation.class, new Long(id));
+		Entete entete = (Entete) session.get(Entete.class, new Long(id));
 
 		session.getTransaction().commit();
-		return formation;
+		return entete;
 	}
 
-	@SuppressWarnings("unchecked")
-	@Path("/bycollaborateur/{id}")
+	@Path("/feedback/{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public List<Formation> getFormationByCollaborateur(@PathParam("id") int id) {
+	public Entete getEnteteByFeedback(@PathParam("id") int id) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
-		Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
+		Feedback feedback = (Feedback) session.get(Feedback.class, new Long(id));
 
-		List<Formation> formations = null;
+		Entete entete = null;
 
-		if(collaborateur != null)
+		if(feedback != null)
 		{
-			formations = session.createQuery(
-					"from Formation form WHERE form.collaborateur = :collaborateur")
-			.setEntity("collaborateur", collaborateur)
-			.list();
+			entete = (Entete) session.createQuery(
+					"select ent"
+					+ " from Entete ent, Feedback feed"
+					+ " WHERE feed = :feedback"
+					+ " AND feed.entete = ent")
+			.setEntity("feedback", feedback)
+			.uniqueResult();
 		}
 
 		session.getTransaction().commit();
-		return formations;
+		return entete;
 	}
 	
 	@Path("{id}")
 	@PUT
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Formation modifierFormation(Formation formation) {
+	public Entete modifierEntete(Entete entete) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
-		session.saveOrUpdate(formation);
+		session.saveOrUpdate(entete);
 
 		session.getTransaction().commit();
 
-		return formation;
+		return entete;
 	}
 
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Formation ajouterFormation(Formation formation) {
+	public Entete ajouterEntete(Entete entete) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
-		session.save(formation);
+		session.save(entete);
 
 		session.getTransaction().commit();
 
-		return formation;
+		return entete;
 	}
 
 	@Path("{id}")
 	@DELETE
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Formation supprimerFormation(@PathParam("id") int id) {
+	public Entete supprimerEntete(@PathParam("id") int id) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
-		Formation formation = (Formation) session.get(Formation.class, new Long(id));
-		session.delete(formation);
+		Entete entete = (Entete) session.get(Entete.class, new Long(id));
+		session.delete(entete);
 
 		session.getTransaction().commit();
 
-		return formation;
+		return entete;
 	}
 
 }

@@ -15,91 +15,116 @@ import javax.ws.rs.core.MediaType;
 import org.hibernate.Session;
 
 import com.echallenge.model.Collaborateur;
-import com.echallenge.model.Formation;
+import com.echallenge.model.DemandeBIP;
+import com.echallenge.model.Encadrant;
 import com.echallenge.util.HibernateUtil;
 
-@Path("/formations")
-public class FormationService {
+@Path("/demandebips")
+public class DemandeBIPService {
 
 	@Path("{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Formation getFormationById(@PathParam("id") int id) {
+	public DemandeBIP getDemandeBIPById(@PathParam("id") int id) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
-		Formation formation = (Formation) session.get(Formation.class, new Long(id));
+		DemandeBIP demandeBIP = (DemandeBIP) session.get(DemandeBIP.class, new Long(id));
 
 		session.getTransaction().commit();
-		return formation;
+		return demandeBIP;
 	}
 
 	@SuppressWarnings("unchecked")
-	@Path("/bycollaborateur/{id}")
+	@Path("/collaborateur/{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public List<Formation> getFormationByCollaborateur(@PathParam("id") int id) {
+	public List<DemandeBIP> getDemandeBIPByCollaborateur(@PathParam("id") int id) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
 		Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
 
-		List<Formation> formations = null;
+		List<DemandeBIP> demandeBIPs = null;
 
 		if(collaborateur != null)
 		{
-			formations = session.createQuery(
-					"from Formation form WHERE form.collaborateur = :collaborateur")
+			demandeBIPs = session.createQuery(
+					"from DemandeBIP dem WHERE dem.collaborateur = :collaborateur")
 			.setEntity("collaborateur", collaborateur)
 			.list();
 		}
 
 		session.getTransaction().commit();
-		return formations;
+		return demandeBIPs;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Path("/encadrant/{id}")
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public List<DemandeBIP> getDemandeBIPByEncadrant(@PathParam("id") int id) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+
+		Encadrant encadrant = (Encadrant) session.get(Encadrant.class, new Long(id));
+
+		List<DemandeBIP> demandeBIPs = null;
+
+		if(encadrant != null)
+		{
+			demandeBIPs = session.createQuery(
+					"from DemandeBIP dem WHERE dem.encadrant = :encadrant")
+			.setEntity("encadrant", encadrant)
+			.list();
+		}
+
+		session.getTransaction().commit();
+		return demandeBIPs;
 	}
 	
 	@Path("{id}")
 	@PUT
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Formation modifierFormation(Formation formation) {
+	public DemandeBIP modifierDemandeBIP(DemandeBIP demandeBIP) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
-		session.saveOrUpdate(formation);
+		session.saveOrUpdate(demandeBIP);
 
 		session.getTransaction().commit();
 
-		return formation;
+		return demandeBIP;
 	}
 
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Formation ajouterFormation(Formation formation) {
+	public DemandeBIP ajouterDemandeBIP(DemandeBIP demandeBIP) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
-		session.save(formation);
+		session.save(demandeBIP);
 
 		session.getTransaction().commit();
 
-		return formation;
+		return demandeBIP;
 	}
 
 	@Path("{id}")
 	@DELETE
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Formation supprimerFormation(@PathParam("id") int id) {
+	public DemandeBIP supprimerDemandeBIP(@PathParam("id") int id) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
-		Formation formation = (Formation) session.get(Formation.class, new Long(id));
-		session.delete(formation);
+		DemandeBIP demandeBIP = (DemandeBIP) session.get(DemandeBIP.class, new Long(id));
+		session.delete(demandeBIP);
 
 		session.getTransaction().commit();
 
-		return formation;
+		return demandeBIP;
 	}
 
 }

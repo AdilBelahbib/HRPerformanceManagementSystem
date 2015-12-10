@@ -3,8 +3,12 @@ package com.echallenge.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+@XmlRootElement(name = "feedback")
 public class Feedback {
 	private Long id;
 	/**Le collaborateur concern�*/
@@ -49,6 +53,7 @@ public class Feedback {
 	/**
 	 * @return the id
 	 */
+	@XmlElement
 	public Long getId() {
 		return id;
 	}
@@ -63,6 +68,7 @@ public class Feedback {
 	/**
 	 * @return the collaborateur
 	 */
+	@XmlElement
 	public Collaborateur getCollaborateur() {
 		return collaborateur;
 	}
@@ -77,6 +83,7 @@ public class Feedback {
 	/**
 	 * @return the remarqueGenerale
 	 */
+	@XmlElement
 	public String getRemarqueGenerale() {
 		return remarqueGenerale;
 	}
@@ -91,6 +98,7 @@ public class Feedback {
 	/**
 	 * @return the validation
 	 */
+	@XmlElement
 	public boolean isValidation() {
 		return validation;
 	}
@@ -120,6 +128,7 @@ public class Feedback {
 	/**
 	 * @return the entete
 	 */
+	@XmlElement
 	public Entete getEntete() {
 		return entete;
 	}
@@ -134,6 +143,8 @@ public class Feedback {
 	/**
 	 * @return the qualificationsTheme
 	 */
+	@XmlElementWrapper(name = "qualificationstheme")
+	@XmlElement
 	public Set<QualificationTheme> getQualificationsTheme() {
 		return qualificationsTheme;
 	}
