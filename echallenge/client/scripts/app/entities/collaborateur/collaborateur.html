@@ -1,7 +1,6 @@
 <div class="col-md-12  content">
   <div class="jumbotron">
     <h4>Adil Belahbib:</h4>
-     
     <div class="col-md-12 table-header">
   <div class="col-lg-6">
     <h5>objectifs de l'année suivante  </h5>
@@ -26,10 +25,54 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="objectif in collaborateur.fichesobjectifs[0].objectifs">
+          <tr ng-repeat="objectif in currentfiche.objectifs">
             <th scope="row" class="text-center ">{{objectif.id}}</th>
                         <td>{{objectif.descriptionObjectif}}</td>
                         <td>{{objectif.mesureObjectif}}</td> 
+          </tr>
+          
+        </tbody>
+      </table>
+     <div class="col-md-12 table-footer">
+      <br>
+     </div>
+      <div class="clearfix"></div>   
+    <div class="col-md-12 table-header">
+  <div class="col-lg-6">
+    <h5>fiche d'objectifs courante  </h5>
+  </div><!-- /.col-lg-6 -->
+  <div class="col-lg-2 pull-right ">
+    
+              <button class="btn btn-sm btn-info pull-right">imprimer</button>
+  
+  </div><!-- /.col-lg-6 -->
+</div>
+<div class="clearfix"></div>
+
+          <table class="table  table-bordered  table-striped table-hover">
+        <thead>
+          <tr>
+            <th class="text-center ">#</th>
+
+            <th>Description</th>
+            <th>mesure de l'Objectif</th>
+            <th>Avancement de l'Objectif</th>
+            
+            
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="objectif in currentfiche.objectifs">
+            <th scope="row" class="text-center ">{{objectif.id}}</th>
+                        <td>{{objectif.descriptionObjectif}}</td>
+                        <td>{{objectif.mesureObjectif}}</td> 
+                        <td>
+                          <div class="progress">
+                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{objectif.avancementObjectif}}" aria-valuemin="0" aria-valuemax="100" style="width: {{objectif.avancementObjectif}}%;">
+                            {{objectif.avancementObjectif}}%
+                            </div>
+                          </div>
+                        </td>
           </tr>
           
         </tbody>

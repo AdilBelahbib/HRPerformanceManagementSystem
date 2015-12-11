@@ -2,6 +2,7 @@
 
 app
     .factory('Utilisateur', function ($resource, $filter) {
+        
         return $resource('http://localhost:8080/HRPerformanceManagementSystem/resources/utilisateurs/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
@@ -11,6 +12,11 @@ app
                     return data;
                 }
             },
+            'Auth' : { 
+                        method: 'GET',
+                        isArray: false,
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/utilisateurs/auth2/:email/:mdp'
+                      },
             'update': { method:'PUT' },
             'save': { method:'POST' }
         });

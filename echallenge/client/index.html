@@ -4,8 +4,11 @@
 	<title>HR Performance Management System  </title>
 <!-- injecter les fichiers css en utilisant grunt -->
   
+ <!-- bower:css -->
+ <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+ <!-- endbower -->
+  
   <!-- injector:css -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="assets/css/themify-icons.css">
   <!-- endinjector -->
@@ -23,7 +26,7 @@
       </ul>
       <ul class="pull-right menu-right">
         
-        <li><a href="">Hamza Tanji Cherkaoui</a></li>
+        <li><a href="">{{rol}}Hamza Tanji Cherkaoui</a></li>
         <li><a href=""><span class="notification">10</span></a></li>
         <li><a href="">Déconnexion</a></li>
       </ul>
@@ -43,24 +46,7 @@
                         HRPMS
                     </a>
                 </li>
-                <li>
-                    <a href="#"><span class="ti-layout-tab-window menu-icon"></span>Tableau de bord</a>
-                </li>
-                <li>
-                    <a href="#"><span class="ti-user menu-icon"></span>Gestion des collaborateurs</a>
-                </li>
-                <li>
-                    <a href="#"><span class="ti-eye menu-icon"></span>Gestion des Encadrants</a>
-                </li>
-                <li>
-                    <a href="#"><span class="ti-id-badge menu-icon"></span>Gestion des Managers RH</a>
-                </li>
-                <li>
-                    <a href="#"><span class="ti-settings menu-icon"></span>Configuration</a>
-                </li>
-                <li>
-                    <a href="#"><span class="ti-server menu-icon"></span>Exporter/importer</a>
-                </li>
+                <div  ui-view="navbar"><div/>
             </ul>
         </div>
         <!-- /#sidebar-wrapper --> 
@@ -89,10 +75,12 @@
   <script src="scripts/app/components/angular-resource.js"></script>
   <script src="scripts/app/entities/collaborateur/collaborateur.controller.js"></script>
   <script src="scripts/app/entities/collaborateur/collaborateur.js"></script>
-  <script src="scripts/app/entities/collaborateur/collaborateur.service.js"></script>
   <script src="scripts/app/entities/utilisateur/utilisateur.controller.js"></script>
   <script src="scripts/app/entities/utilisateur/utilisateur.js"></script>
-  <script src="scripts/app/entities/utilisateur/utilisateur.service.js"></script>
+  <script src="scripts/app/partials/navbar.directive.js"></script>
+  <script src="scripts/app/services/collaborateur.service.js"></script>
+  <script src="scripts/app/services/objectif.service.js"></script>
+  <script src="scripts/app/services/utilisateur.service.js"></script>
   <!-- endinjector -->
 
   
