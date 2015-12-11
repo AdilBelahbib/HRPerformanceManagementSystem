@@ -5,7 +5,7 @@
     <div class="col-md-12 table-header">
   <div class="col-lg-6">
     <div class="input-group">
-      <input type="text" class="form-control" placeholder="Search for Collaborateur...">
+      <input type="text" class="form-control" placeholder="Search for Utilisateur...">
       <span class="input-group-btn">
         <button class="btn btn-default" type="button">Search </button>
       </span>
@@ -19,8 +19,8 @@
     Actions <span class="caret"></span>
   </button>
   <ul class="dropdown-menu">
-    <li><a href="#">Action</a></li>
-    <li><a href="#">Another action</a></li>
+    <li><a href=""ng-click="addUtilisateur()">Ajouter </a></li>
+    <li><a href="#">Imprimer la liste</a></li>
     <li><a href="#">Something else here</a></li>
     <li role="separator" class="divider"></li>
     <li><a href="#">Separated link</a></li>
@@ -33,107 +33,35 @@
           <table class="table  table-bordered  table-striped table-hover">
         <thead>
           <tr>
-            <th class="text-center">#</th>
+            <th class="text-center ">#</th>
 
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Username</th>
-             <th>First Name</th>
-            <th>Last Name</th>
-            <th>Username</th>
+            <th>nom</th>
+            <th>prenom</th>
+            <th>email</th>
+             <th>actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row" class="text-center"><input type="checkbox"></th>
-                        <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
+          <tr ng-repeat="Utilisateur in Utilisateurs">
+            <th scope="row" class="text-center "><input type="checkbox"></th>
+                        <td>{{Utilisateur.nom}}</td>
+                        <td>{{Utilisateur.prenom}}</td>
+                        <td>{{Utilisateur.email}}</td>
+
+            <td class="text-center ">  <div class="btn-group">
+  <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Actions <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+    <li><a href="#">Modifier</a></li>
+    <li><a href="#">fiche d'objectifs</a></li>
+    <li><a href="#">fiche d'evaluation </a></li>
+  </ul>
+</div></td>
+            
 
           </tr>
-          <tr>
-            <th scope="row" class="text-center"><input type="checkbox"></th>
-                        <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-
-          </tr>
-          <tr>
-            <th scope="row" class="text-center"><input type="checkbox"></th>
-                        <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-
-          </tr>
-          <tr>
-            <th scope="row" class="text-center"><input type="checkbox"></th>
-                        <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-
-          </tr>
-          <tr>
-            <th scope="row" class="text-center"><input type="checkbox"></th>
-                        <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-
-          </tr>
-          <tr>
-            <th scope="row" class="text-center"><input type="checkbox"></th>
-                        <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-
-          </tr>
-          <tr>
-            <th scope="row" class="text-center"><input type="checkbox"></th>
-                        <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-
-          </tr>
-          <tr>
-            <th scope="row" class="text-center"><input type="checkbox"></th>
-                        <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-
-          </tr>
-          <tr>
-            <th scope="row" class="text-center"><input type="checkbox"></th>
-                        <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-
-          </tr>
+          
         </tbody>
       </table>
      <div class="col-md-12 table-footer">
@@ -171,3 +99,38 @@
 </div>
         </div>
     </div>
+
+<div class="modal fade bs-example-modal-sm" id="editModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">Ajouter/modifier Utilisateur : </h4>
+      </div>
+      <div class="modal-body">
+        <form >
+          <div class="form-group">
+            <label for="todoTask" class="control-label">Nom:</label>
+            <input type="text" class="form-control"  ng-model="Utilisateur.nom" >
+          </div>
+          <div class="form-group">
+            <label for="todoTask" class="control-label">Prenom:</label>
+            <input type="text" class="form-control"  ng-model="Utilisateur.prenom" >
+          </div>
+          <div class="form-group">
+            <label for="todoTask" class="control-label">Email:</label>
+            <input type="text" class="form-control"  ng-model="Utilisateur.email" >
+          </div>
+          <div class="form-group">
+            <label for="todoTask" class="control-label">Mot de Passe:</label>
+            <input type="password" class="form-control"  ng-model="Utilisateur.motDePasse" >
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">annuler</button>
+        <button type="submit" class="btn btn-success" ng-click="create()">confirmer</button>
+      </div>
+    </div>
+  </div>
+</div>

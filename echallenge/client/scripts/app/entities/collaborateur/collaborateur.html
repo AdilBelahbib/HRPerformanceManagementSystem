@@ -1,0 +1,152 @@
+<div class="col-md-12  content">
+  <div class="jumbotron">
+    <h4>Adil Belahbib:</h4>
+    <div class="col-md-12 table-header">
+  <div class="col-lg-6">
+    <h5>objectifs de l'année suivante  </h5>
+  </div><!-- /.col-lg-6 -->
+  <div class="col-lg-2 pull-right ">
+    <button class="btn btn-sm btn-success">valider</button>
+              <button class="btn btn-sm btn-danger">rejeter</button>
+  
+  </div><!-- /.col-lg-6 -->
+</div>
+<div class="clearfix"></div>
+
+          <table class="table  table-bordered  table-striped table-hover">
+        <thead>
+          <tr>
+            <th class="text-center ">#</th>
+
+            <th>Description</th>
+            <th>mesure de l'Objectif</th>
+            
+            
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="objectif in currentfiche.objectifs">
+            <th scope="row" class="text-center ">{{objectif.id}}</th>
+                        <td>{{objectif.descriptionObjectif}}</td>
+                        <td>{{objectif.mesureObjectif}}</td> 
+          </tr>
+          
+        </tbody>
+      </table>
+     <div class="col-md-12 table-footer">
+      <br>
+     </div>
+      <div class="clearfix"></div>   
+    <div class="col-md-12 table-header">
+  <div class="col-lg-6">
+    <h5>fiche d'objectifs courante  </h5>
+  </div><!-- /.col-lg-6 -->
+  <div class="col-lg-2 pull-right ">
+    
+              <button class="btn btn-sm btn-info pull-right">imprimer</button>
+  
+  </div><!-- /.col-lg-6 -->
+</div>
+<div class="clearfix"></div>
+
+          <table class="table  table-bordered  table-striped table-hover">
+        <thead>
+          <tr>
+            <th class="text-center ">#</th>
+
+            <th>Description</th>
+            <th>mesure de l'Objectif</th>
+            <th>Avancement de l'Objectif</th>
+            
+            
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="objectif in currentfiche.objectifs">
+            <th scope="row" class="text-center ">{{objectif.id}}</th>
+                        <td>{{objectif.descriptionObjectif}}</td>
+                        <td>{{objectif.mesureObjectif}}</td> 
+                        <td>
+                          <div class="progress">
+                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{objectif.avancementObjectif}}" aria-valuemin="0" aria-valuemax="100" style="width: {{objectif.avancementObjectif}}%;">
+                            {{objectif.avancementObjectif}}%
+                            </div>
+                          </div>
+                        </td>
+          </tr>
+          
+        </tbody>
+      </table>
+     <div class="col-md-12 table-footer">
+      <br>
+     </div>
+      <div class="clearfix"></div>
+</div>
+        </div>
+        <div class="col-md-6">
+        	<div class="jumbotron">
+      <h4>Archive de fiches d'objectifs :</h4>      
+      <div class="list-group text-center" >
+  <span ng-repeat="ficheobjectif in collaborateur.fichesobjectifs">
+  <a href=""  ng-click="showObjectifs(ficheobjectif.id)"class="list-group-item">fiche d'objectif {{ficheobjectif.dateFicheObjectifs}}</a>
+  </span>
+</div>    	
+      <a href="#" class="pull-right">Voir toutes les fiches d'objectifs</a>
+      <div class="clearfix"></div>
+      </div>
+    </div>
+        <div class="col-md-6"><div class="jumbotron">
+      <h4>Archive de fiches d'évaluations :</h4>      
+
+    	<div class="list-group text-center">
+  <a href="#" ng-repeat="ficheevaluation in collaborateur.fichesevaluations" class="list-group-item">fiche d'evaluation {{ficheevaluation.dateEvaluation}}</a>
+</div>
+        </div>
+    </div>
+
+<div class="modal fade bs-example-modal-lg" id="objectifsModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">fiche d'objectif  {{fichesobjectif.dateFicheObjectifs}} : </h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="alert alert-warning" role="alert" ng-show="hideobjectifs">il n'ya pas d'objectifs dans cette fiche !</div>
+        <table class="table  table-bordered  table-striped table-hover" ng-hide="hideobjectifs">
+        <thead>
+          <tr>
+            <th class="text-center ">#</th>
+
+            <th>Description</th>
+            <th>mesure de l'Objectif</th>
+            <th>Avancement de l'Objectif</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="objectif in fichesobjectif.objectifs">
+            <th scope="row" class="text-center ">{{objectif.id}}</th>
+                        <td>{{objectif.descriptionObjectif}}</td>
+                        <td>{{objectif.mesureObjectif}}</td> 
+                        <td>
+                          <div class="progress">
+                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{objectif.avancementObjectif}}" aria-valuemin="0" aria-valuemax="100" style="width: {{objectif.avancementObjectif}}%;">
+                            {{objectif.avancementObjectif}}%
+                            </div>
+                          </div>
+                        </td> 
+          </tr>
+          
+        </tbody>
+      </table>
+      </div>
+      <div class="modal-footer">
+        
+        <button type="button" class="btn btn-default" data-dismiss="modal">fermer</button>
+        
+      </div>
+    </div>
+  </div>
+</div>

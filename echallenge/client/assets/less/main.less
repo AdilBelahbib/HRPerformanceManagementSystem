@@ -42,6 +42,10 @@ body
     font-family:'Lato';
     background-color: @body-background;
 }
+a
+{
+    text-decoration: none !important;
+}
 .form-control,.btn 
 {
     font-size:13px;
@@ -75,9 +79,9 @@ body
 }
 .container
 {
-	max-width:100%;
+	width:100% !important;
 }
-.first-nav {
+.first-nav { 
     height: 50px;
     padding-top: 5px;
     border-bottom: 3px solid rgba(23, 22, 22, 0.19);
@@ -267,7 +271,7 @@ text-decoration:none;
     padding:5px;
 }
 .table-bordered, .table-bordered td, .table-bordered th {
-       border: 1px solid #564847 !important;
+     //   border: 1px solid #564847 !important;
        border-top:none !important;
        margin-bottom:0px;
 }
@@ -277,7 +281,7 @@ h1,h2,h3,h4,h5
 }
 .table-header
 {
-    background-color: #564847;
+    background-color: rgba(203, 203, 203, 0.37);
     padding:5px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
@@ -285,7 +289,7 @@ h1,h2,h3,h4,h5
 }
 .table-footer
 {
-    background-color: #564847;
+    background-color: rgba(203, 203, 203, 0.37);
     padding:5px; 
     border-bottom-left-radius: 5px;
     border-bottom-right-radius:  5px;

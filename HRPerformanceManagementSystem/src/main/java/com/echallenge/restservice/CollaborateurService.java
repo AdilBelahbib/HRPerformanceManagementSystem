@@ -156,7 +156,7 @@ public class CollaborateurService {
 		return collaborateur;
 	}
 
-	@Path("/ajouter")
+	//@Path("/ajouter")
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

@@ -1,8 +1,9 @@
 'use strict';
 
 app
-    .factory('User', function ($resource, $filter) {
-        return $resource('http://localhost:8080/hrpms/resources/users/:id', {}, {
+    .factory('Utilisateur', function ($resource, $filter) {
+        
+        return $resource('http://localhost:8080/HRPerformanceManagementSystem/resources/utilisateurs/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
@@ -11,13 +12,12 @@ app
                     return data;
                 }
             },
-            'update': { method:'PUT' },
-            'bytags': { 
+            'Auth' : { 
                         method: 'GET',
-                        isArray: true,
-                        
-                        url: 'http://localhost:8080/hrpms/resources/users/tag/:tag'
+                        isArray: false,
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/utilisateurs/auth2/:email/:mdp'
                       },
+            'update': { method:'PUT' },
             'save': { method:'POST' }
         });
     });
