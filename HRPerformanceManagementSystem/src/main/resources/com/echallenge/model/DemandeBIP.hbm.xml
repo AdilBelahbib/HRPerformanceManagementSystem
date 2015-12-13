@@ -11,10 +11,10 @@
         <property name="dateDemande" type="java.util.Date">
             <column name="DATEDEMANDE" />
         </property>
-        <many-to-one name="encadrant" class="com.echallenge.model.Encadrant" fetch="join">
+        <many-to-one name="encadrant" class="com.echallenge.model.Encadrant" fetch="join" lazy="false">
             <column name="idEncadrant" />
         </many-to-one>
-        <many-to-one name="collaborateur" class="com.echallenge.model.Collaborateur" fetch="join">
+        <many-to-one name="collaborateur" class="com.echallenge.model.Collaborateur" fetch="join" lazy="false">
             <column name="idCollaborateur" />
         </many-to-one>
     </class>

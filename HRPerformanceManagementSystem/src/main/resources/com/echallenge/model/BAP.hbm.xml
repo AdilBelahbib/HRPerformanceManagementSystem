@@ -15,19 +15,19 @@
 			<column name="dateBAP" />
 		</property>
 		
-		<many-to-one name="collaborateur" class="Collaborateur" fetch="join" cascade="update">
+		<many-to-one name="collaborateur" class="Collaborateur" fetch="join" cascade="save-update" lazy="false">
 			<column name="idCollaborateur" />
 		</many-to-one>
 		
-		<many-to-one name="ficheObjectifsTraites" class="FicheObjectifs" fetch="join">
+		<many-to-one name="ficheObjectifsTraites" class="FicheObjectifs" fetch="join" lazy="false">
 			<column name="idFicheObjectifsTraites" />
 		</many-to-one>
 		
-		<many-to-one name="ficheObjectifsRediges" class="FicheObjectifs" cascade="persist,save-update">
+		<many-to-one name="ficheObjectifsRediges" class="FicheObjectifs" cascade="persist,save-update" lazy="false">
 			<column name="idFicheObjectifsRediges" />
 		</many-to-one>
 		
-		<many-to-one name="ficheEvaluations" class="FicheEvaluations" fetch="join" cascade="save-update">
+		<many-to-one name="ficheEvaluations" class="FicheEvaluations" fetch="join" cascade="save-update" lazy="false">
 			<column name="idFicheEvaluations" />
 		</many-to-one>
 		

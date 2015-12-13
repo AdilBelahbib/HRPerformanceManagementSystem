@@ -16,11 +16,11 @@
 			<column name="dateBIP" />
 		</property>
 		
-		<many-to-one name="collaborateur" class="Collaborateur" fetch="join" cascade="update">
+		<many-to-one name="collaborateur" class="Collaborateur" fetch="join" cascade="save-update" lazy="false">
 			<column name="idCollaborateur" />
 		</many-to-one>
 		
-		<many-to-one name="ficheObjectifsTraites" class="FicheObjectifs" fetch="join">
+		<many-to-one name="ficheObjectifsTraites" class="FicheObjectifs" fetch="join" lazy="false">
 			<column name="idFicheObjectifsTraites" />
 		</many-to-one>
 

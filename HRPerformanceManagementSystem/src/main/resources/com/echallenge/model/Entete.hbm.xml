@@ -22,7 +22,7 @@
         <property name="nombreJoursValorises" type="int">
             <column name="nombreJoursValorises" />
         </property>
-        <many-to-one name="projet" class="Projet" fetch="join">
+        <many-to-one name="projet" class="Projet" fetch="join" lazy="false">
             <column name="idProjet" />
         </many-to-one>
     </class>

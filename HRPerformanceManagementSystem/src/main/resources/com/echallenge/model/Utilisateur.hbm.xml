@@ -22,7 +22,7 @@
 		<property name="prenom" type="java.lang.String">
 			<column name="PRENOM" />
 		</property>
-		<many-to-one name="profile" class="Profile" not-null="false">
+		<many-to-one name="profile" class="Profile" lazy="false" not-null="false">
 			<column name="idProfile" />
 		</many-to-one>
 
