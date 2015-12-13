@@ -1,0 +1,34 @@
+<div class="col-md-12  content">
+  <div class="jumbotron">
+    <h4>Mes collaborateurs :</h4>
+    <div class="col-md-12 table-header">
+      <div class="col-lg-6">
+        <h5>objectifs de l'année suivante  </h5>
+      </div><!-- /.col-lg-6 -->
+      
+    </div>
+    <table class="table  table-bordered  table-striped table-hover">
+      <thead>
+        <tr>
+          <th class="text-center ">#</th>
+
+          <th>Nom complet</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="collaborateur in collaborateurs">
+          <th scope="row" class="text-center ">{{collaborateur.id}}</th>
+          
+          <td >{{collaborateur.nom}} {{collaborateur.prenom}}</td> 
+          
+        </tr>
+        
+      </tbody>
+    </table>
+    <div class="col-md-12 table-footer">
+      <br>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>
