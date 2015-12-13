@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 10, 2015 at 07:35 PM
+-- Generation Time: Dec 13, 2015 at 12:42 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -55,22 +55,24 @@ CREATE TABLE IF NOT EXISTS `bap` (
   `idFicheObjectifsTraites` int(11) DEFAULT NULL,
   `idFicheObjectifsRediges` int(11) DEFAULT NULL,
   `idFicheEvaluations` int(11) DEFAULT NULL,
+  `idCollaborateur` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idFicheObjectifsTraites` (`idFicheObjectifsTraites`),
   KEY `idFicheObjectifsRediges` (`idFicheObjectifsRediges`),
-  KEY `idFicheEvaluations` (`idFicheEvaluations`)
+  KEY `idFicheEvaluations` (`idFicheEvaluations`),
+  KEY `idCollaborateur` (`idCollaborateur`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `bap`
 --
 
-INSERT INTO `bap` (`id`, `dateBAP`, `StatutBAP`, `idFicheObjectifsTraites`, `idFicheObjectifsRediges`, `idFicheEvaluations`) VALUES
-(1, '2015-12-16 00:00:00', 'ANNULE', 1, 2, 1),
-(2, '2015-12-02 00:00:00', 'VALIDE', 2, 3, 2),
-(3, '2015-12-08 00:00:00', 'EN_ATTENTE', 3, 3, 3),
-(4, '2015-12-20 00:00:00', 'REJETE', 3, 5, 4),
-(5, '2015-12-20 00:00:00', 'REJETE', 4, 5, 4);
+INSERT INTO `bap` (`id`, `dateBAP`, `StatutBAP`, `idFicheObjectifsTraites`, `idFicheObjectifsRediges`, `idFicheEvaluations`, `idCollaborateur`) VALUES
+(1, '2015-12-16 00:00:00', 'ANNULE', 1, 2, 1, 154),
+(2, '2015-12-02 00:00:00', 'VALIDE', 2, 3, 2, 154),
+(3, '2015-12-08 00:00:00', 'EN_ATTENTE', 3, 3, 3, 154),
+(4, '2015-12-20 00:00:00', 'REJETE', 3, 5, 4, 154),
+(5, '2015-12-20 00:00:00', 'REJETE', 4, 5, 4, 154);
 
 -- --------------------------------------------------------
 
@@ -115,8 +117,7 @@ INSERT INTO `collaborateur` (`id`, `id_manager`) VALUES
 (154, 151),
 (156, 151),
 (157, 151),
-(155, 159),
-(158, 159);
+(155, 159);
 
 -- --------------------------------------------------------
 
@@ -463,7 +464,6 @@ INSERT INTO `utilisateur` (`id`, `email`, `motDePasse`, `nom`, `prenom`, `typeUt
 (155, 'belahbib2@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB2', 'Adil2', 'C', NULL),
 (156, 'belahbib3@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB2', 'Adil2', 'C', NULL),
 (157, 'belahbib4@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB2', 'Adil2', 'C', NULL),
-(158, 'belahbib5@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB2', 'Adil2', 'C', NULL),
 (159, 'tanji2@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'TANJI', 'Hamza', 'M', NULL),
 (160, 'tanji3@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'TANJI', 'Hamza', 'M', NULL),
 (161, 'adil2@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB', 'Adil', 'E', NULL),
@@ -483,6 +483,7 @@ ALTER TABLE `action`
 -- Constraints for table `bap`
 --
 ALTER TABLE `bap`
+  ADD CONSTRAINT `bap_ibfk_5` FOREIGN KEY (`idCollaborateur`) REFERENCES `collaborateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `bap_ibfk_2` FOREIGN KEY (`idFicheObjectifsRediges`) REFERENCES `fiche_objectifs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `bap_ibfk_3` FOREIGN KEY (`idFicheEvaluations`) REFERENCES `fiche_evaluations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `bap_ibfk_4` FOREIGN KEY (`idFicheObjectifsTraites`) REFERENCES `fiche_objectifs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -504,8 +505,8 @@ ALTER TABLE `collaborateur`
 -- Constraints for table `demande_bip`
 --
 ALTER TABLE `demande_bip`
-  ADD CONSTRAINT `demande_bip_ibfk_2` FOREIGN KEY (`idEncadrant`) REFERENCES `utilisateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `demande_bip_ibfk_1` FOREIGN KEY (`idCollaborateur`) REFERENCES `collaborateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `demande_bip_ibfk_1` FOREIGN KEY (`idCollaborateur`) REFERENCES `collaborateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `demande_bip_ibfk_2` FOREIGN KEY (`idEncadrant`) REFERENCES `utilisateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `entete`
