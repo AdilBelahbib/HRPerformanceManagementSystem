@@ -12,10 +12,10 @@ app
                     return data;
                 }
             },
-            'Auth' : { 
+            'auth' : { 
                         method: 'GET',
                         isArray: false,
-                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/utilisateurs/auth2/:email/:mdp'
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/utilisateurs/auth/:email/:mdp'
                       },
             'update': { method:'PUT' },
             'save': { method:'POST' }

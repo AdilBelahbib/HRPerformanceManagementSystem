@@ -16,7 +16,47 @@ app
                         method: 'GET',
                         isArray: false,
                         
-                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/objectifs/ficheobjectifscourants/bycollaborateur/:id'
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/objectifs/ficheobjectifscourants/collaborateur/:id'
+                      },
+            'collaborateur': { 
+                        method: 'GET',
+                        isArray: false,
+                        
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/objectifs/ficheobjectifs/collaborateur/:id'
+                      },
+            'linkToFiche':
+                         { 
+                        method: 'GET',
+                        isArray: false,
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/objectifs/link/ficheobjectifs/:idobjectif/:idficheobjectif'
+                      },
+            'linkToFormation':
+                         { 
+                        method: 'GET',
+                        isArray: false,
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/objectifs/link/formation/:idobjectif/:idformation'
+                      },
+            'linkToProject':
+                         { 
+                        method: 'GET',
+                        isArray: false,
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/objectifs/link/projet/:idobjectif/:idprojet'
+                      },
+           
+           'addFiche':
+                         { 
+                        method: 'POST',
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/objectifs/ficheobjectifs'
+                      },
+            'updateFiche':
+                         { 
+                        method: 'PUT',
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/objectifs/ficheobjectifs/:id'
+                      },
+            'deleteFiche':
+                         { 
+                        method: 'DELETE',
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/objectifs/ficheobjectifs/:id'
                       },
             'save': { method:'POST' }
         });

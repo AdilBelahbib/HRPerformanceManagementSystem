@@ -11,13 +11,23 @@ app
                     return data;
                 }
             },
+            'encadrant' : { 
+                        method: 'GET',
+                        isArray: true,
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/collaborateurs/encadrant/:id'
+                      },
+            'manager' : { 
+                        method: 'GET',
+                        isArray: true,
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/collaborateurs/managerrh/:id'
+                      },
+            'bap' : { 
+                        method: 'GET',
+                        isArray: true,
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/collaborateurs/bapstatut/:idencadrant/:statut'
+                      },
             'update': { method:'PUT' },
-            // 'bytags': { 
-            //             method: 'GET',
-            //             isArray: true,
-                        
-            //             url: 'http://localhost:8080/hrpms/resources/users/tag/:tag'
-            //           },
+            
             'save': { method:'POST' }
         });
     });
