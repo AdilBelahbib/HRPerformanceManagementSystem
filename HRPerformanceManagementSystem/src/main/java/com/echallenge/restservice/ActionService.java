@@ -35,7 +35,7 @@ public class ActionService {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Path("/bycollaborateur/{id}")
+	@Path("/collaborateur/{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<Action> getActionByCollaborateur(@PathParam("id") int id) {
@@ -47,8 +47,12 @@ public class ActionService {
 		List<Action> actions = null;
 
 		if (collaborateur != null) {
-			actions = session.createQuery("from Action act WHERE act.collaborateur = :collaborateur")
-					.setEntity("collaborateur", collaborateur).list();
+			actions = session.createQuery(
+					" select act from Action act , Collaborateur col"
+					+ " where col = :collaborateur"
+					+ " AND act IN elements(col.plansAmelioration)")
+					.setEntity("collaborateur", collaborateur)
+					.list();
 		}
 
 		session.getTransaction().commit();
@@ -70,7 +74,6 @@ public class ActionService {
 		return action;
 	}
 
-	@Path("/ajouter")
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

@@ -39,7 +39,7 @@ public class ObjectifService {
 		return objectif;
 	}
 	
-	@Path("ficheobjectifscourants/bycollaborateur/{id}")
+	@Path("ficheobjectifscourants/collaborateur/{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public FicheObjectifs getFicheObjectifsCourantsByCollaborateur(@PathParam("id") int id)
@@ -54,9 +54,10 @@ public class ObjectifService {
 		if(collaborateur != null)
 		{
 			ficheObjectifs = (FicheObjectifs) session.createQuery(
-					"from FicheObjectifs fiche"
-					+ " WHERE fiche.collaborateur = :collaborateur"
-					+ " ORDER BY fiche.dateFicheObjectifs DESC")
+					" select fiche from FicheObjectifs fiche, Collaborateur col"
+					+ " where col = :collaborateur"
+					+ " AND fiche IN elements(col.ficheObjectifs)"
+					+ " ORDER BY fiche.fichesEvaluations DESC")
 					.setEntity("collaborateur", collaborateur).setMaxResults(1).uniqueResult();
 		}
 		
@@ -65,7 +66,7 @@ public class ObjectifService {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Path("ficheobjectifs/bycollaborateur/{id}")
+	@Path("ficheobjectifs/collaborateur/{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<FicheObjectifs> getFicheObjectifsByCollaborateur(@PathParam("id") int id)
@@ -80,9 +81,10 @@ public class ObjectifService {
 		if(collaborateur != null)
 		{
 			fichesObjectifs = session.createQuery(
-					"from FicheObjectifs fiche"
-					+ " WHERE fiche.collaborateur = :collaborateur"
-					+ " ORDER BY fiche.dateFicheObjectifs DESC")
+					" select fiche from FicheObjectifs fiche, Collaborateur col"
+					+ " where col = :collaborateur"
+					+ " AND fiche IN elements(col.ficheObjectifs)"
+					+ " ORDER BY fiche.fichesEvaluations DESC")
 					.setEntity("collaborateur", collaborateur).list();
 		}
 		
@@ -126,12 +128,12 @@ public class ObjectifService {
 		if((objectif != null) && (encadrant != null))
 		{
 			evaluation = new Evaluation();
-			evaluation.setEncadrant(encadrant);
 			evaluation.setObjectif(objectif);
 			evaluation.setPoids(1);
 			evaluation.setResultat(0.0);
 			
-			session.save(evaluation);
+			encadrant.getEvaluations().add(evaluation);
+			session.update(encadrant);
 		}
 		
 		session.getTransaction().commit();

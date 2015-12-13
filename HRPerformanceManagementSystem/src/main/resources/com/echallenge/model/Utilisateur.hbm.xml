@@ -58,17 +58,12 @@
 
 			<join table="collaborateur">
 				<key column="id" />
-
-				<many-to-one name="managerRh" class="ManagerRh" lazy="false">
-					<column name="id_manager" />
-				</many-to-one>
-
 			</join>
 
 		</subclass>
 
 		<subclass name="Encadrant" discriminator-value="E">
-			<set name="evaluations" table="EVALUATION" inverse="true" lazy="false">
+			<set name="evaluations" table="EVALUATION" inverse="true" lazy="false" cascade="all">
 				<key column="idEncadrant" />
 				<one-to-many class="Evaluation" />
 			</set>
@@ -76,11 +71,6 @@
 			<set name="feedbacks" table="FEEDBACK" inverse="true" lazy="false">
 				<key column="idEncadrant" />
 				<one-to-many class="Feedback" />
-			</set>
-
-			<set name="demandesBIP" table="DEMANDE_BIP" inverse="true" lazy="false">
-				<key column="idEncadrant" />
-				<one-to-many class="DemandeBIP" />
 			</set>
 		</subclass>
 	</class>

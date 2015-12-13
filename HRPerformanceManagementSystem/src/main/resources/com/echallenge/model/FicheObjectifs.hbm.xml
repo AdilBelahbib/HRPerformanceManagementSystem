@@ -10,9 +10,7 @@
             <column name="ID" />
             <generator class="native" />
         </id>
-        
-        <many-to-one name="collaborateur" class="Collaborateur" column="idCollaborateur"></many-to-one>
-        
+              
         <property name="dateFicheObjectifs" type="java.util.Date">
             <column name="dateFicheObjectifs" />
         </property>

@@ -77,7 +77,9 @@ public class FeedbackService {
 		if(encadrant != null)
 		{
 			feedbacks = session.createQuery(
-					"from Feedback feed WHERE feed.encadrant = :encadrant")
+					" select feed from Feedback feed, Encadrant enc"
+					+ " where enc = :encadrant"
+					+ " AND feed IN elements(enc.feedbacks)")
 			.setEntity("encadrant", encadrant)
 			.list();
 		}

@@ -1,14 +1,17 @@
 package com.echallenge.restservice;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.hibernate.Session;
 
 import com.echallenge.model.Administrateur;
+import com.echallenge.model.AuthAccessElement;
 import com.echallenge.model.Collaborateur;
 import com.echallenge.model.Encadrant;
 import com.echallenge.model.ManagerRh;
@@ -23,7 +26,7 @@ public class UtilisateurService {
 	@Path("auth/{email}/{mdp}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Utilisateur authentification(@PathParam("email") String email, @PathParam("mdp") String mdp) {
+	public AuthAccessElement authentification(@Context HttpServletRequest request, @PathParam("email") String email, @PathParam("mdp") String mdp) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
@@ -34,16 +37,27 @@ public class UtilisateurService {
 		
 		session.getTransaction().commit();
 		
-		if(utilisateur instanceof Collaborateur)
-			utilisateur.setType("C");
-		else if(utilisateur instanceof ManagerRh)
-			utilisateur.setType("M");
-		else if(utilisateur instanceof Encadrant)
-			utilisateur.setType("E");
-		else if(utilisateur instanceof Administrateur)
-			utilisateur.setType("A");
+		if(utilisateur != null)
+		{
+			if(utilisateur instanceof Collaborateur)
+				utilisateur.setType("C");
+			else if(utilisateur instanceof ManagerRh)
+				utilisateur.setType("M");
+			else if(utilisateur instanceof Encadrant)
+				utilisateur.setType("E");
+			else if(utilisateur instanceof Administrateur)
+				utilisateur.setType("A");
+			
+			AuthAccessElement authAccessElement = new AuthAccessElement();
+			authAccessElement.setUtilisateur(utilisateur);
+			authAccessElement.setToken(Security.getSalt());
+			
+			request.getSession().setAttribute(utilisateur.getEmail(), authAccessElement.getToken());
+			
+			return authAccessElement;
+		}
 		
-		return utilisateur;
+		return null;
 	}
 
 }

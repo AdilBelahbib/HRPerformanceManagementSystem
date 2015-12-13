@@ -35,7 +35,7 @@ public class FormationService {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Path("/bycollaborateur/{id}")
+	@Path("/collaborateur/{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<Formation> getFormationByCollaborateur(@PathParam("id") int id) {

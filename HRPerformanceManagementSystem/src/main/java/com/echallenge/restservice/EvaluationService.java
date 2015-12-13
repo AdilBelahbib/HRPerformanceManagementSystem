@@ -50,8 +50,9 @@ public class EvaluationService {
 		if(collaborateur != null)
 		{
 			ficheEvaluations = (FicheEvaluations) session.createQuery(
-					"from FicheEvaluations fiche"
-					+ " WHERE fiche.collaborateur = :collaborateur"
+					" select fiche from FicheEvaluations fiche, Collaborateur col"
+					+ " where col = :collaborateur"
+					+ " AND fiche IN elements(col.fichesEvaluations)"
 					+ " ORDER BY fiche.dateEvaluation DESC")
 					.setEntity("collaborateur", collaborateur).setMaxResults(1).uniqueResult();
 		}
@@ -76,8 +77,9 @@ public class EvaluationService {
 		if(collaborateur != null)
 		{
 			fichesEvaluations = session.createQuery(
-					"from FicheEvaluations fiche"
-					+ " WHERE fiche.collaborateur = :collaborateur"
+					" select fiche from FicheEvaluations fiche, Collaborateur col"
+					+ " where col = :collaborateur"
+					+ " AND fiche IN elements(col.fichesEvaluations)"
 					+ " ORDER BY fiche.dateEvaluation DESC")
 					.setEntity("collaborateur", collaborateur).list();
 		}

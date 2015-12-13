@@ -16,6 +16,10 @@
 			<column name="dateBIP" />
 		</property>
 		
+		<many-to-one name="collaborateur" class="Collaborateur" fetch="join" cascade="update">
+			<column name="idCollaborateur" />
+		</many-to-one>
+		
 		<many-to-one name="ficheObjectifsTraites" class="FicheObjectifs" fetch="join">
 			<column name="idFicheObjectifsTraites" />
 		</many-to-one>

@@ -23,9 +23,6 @@
 		<property name="validation" type="boolean">
 			<column name="validation" />
 		</property>
-		<many-to-one name="encadrant" class="Encadrant" fetch="join">
-			<column name="idEncadrant" />
-		</many-to-one>
 
 		<many-to-one name="entete" class="Entete" unique="true" not-null="true" cascade="all" lazy="false">
 			<column name="idEntete" />

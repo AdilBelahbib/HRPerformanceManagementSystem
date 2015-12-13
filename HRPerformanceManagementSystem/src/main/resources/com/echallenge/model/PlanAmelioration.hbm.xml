@@ -9,12 +9,5 @@
             <column name="ID" />
             <generator class="native" />
         </id>
-        <many-to-one name="collaborateur" class="Collaborateur" fetch="join">
-            <column name="idCollaborateur" />
-        </many-to-one>
-        
-        <many-to-one name="bip" class="BIP" fetch="join">
-            <column name="idBip" />
-        </many-to-one>
     </class>
 </hibernate-mapping>

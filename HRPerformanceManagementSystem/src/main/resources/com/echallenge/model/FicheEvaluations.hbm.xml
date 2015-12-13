@@ -14,10 +14,6 @@
             <column name="dateEvaluation" />
         </property>
         
-        <many-to-one name="collaborateur" class="Collaborateur" fetch="join">
-            <column name="idCollaborateur" />
-        </many-to-one>
-        
         <property name="autorisationAcces" type="boolean">
             <column name="autorisationAcces	" />
         </property>

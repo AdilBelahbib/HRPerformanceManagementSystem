@@ -2,13 +2,10 @@ package com.echallenge.model;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement(name = "evaluation")
 public class Evaluation {
 	private Long id;
-	/** L'encadrant ayant fait l'�valuation */
-	private Encadrant encadrant;
 	/** L'objectif concern� par l'�valuation */
 	private Objectif objectif;
 	private int poids;
@@ -19,7 +16,6 @@ public class Evaluation {
 
 	public Evaluation(Long id, Encadrant encadrant, Objectif objectif, int poids, double resultat) {
 		this.id = id;
-		this.encadrant = encadrant;
 		this.objectif = objectif;
 		this.poids = poids;
 		this.resultat = resultat;
@@ -39,22 +35,6 @@ public class Evaluation {
 	 */
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	/**
-	 * @return the encadrant
-	 */
-	@XmlTransient
-	public Encadrant getEncadrant() {
-		return encadrant;
-	}
-
-	/**
-	 * @param encadrant
-	 *            the encadrant to set
-	 */
-	public void setEncadrant(Encadrant encadrant) {
-		this.encadrant = encadrant;
 	}
 
 	/**
@@ -118,7 +98,7 @@ public class Evaluation {
 		if (id != null)
 			result = prime * result + id.intValue();
 		else
-			result = prime * result + encadrant.hashCode() * objectif.hashCode();
+			result = prime * result + 	objectif.hashCode();
 		return result;
 	}
 

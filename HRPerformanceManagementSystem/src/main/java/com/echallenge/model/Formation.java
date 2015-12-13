@@ -18,18 +18,6 @@ public class Formation extends PlanAmelioration{
 		this.objectifs = new HashSet<Objectif>();
 	}
 
-	public Formation(Long id, Collaborateur collaborateur, BIP bip, boolean autoformation, Set<Objectif> objectifs) {
-		super(id, collaborateur, bip);
-		this.autoformation = autoformation;
-		this.objectifs = objectifs;
-	}
-
-	public Formation(Long id, Collaborateur collaborateur, BIP bip, boolean autoformation) {
-		super(id, collaborateur, bip);
-		this.autoformation = autoformation;
-		this.objectifs = new HashSet<Objectif>();
-	}
-
 	/**
 	 * @return the autoformation
 	 */

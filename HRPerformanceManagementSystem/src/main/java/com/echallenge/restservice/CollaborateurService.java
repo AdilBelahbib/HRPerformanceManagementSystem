@@ -24,25 +24,6 @@ import com.echallenge.util.Security;
 @Path("/collaborateurs")
 public class CollaborateurService {
 
-	@Path("/test")
-	@GET
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Collaborateur addTestCollaborateur() {
-		Collaborateur collaborateur = new Collaborateur();
-		collaborateur.setEmail("belahbib@mail.com");
-		collaborateur.setMotDePasse(Security.get_SHA_1_SecurePassword("motDePasse"));
-		collaborateur.setNom("BELAHBIB");
-		collaborateur.setPrenom("Adil");
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		ManagerRh manager = (ManagerRh) session.get(ManagerRh.class, new Long(151));
-		collaborateur.setManagerRh(manager);
-		session.save(collaborateur);
-		session.getTransaction().commit();
-
-		return collaborateur;
-	}
-
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<Collaborateur> getAllCollaborateurs() {
@@ -69,7 +50,7 @@ public class CollaborateurService {
 		return collaborateur;
 	}
 
-	@Path("/byencadrant/{id}")
+	@Path("/encadrant/{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<Collaborateur> getCollaborateurByEncadrant(@PathParam("id") int id) {
@@ -90,7 +71,7 @@ public class CollaborateurService {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Path("/bymanagerrh/{id}")
+	@Path("/managerrh/{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<Collaborateur> getCollaborateurByManagerRh(@PathParam("id") int id) {
@@ -100,7 +81,10 @@ public class CollaborateurService {
 		List<Collaborateur> collaborateurs = null;
 
 		if (managerRh != null) {
-			collaborateurs = session.createQuery("from Collaborateur as col" + " where col.managerRh = :managerRh")
+			collaborateurs = session.createQuery(
+					" select col from Collaborateur col, ManagerRh man"
+					+ " where man = :managerrh"
+					+ " AND col IN elements(man.collaborateurs)")
 					.setEntity("managerRh", managerRh).list();
 		}
 
@@ -109,7 +93,7 @@ public class CollaborateurService {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Path("/bybapstatut/{idencadrant}/{statut}")
+	@Path("/bapstatut/{idencadrant}/{statut}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<Collaborateur> getCollaborateurByBapStatut(@PathParam("idencadrant") int id, @PathParam("statut") StatutBAP statut) {
@@ -156,7 +140,6 @@ public class CollaborateurService {
 		return collaborateur;
 	}
 
-	//@Path("/ajouter")
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

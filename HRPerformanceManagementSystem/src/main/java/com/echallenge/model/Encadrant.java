@@ -6,7 +6,6 @@ import java.util.Set;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement(name = "encadrant")
 public class Encadrant extends Utilisateur{
@@ -14,23 +13,14 @@ public class Encadrant extends Utilisateur{
 	 * N.B: Nous pouvons en sortir les objectifs de l'encadrant*/
 	private Set<Evaluation> evaluations;
 	private Set<Feedback> feedbacks;
-	private Set<DemandeBIP> demandesBIP;
 	
 	public Encadrant() {
 		super();
 		this.evaluations = new HashSet<Evaluation>();
 		this.feedbacks = new HashSet<Feedback>();
-		this.demandesBIP = new HashSet<DemandeBIP>();
 	}
 
-	public Encadrant(Long id, String email, String motDePasse, String nom, String prenom, Profile profile,
-			Set<Evaluation> evaluations, Set<Feedback> feedbacks, Set<DemandeBIP> demandesBIP) {
-		super(id, email, motDePasse, nom, prenom, profile);
-		this.evaluations = evaluations;
-		this.feedbacks = feedbacks;
-		this.demandesBIP = demandesBIP;
-		
-	}
+	
 
 	public Encadrant(Long id, String email, String motDePasse, String nom, String prenom, Profile profile) {
 		super(id, email, motDePasse, nom, prenom, profile);
@@ -83,19 +73,4 @@ public class Encadrant extends Utilisateur{
 		this.feedbacks = feedbacks;
 	}
 
-	/**
-	 * @return the demandesBIP
-	 */
-	@XmlTransient
-	public Set<DemandeBIP> getDemandesBIP() {
-		return demandesBIP;
-	}
-
-	/**
-	 * @param demandesBIP the demandesBIP to set
-	 */
-	public void setDemandesBIP(Set<DemandeBIP> demandesBIP) {
-		this.demandesBIP = demandesBIP;
-	}
-	
 }

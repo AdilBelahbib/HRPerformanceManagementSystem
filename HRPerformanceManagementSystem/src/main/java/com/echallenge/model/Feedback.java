@@ -6,7 +6,6 @@ import java.util.Set;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement(name = "feedback")
 public class Feedback {
@@ -15,8 +14,6 @@ public class Feedback {
 	private Collaborateur collaborateur;
 	private String remarqueGenerale;
 	private boolean validation;
-	/**L'encadrant ayant fait le feedback*/
-	private Encadrant encadrant;
 	/**L'ent�te du feedback*/
 	private Entete entete;
 	/**Les qualifications par th�me*/
@@ -26,29 +23,6 @@ public class Feedback {
 		this.qualificationsTheme = new HashSet<QualificationTheme>();
 	}
 	
-	public Feedback(Long id, Collaborateur collaborateur, String remarqueGenerale, boolean validation,
-			Encadrant encadrant, Entete entete, Set<QualificationTheme> qualificationsTheme) {
-		super();
-		this.id = id;
-		this.collaborateur = collaborateur;
-		this.remarqueGenerale = remarqueGenerale;
-		this.validation = validation;
-		this.encadrant = encadrant;
-		this.entete = entete;
-		this.qualificationsTheme = qualificationsTheme;
-	}
-
-	public Feedback(Long id, Collaborateur collaborateur, String remarqueGenerale, boolean validation,
-			Encadrant encadrant, Entete entete) {
-		super();
-		this.id = id;
-		this.collaborateur = collaborateur;
-		this.remarqueGenerale = remarqueGenerale;
-		this.validation = validation;
-		this.encadrant = encadrant;
-		this.entete = entete;
-		this.qualificationsTheme = new HashSet<QualificationTheme>();
-	}
 
 	/**
 	 * @return the id
@@ -110,21 +84,7 @@ public class Feedback {
 		this.validation = validation;
 	}
 	
-	/**
-	 * @return the encadrant
-	 */
-	@XmlTransient
-	public Encadrant getEncadrant() {
-		return encadrant;
-	}
-
-	/**
-	 * @param encadrant the encadrant to set
-	 */
-	public void setEncadrant(Encadrant encadrant) {
-		this.encadrant = encadrant;
-	}
-
+	
 	/**
 	 * @return the entete
 	 */

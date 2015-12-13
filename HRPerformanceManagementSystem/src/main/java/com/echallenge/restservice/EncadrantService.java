@@ -21,23 +21,6 @@ import com.echallenge.util.Security;
 @Path("/encadrants")
 public class EncadrantService {
 	
-	@Path("/test")
-	@GET
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Encadrant addTestEncadrant() {
-		Encadrant encadrant = new Encadrant();
-		encadrant.setEmail("adil@mail.com");
-		encadrant.setMotDePasse(Security.get_SHA_1_SecurePassword("motDePasse"));
-		encadrant.setNom("BELAHBIB");
-		encadrant.setPrenom("Adil");
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		session.save(encadrant);
-		session.getTransaction().commit();
-
-		return encadrant;
-	}
-	
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<Encadrant> getAllEncadrants() {
@@ -84,7 +67,6 @@ public class EncadrantService {
 		return encadrant;
 	}
 
-	@Path("/ajouter")
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

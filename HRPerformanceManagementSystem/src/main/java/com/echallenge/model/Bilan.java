@@ -10,15 +10,11 @@ public abstract class Bilan {
 	 * dans le cas de BAP)
 	 */
 	private FicheObjectifs ficheObjectifsTraites;
+	private Collaborateur collaborateur;
 
 	public Bilan() {
 	}
 
-	public Bilan(Long id, Date dateBilan, FicheObjectifs ficheObjectifs) {
-		this.id = id;
-		this.dateBilan = dateBilan;
-		this.ficheObjectifsTraites = ficheObjectifs;
-	}
 
 	/**
 	 * @return the id
@@ -49,6 +45,22 @@ public abstract class Bilan {
 	public void setDateBilan(Date dateBilan) {
 		this.dateBilan = dateBilan;
 	}
+
+	/**
+	 * @return the collaborateur
+	 */
+	public Collaborateur getCollaborateur() {
+		return collaborateur;
+	}
+
+
+	/**
+	 * @param collaborateur the collaborateur to set
+	 */
+	public void setCollaborateur(Collaborateur collaborateur) {
+		this.collaborateur = collaborateur;
+	}
+
 
 	/**
 	 * @return the ficheObjectifsTraites
@@ -100,15 +112,4 @@ public abstract class Bilan {
 		return true;
 	}
 
-	/**
-	 * R�cuperer le collaborateur concern�
-	 * 
-	 * @return Le collaborateur concern� par le Bilan
-	 */
-	public Collaborateur getCollaborateur() {
-		if (this.ficheObjectifsTraites != null)
-			return this.ficheObjectifsTraites.getCollaborateur();
-
-		return null;
-	}
 }

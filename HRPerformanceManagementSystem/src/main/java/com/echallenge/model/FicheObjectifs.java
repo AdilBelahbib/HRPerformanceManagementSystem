@@ -7,13 +7,10 @@ import java.util.Set;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement(name = "ficheobjectifs")
 public class FicheObjectifs {
 	private Long id;
-	/**Le collaborateur concerné*/
-	private Collaborateur collaborateur;
 	private Date dateFicheObjectifs;
 	/**Le droit d'accès pour le collaborateur concern�*/
 	private boolean autorisationAcces;
@@ -21,23 +18,6 @@ public class FicheObjectifs {
 	private Set<Objectif> objectifs;
 	
 	public FicheObjectifs() {
-		this.objectifs = new HashSet<Objectif>();
-	}
-
-	public FicheObjectifs(Long id, Collaborateur collaborateur, Date dateFicheObjectifs, boolean autorisationAcces,
-			Set<Objectif> objectifs) {
-		this.id = id;
-		this.collaborateur = collaborateur;
-		this.dateFicheObjectifs = dateFicheObjectifs;
-		this.autorisationAcces = autorisationAcces;
-		this.objectifs = objectifs;
-	}
-
-	public FicheObjectifs(Long id, Collaborateur collaborateur, Date dateFicheObjectifs, boolean autorisationAcces) {
-		this.id = id;
-		this.collaborateur = collaborateur;
-		this.dateFicheObjectifs = dateFicheObjectifs;
-		this.autorisationAcces = autorisationAcces;
 		this.objectifs = new HashSet<Objectif>();
 	}
 
@@ -54,21 +34,6 @@ public class FicheObjectifs {
 	 */
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	/**
-	 * @return the collaborateur
-	 */
-	@XmlTransient
-	public Collaborateur getCollaborateur() {
-		return collaborateur;
-	}
-
-	/**
-	 * @param collaborateur the collaborateur to set
-	 */
-	public void setCollaborateur(Collaborateur collaborateur) {
-		this.collaborateur = collaborateur;
 	}
 
 	/**

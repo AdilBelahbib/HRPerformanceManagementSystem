@@ -2,6 +2,8 @@ package com.echallenge.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.SecureRandom;
 
 public class Security {
 	
@@ -24,6 +26,25 @@ public class Security {
             e.printStackTrace();
         }
         return generatedPassword;
+    }
+	
+	public static String getSalt()
+    {
+        //Always use a SecureRandom generator
+        SecureRandom sr;
+		try {
+			sr = SecureRandom.getInstance("SHA1PRNG", "SUN");
+			//Create array for salt
+	        byte[] salt = new byte[16];
+	        //Get a random salt
+	        sr.nextBytes(salt);
+	        //return salt
+	        return salt.toString();
+		} catch (NoSuchAlgorithmException | NoSuchProviderException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
     }
 	
 }

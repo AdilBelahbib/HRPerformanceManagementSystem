@@ -1,6 +1,5 @@
 package com.echallenge.model;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,15 +21,6 @@ public class BAP extends Bilan{
 	public BAP() {
 		super();
 		this.feedbacks = new HashSet<Feedback>();
-	}
-
-	public BAP(Long id, Date dateBilan, FicheObjectifs ficheObjectifsTraites, FicheObjectifs ficheObjectifsRediges,
-			FicheEvaluations ficheEvaluations, Set<Feedback> feedbacks, StatutBAP statut) {
-		super(id, dateBilan, ficheObjectifsTraites);
-		this.ficheObjectifsRediges = ficheObjectifsRediges;
-		this.ficheEvaluations = ficheEvaluations;
-		this.feedbacks = feedbacks;
-		this.statut = statut;
 	}
 
 	/**

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 09, 2015 at 04:30 PM
+-- Generation Time: Dec 10, 2015 at 07:35 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -69,7 +69,7 @@ INSERT INTO `bap` (`id`, `dateBAP`, `StatutBAP`, `idFicheObjectifsTraites`, `idF
 (1, '2015-12-16 00:00:00', 'ANNULE', 1, 2, 1),
 (2, '2015-12-02 00:00:00', 'VALIDE', 2, 3, 2),
 (3, '2015-12-08 00:00:00', 'EN_ATTENTE', 3, 3, 3),
-(4, '2015-12-20 00:00:00', 'REJETE', 4, 5, 4),
+(4, '2015-12-20 00:00:00', 'REJETE', 3, 5, 4),
 (5, '2015-12-20 00:00:00', 'REJETE', 4, 5, 4);
 
 -- --------------------------------------------------------
@@ -91,8 +91,8 @@ CREATE TABLE IF NOT EXISTS `bip` (
 --
 
 INSERT INTO `bip` (`id`, `dateBIP`, `idFicheObjectifsTraites`) VALUES
-(1, '2015-12-03 00:00:00', 3),
-(2, '2015-12-10 00:00:00', 4);
+(1, '2015-12-03 00:00:00', 5),
+(2, '2015-12-10 00:00:00', 3);
 
 -- --------------------------------------------------------
 
@@ -132,7 +132,17 @@ CREATE TABLE IF NOT EXISTS `demande_bip` (
   PRIMARY KEY (`id`),
   KEY `idCollaborateur` (`idCollaborateur`),
   KEY `idEncadrant` (`idEncadrant`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `demande_bip`
+--
+
+INSERT INTO `demande_bip` (`id`, `dateDemande`, `idCollaborateur`, `idEncadrant`) VALUES
+(1, '2015-12-04', 154, 149),
+(2, '2015-12-15', 155, 149),
+(3, '2015-12-06', 156, 161),
+(4, '2015-12-03', 155, 149);
 
 -- --------------------------------------------------------
 
@@ -214,7 +224,7 @@ CREATE TABLE IF NOT EXISTS `feedback` (
 
 INSERT INTO `feedback` (`id`, `remarqueGenerale`, `validation`, `idEntete`, `idCollaborateur`, `idEncadrant`, `idBap`) VALUES
 (1, 'wdwsddfsfsdfsd', b'1', 1, 154, 149, 1),
-(2, 'cxcxcvxfvfgfgfgfdfs', b'0', 2, 155, 149, 2);
+(2, 'cxcxcvxfvfgfgfgfdfs', b'0', 2, 155, 149, 1);
 
 -- --------------------------------------------------------
 
@@ -412,7 +422,15 @@ CREATE TABLE IF NOT EXISTS `qualification_theme` (
   `idFeedback` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idFeedback` (`idFeedback`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `qualification_theme`
+--
+
+INSERT INTO `qualification_theme` (`id`, `theme`, `qualification`, `remarque`, `idFeedback`) VALUES
+(1, 'PRODUCTIVITE', 'SELON_ATTENTE', '', 1),
+(2, 'GESTION_DES_EQUIPES', 'DEMONTRE_DES_FORCES', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -431,7 +449,7 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   KEY `idProfile` (`idProfile`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=161 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=163 ;
 
 --
 -- Dumping data for table `utilisateur`
@@ -447,7 +465,9 @@ INSERT INTO `utilisateur` (`id`, `email`, `motDePasse`, `nom`, `prenom`, `typeUt
 (157, 'belahbib4@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB2', 'Adil2', 'C', NULL),
 (158, 'belahbib5@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB2', 'Adil2', 'C', NULL),
 (159, 'tanji2@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'TANJI', 'Hamza', 'M', NULL),
-(160, 'tanji3@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'TANJI', 'Hamza', 'M', NULL);
+(160, 'tanji3@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'TANJI', 'Hamza', 'M', NULL),
+(161, 'adil2@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB', 'Adil', 'E', NULL),
+(162, 'adil3@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB', 'Adil', 'E', NULL);
 
 --
 -- Constraints for dumped tables

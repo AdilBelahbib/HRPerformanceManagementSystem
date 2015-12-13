@@ -7,7 +7,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement(name = "collaborateur")
 public class Collaborateur extends Utilisateur{
@@ -15,7 +14,6 @@ public class Collaborateur extends Utilisateur{
 	private Set<FicheObjectifs> ficheObjectifs;
 	private Set<FicheEvaluations> fichesEvaluations;
 	private Set<PlanAmelioration> plansAmelioration;
-	private ManagerRh managerRh;
 	
 	public Collaborateur() {
 		super();
@@ -24,22 +22,18 @@ public class Collaborateur extends Utilisateur{
 		this.plansAmelioration = new HashSet<PlanAmelioration>();
 	}
 
-	public Collaborateur(Long id, String email, String motDePasse, String nom, String prenom, Profile profile,
-			ManagerRh manager) {
+	public Collaborateur(Long id, String email, String motDePasse, String nom, String prenom, Profile profile) {
 		super(id, email, motDePasse, nom, prenom, profile);
-		this.managerRh = manager;
 		this.ficheObjectifs = new HashSet<FicheObjectifs>();
 		this.fichesEvaluations = new HashSet<FicheEvaluations>();
 		this.plansAmelioration = new HashSet<PlanAmelioration>();
 	}
 
 	public Collaborateur(Long id, String email, String motDePasse, String nom, String prenom, Profile profile,
-			Set<FicheObjectifs> ficheObjectifs, Set<FicheEvaluations> fichesEvaluations, ManagerRh manager
-			,Set<PlanAmelioration> plansAmelioration) {
+			Set<FicheObjectifs> ficheObjectifs, Set<FicheEvaluations> fichesEvaluations, Set<PlanAmelioration> plansAmelioration) {
 		super(id, email, motDePasse, nom, prenom, profile);
 		this.ficheObjectifs = ficheObjectifs;
 		this.fichesEvaluations = fichesEvaluations;
-		this.managerRh = manager;
 		this.plansAmelioration = plansAmelioration;
 	}
 
@@ -73,21 +67,6 @@ public class Collaborateur extends Utilisateur{
 	 */
 	public void setFichesEvaluations(Set<FicheEvaluations> fichesEvaluations) {
 		this.fichesEvaluations = fichesEvaluations;
-	}
-
-	/**
-	 * @return the manager
-	 */
-	@XmlTransient
-	public ManagerRh getManagerRh() {
-		return managerRh;
-	}
-
-	/**
-	 * @param manager the manager to set
-	 */
-	public void setManagerRh(ManagerRh manager) {
-		this.managerRh = manager;
 	}
 
 	/**

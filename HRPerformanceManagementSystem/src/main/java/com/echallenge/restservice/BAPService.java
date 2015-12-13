@@ -77,8 +77,9 @@ public class BAPService {
 		
 		FicheObjectifs ficheObjectifs = new FicheObjectifs();
 		ficheObjectifs.setAutorisationAcces(false);
-		ficheObjectifs.setCollaborateur(bap.getFicheEvaluations().getCollaborateur());
 		ficheObjectifs.setDateFicheObjectifs(new Date());
+		
+		bap.getCollaborateur().getFicheObjectifs().add(ficheObjectifs);
 		
 		for(Evaluation evaluation : bap.getFicheEvaluations().getEvaluations())
 		{
@@ -96,8 +97,6 @@ public class BAPService {
 		}
 		
 		bap.getFicheEvaluations().setNoteFinale(noteFinale);
-		
-		bap.setFicheObjectifsRediges(ficheObjectifs);
 		
 		session.update(bap);
 

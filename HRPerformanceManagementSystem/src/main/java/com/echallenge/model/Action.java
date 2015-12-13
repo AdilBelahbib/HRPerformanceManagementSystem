@@ -11,10 +11,6 @@ public class Action extends PlanAmelioration {
 		super();
 	}
 
-	public Action(Long id, Collaborateur collaborateur, BIP bip, String descriptionAction) {
-		super(id, collaborateur, bip);
-		this.descriptionAction = descriptionAction;
-	}
 
 	/**
 	 * @return the descriptionAction

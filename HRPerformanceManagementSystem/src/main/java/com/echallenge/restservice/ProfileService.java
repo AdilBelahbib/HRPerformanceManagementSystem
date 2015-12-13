@@ -46,10 +46,10 @@ public class ProfileService {
 		return profile;
 	}
 	
-	@Path("/bycode/{code}")
+	@Path("/code/{code}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Profile getProfileByCode(@PathParam("code") String code) {
+	public Profile getProfileCode(@PathParam("code") String code) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 

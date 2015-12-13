@@ -2,21 +2,12 @@ package com.echallenge.model;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.bind.annotation.XmlTransient;
 
 @XmlSeeAlso({Action.class, Formation.class}) 
 public class PlanAmelioration {
 	private Long id;
-	private Collaborateur collaborateur;
-	private BIP bip;
 	
 	public PlanAmelioration() {
-	}
-	
-	public PlanAmelioration(Long id, Collaborateur collaborateur, BIP bip) {
-		this.id = id;
-		this.collaborateur = collaborateur;
-		this.bip = bip;
 	}
 
 	/**
@@ -34,37 +25,6 @@ public class PlanAmelioration {
 		this.id = id;
 	}
 
-	/**
-	 * @return the collaborateur
-	 */
-	@XmlTransient
-	public Collaborateur getCollaborateur() {
-		return collaborateur;
-	}
-
-	/**
-	 * @param collaborateur the collaborateur to set
-	 */
-	public void setCollaborateur(Collaborateur collaborateur) {
-		this.collaborateur = collaborateur;
-	}
-	
-	
-	
-	/**
-	 * @return the bip
-	 */
-	@XmlTransient
-	public BIP getBip() {
-		return bip;
-	}
-
-	/**
-	 * @param bip the bip to set
-	 */
-	public void setBip(BIP bip) {
-		this.bip = bip;
-	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -75,9 +35,6 @@ public class PlanAmelioration {
 		int result = 1;
 		if(id != null)
 			result = prime * result + id.intValue();
-		else
-			result = prime * result + collaborateur.hashCode();
-
 			
 		return result;
 	}

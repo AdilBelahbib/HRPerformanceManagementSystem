@@ -58,7 +58,6 @@ public class HibernateMappingTest {
 		collaborateur.setPrenom("prenomCollaborateur");
 		collaborateur.setNom("nomCollaborateur");
 		collaborateur.setMotDePasse("motDePasseCollaborateur");
-		collaborateur.setManagerRh(manager);
 		
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
@@ -102,7 +101,6 @@ public class HibernateMappingTest {
 		collaborateur.setPrenom("prenomCollaborateur2");
 		collaborateur.setNom("nomCollaborateur2");
 		collaborateur.setMotDePasse("motDePasseCollaborateur2");
-		collaborateur.setManagerRh(manager);
 		
 		Objectif obj1 = new Objectif();
 		obj1.setDescriptionObjectif("Objectif 1");
@@ -119,7 +117,6 @@ public class HibernateMappingTest {
 		ficheObjectifs.setDateFicheObjectifs(new Date());
 		ficheObjectifs.getObjectifs().add(obj1);
 		ficheObjectifs.getObjectifs().add(obj2);
-		ficheObjectifs.setCollaborateur(collaborateur);
 		collaborateur.getFicheObjectifs().add(ficheObjectifs);
 		
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -163,9 +160,7 @@ public class HibernateMappingTest {
 		collaborateur.setEmail("collaborateur3@mail.com");
 		collaborateur.setPrenom("prenomCollaborateur2");
 		collaborateur.setNom("nomCollaborateur2");
-		collaborateur.setMotDePasse("motDePasseCollaborateur2");
-		collaborateur.setManagerRh(manager);
-		
+		collaborateur.setMotDePasse("motDePasseCollaborateur2");		
 		
 		Objectif obj1 = new Objectif();
 		obj1.setDescriptionObjectif("Objectif 1");
@@ -182,23 +177,19 @@ public class HibernateMappingTest {
 		ficheObjectifs.setDateFicheObjectifs(new Date());
 		ficheObjectifs.getObjectifs().add(obj1);
 		ficheObjectifs.getObjectifs().add(obj2);
-		ficheObjectifs.setCollaborateur(collaborateur);
 		collaborateur.getFicheObjectifs().add(ficheObjectifs);
 		
 		FicheEvaluations ficheEvaluations = new FicheEvaluations();
 		ficheEvaluations.setAutorisationAcces(true);
-		ficheEvaluations.setCollaborateur(collaborateur);
 		ficheEvaluations.setDateEvaluation(new Date());
 		
 		Evaluation e1 = new Evaluation();
 		e1.setObjectif(obj1);
-		e1.setEncadrant(encadrant);
 		e1.setPoids(5);
 		e1.setResultat(15.3);
 		
 		Evaluation e2 = new Evaluation();
 		e2.setObjectif(obj2);
-		e2.setEncadrant(encadrant);
 		e2.setPoids(52);
 		e2.setResultat(215.3);
 		
@@ -254,9 +245,7 @@ public class HibernateMappingTest {
 		collaborateur.setEmail("collaborateur4@mail.com");
 		collaborateur.setPrenom("prenomCollaborateur2");
 		collaborateur.setNom("nomCollaborateur2");
-		collaborateur.setMotDePasse("motDePasseCollaborateur2");
-		collaborateur.setManagerRh(manager);
-		
+		collaborateur.setMotDePasse("motDePasseCollaborateur2");		
 		
 		Objectif obj1 = new Objectif();
 		obj1.setDescriptionObjectif("Objectif 1");
@@ -283,26 +272,20 @@ public class HibernateMappingTest {
 		ficheObjectifs.setAutorisationAcces(true);
 		ficheObjectifs.setDateFicheObjectifs(new Date());
 		ficheObjectifs.getObjectifs().add(obj1);
-		ficheObjectifs.getObjectifs().add(obj2);
-		ficheObjectifs.setCollaborateur(collaborateur);
-		
+		ficheObjectifs.getObjectifs().add(obj2);		
 		
 		collaborateur.getFicheObjectifs().add(ficheObjectifs);
 		
 		Action action1 = new Action();
-		action1.setDescriptionAction("Action 1");
-		action1.setCollaborateur(collaborateur);
-		
+		action1.setDescriptionAction("Action 1");		
 		
 		Action action2 = new Action();
 		action2.setDescriptionAction("Action 2");
-		action2.setCollaborateur(collaborateur);
 		
 		Formation formation = new Formation();
 		formation.setAutoformation(true);
 		formation.getObjectifs().add(obj3);
 		formation.getObjectifs().add(obj4);
-		formation.setCollaborateur(collaborateur);
 		
 		collaborateur.getPlansAmelioration().add(action1);
 		collaborateur.getPlansAmelioration().add(action2);
@@ -314,10 +297,6 @@ public class HibernateMappingTest {
 		bip.getPlansAmelioration().add(action1);
 		bip.getPlansAmelioration().add(action2);
 		bip.getPlansAmelioration().add(formation);
-		
-		action1.setBip(bip);
-		action2.setBip(bip);
-		formation.setBip(bip);
 		
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
@@ -377,7 +356,6 @@ public class HibernateMappingTest {
 		collaborateur.setPrenom("prenomCollaborateur2");
 		collaborateur.setNom("nomCollaborateur2");
 		collaborateur.setMotDePasse("motDePasseCollaborateur2");
-		collaborateur.setManagerRh(manager);
 		
 		Encadrant encadrant = new Encadrant();
 		encadrant.setEmail("encadrant5@mail.com");
@@ -421,29 +399,24 @@ public class HibernateMappingTest {
 		ficheObjectifs.setDateFicheObjectifs(new Date());
 		ficheObjectifs.getObjectifs().add(obj1);
 		ficheObjectifs.getObjectifs().add(obj2);
-		ficheObjectifs.setCollaborateur(collaborateur);
 		
 		FicheObjectifs ficheObjectifs2 = new FicheObjectifs();
 		ficheObjectifs2.setAutorisationAcces(false);
 		ficheObjectifs2.setDateFicheObjectifs(new Date());
 		ficheObjectifs2.getObjectifs().add(obj5);
 		ficheObjectifs2.getObjectifs().add(obj6);
-		ficheObjectifs2.setCollaborateur(collaborateur);
 		
 		FicheEvaluations ficheEvaluations = new FicheEvaluations();
 		ficheEvaluations.setAutorisationAcces(true);
-		ficheEvaluations.setCollaborateur(collaborateur);
 		ficheEvaluations.setDateEvaluation(new Date());
 		
 		Evaluation e1 = new Evaluation();
 		e1.setObjectif(obj1);
-		e1.setEncadrant(encadrant);
 		e1.setPoids(5);
 		e1.setResultat(15.3);
 		
 		Evaluation e2 = new Evaluation();
 		e2.setObjectif(obj2);
-		e2.setEncadrant(encadrant);
 		e2.setPoids(52);
 		e2.setResultat(215.3);
 		
@@ -490,7 +463,6 @@ public class HibernateMappingTest {
 		
 		
 		Feedback f1 = new Feedback();
-		f1.setEncadrant(encadrant);
 		f1.setCollaborateur(collaborateur);
 		f1.setEntete(en1);
 		f1.setValidation(true);
@@ -500,7 +472,6 @@ public class HibernateMappingTest {
 		f1.getQualificationsTheme().add(qt3);
 		
 		Feedback f2 = new Feedback();
-		f2.setEncadrant(encadrant);
 		f2.setCollaborateur(collaborateur);
 		f2.setEntete(en2);
 		f2.setValidation(false);

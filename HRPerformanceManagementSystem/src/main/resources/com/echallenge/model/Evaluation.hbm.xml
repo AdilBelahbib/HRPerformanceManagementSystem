@@ -10,10 +10,6 @@
 			<generator class="native" />
 		</id>
 
-		<many-to-one name="encadrant" class="Encadrant" fetch="join">
-			<column name="idEncadrant" />
-		</many-to-one>
-
 		<many-to-one name="objectif" class="Objectif" fetch="join">
 			<column name="idObjectif" />
 		</many-to-one>

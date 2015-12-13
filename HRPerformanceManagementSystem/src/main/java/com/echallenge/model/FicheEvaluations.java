@@ -7,14 +7,11 @@ import java.util.Set;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement(name = "ficheevaluations")
 public class FicheEvaluations {
 	private Long id;
 	private Date dateEvaluation;
-	/**Le collaborateur concern�*/
-	private Collaborateur collaborateur;
 	/**Le droit d'acc�s pour le collaborateur concern�*/
 	private boolean autorisationAcces;
 	/**La liste des �valuations composant la fiche*/
@@ -24,24 +21,6 @@ public class FicheEvaluations {
 	public FicheEvaluations() {
 		this.evaluations = new HashSet<Evaluation>();
 	}
-
-	public FicheEvaluations(Long id, Date dateEvaluation, boolean autorisationAcces, Collaborateur collaborateur) {
-		this.id = id;
-		this.dateEvaluation = dateEvaluation;
-		this.autorisationAcces = autorisationAcces;
-		this.collaborateur = collaborateur;
-		this.evaluations = new HashSet<Evaluation>();
-	}
-
-	public FicheEvaluations(Long id, Date dateEvaluation, Collaborateur collaborateur, boolean autorisationAcces,
-			Set<Evaluation> evaluations) {
-		this.id = id;
-		this.dateEvaluation = dateEvaluation;
-		this.collaborateur = collaborateur;
-		this.autorisationAcces = autorisationAcces;
-		this.evaluations = evaluations;
-	}
-
 	
 	
 	/**
@@ -74,20 +53,6 @@ public class FicheEvaluations {
 		this.dateEvaluation = dateEvaluation;
 	}
 
-	/**
-	 * @return the collaborateur
-	 */
-	@XmlTransient
-	public Collaborateur getCollaborateur() {
-		return collaborateur;
-	}
-
-	/**
-	 * @param collaborateur the collaborateur to set
-	 */
-	public void setCollaborateur(Collaborateur collaborateur) {
-		this.collaborateur = collaborateur;
-	}
 
 	/**
 	 * @return the autorisationAcces
@@ -144,7 +109,7 @@ public class FicheEvaluations {
 		if(id != null)
 			result = prime * result + id.intValue();
 		else
-			result = prime * result + collaborateur.hashCode()*dateEvaluation.hashCode();
+			result = prime * result + 	dateEvaluation.hashCode();
 		return result;
 	}
 
