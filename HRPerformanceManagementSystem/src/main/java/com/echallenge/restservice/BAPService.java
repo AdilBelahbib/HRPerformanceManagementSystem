@@ -53,9 +53,8 @@ public class BAPService {
 		if(collaborateur != null)
 		{
 			baps = session.createQuery(
-					" select bap from BAP bap , Collaborateur col"
-					+ " where col = :collaborateur"
-					+ " AND bap.ficheObjectifsTraites IN elements(col.ficheObjectifs)"
+					" select bap from BAP bap"
+					+ " where bap.collaborateur = :collaborateur"
 					+ " ORDER BY bap.dateBilan DESC")
 					.setEntity("collaborateur", collaborateur)
 					.list();
@@ -63,6 +62,32 @@ public class BAPService {
 
 		session.getTransaction().commit();
 		return baps;
+	}
+	
+	@Path("/courant/collaborateur/{id}")
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public BAP getBapCourantByCollaborateur(@PathParam("id") int id) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+
+		Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
+
+		BAP bap = null;
+
+		if(collaborateur != null)
+		{
+			bap = (BAP) session.createQuery(
+					"select bap from BAP bap"
+					+ " where bap.collaborateur = :collaborateur"
+					+ " AND bap.statut = 'EN_COURS'"
+					+ " ORDER BY bap.dateBilan DESC")
+					.setEntity("collaborateur", collaborateur).setMaxResults(1)
+					.uniqueResult();
+		}
+
+		session.getTransaction().commit();
+		return bap;
 	}
 	
 	@Path("/valider")

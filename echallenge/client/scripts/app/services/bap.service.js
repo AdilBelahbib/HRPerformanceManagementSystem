@@ -13,6 +13,11 @@ app
                         method: 'GET',
                         url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/baps/collaborateur/:id'
                       },
+            'bapCourant' :
+            {
+                     method: 'GET',
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/baps/courant/collaborateur/:id'
+            },
             'valider' : {
                     method : 'POST',
                     isArray:false,

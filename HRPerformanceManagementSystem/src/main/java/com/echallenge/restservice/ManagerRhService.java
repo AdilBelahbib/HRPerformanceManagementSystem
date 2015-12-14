@@ -72,9 +72,10 @@ public class ManagerRhService {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
-		ManagerRh managerRhPersiste = (ManagerRh) session.get(ManagerRh.class, managerRh.getId());
+		String mdp = (String) session.createQuery("select ma.motDePasse from ManagerRh ma WHERE ma = :manager")
+				.setEntity("manager", managerRh).uniqueResult();
 
-		if (!managerRh.getMotDePasse().equals(managerRhPersiste.getMotDePasse()))
+		if (!managerRh.getMotDePasse().equals(mdp))
 			managerRh.setMotDePasse(Security.get_SHA_1_SecurePassword(managerRh.getMotDePasse()));
 
 		session.update(managerRh);
@@ -84,7 +85,6 @@ public class ManagerRhService {
 		return managerRh;
 	}
 
-	@Path("/ajouter")
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

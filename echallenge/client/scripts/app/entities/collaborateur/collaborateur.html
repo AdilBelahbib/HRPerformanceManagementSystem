@@ -6,8 +6,8 @@
     <h5>objectifs de l'année suivante  </h5>
   </div><!-- /.col-lg-6 -->
   <div class="col-lg-2 pull-right ">
-    <button class="btn btn-sm btn-success">valider</button>
-              <button class="btn btn-sm btn-danger">rejeter</button>
+    <button class="btn btn-sm btn-success" ng-click="valider()">valider</button>
+              <button class="btn btn-sm btn-danger" ng-click="rejeter()">rejeter</button>
   
   </div><!-- /.col-lg-6 -->
 </div>
@@ -25,7 +25,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="objectif in currentfiche.objectifs">
+          <tr ng-repeat="objectif in ficheEnAttente.objectifs">
             <th scope="row" class="text-center ">{{objectif.id}}</th>
                         <td>{{objectif.descriptionObjectif}}</td>
                         <td>{{objectif.mesureObjectif}}</td> 
@@ -84,13 +84,13 @@
 </div>
         </div>
         <div class="col-md-6">
-        	<div class="jumbotron">
+          <div class="jumbotron">
       <h4>Archive de fiches d'objectifs :</h4>      
       <div class="list-group text-center" >
   <span ng-repeat="ficheobjectif in collaborateur.fichesobjectifs">
   <a href=""  ng-click="showObjectifs(ficheobjectif.id)"class="list-group-item">fiche d'objectif {{ficheobjectif.dateFicheObjectifs}}</a>
   </span>
-</div>    	
+</div>      
       <a href="#" class="pull-right">Voir toutes les fiches d'objectifs</a>
       <div class="clearfix"></div>
       </div>
@@ -98,7 +98,7 @@
         <div class="col-md-6"><div class="jumbotron">
       <h4>Archive de fiches d'évaluations :</h4>      
 
-    	<div class="list-group text-center">
+      <div class="list-group text-center">
   <a href="#" ng-repeat="ficheevaluation in collaborateur.fichesevaluations" class="list-group-item">fiche d'evaluation {{ficheevaluation.dateEvaluation}}</a>
 </div>
         </div>

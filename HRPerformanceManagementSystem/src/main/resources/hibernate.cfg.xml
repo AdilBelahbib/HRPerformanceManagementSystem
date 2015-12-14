@@ -24,7 +24,6 @@
 		<mapping resource="com/echallenge/model/FicheObjectifs.hbm.xml"></mapping>
 		<mapping resource="com/echallenge/model/Formation.hbm.xml"></mapping>
 		<mapping resource="com/echallenge/model/Objectif.hbm.xml"></mapping>
-		<mapping resource="com/echallenge/model/PlanAmelioration.hbm.xml"></mapping>
 		<mapping resource="com/echallenge/model/Profile.hbm.xml"></mapping>
 		<mapping resource="com/echallenge/model/Projet.hbm.xml"></mapping>
 		<mapping resource="com/echallenge/model/QualificationTheme.hbm.xml"></mapping>

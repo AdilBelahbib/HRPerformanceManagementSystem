@@ -6,27 +6,36 @@
 <hibernate-mapping package="com.echallenge.model">
 
 	<class name="BIP" table="bip">
-	
+
 		<id name="id" type="java.lang.Long">
 			<column name="ID" />
 			<generator class="native" />
 		</id>
-		
+
 		<property name="dateBilan" type="java.util.Date">
 			<column name="dateBIP" />
 		</property>
-		
-		<many-to-one name="collaborateur" class="Collaborateur" fetch="join" cascade="save-update" lazy="false">
+
+		<many-to-one name="collaborateur" class="Collaborateur"
+			fetch="join" cascade="save-update" lazy="false">
 			<column name="idCollaborateur" />
 		</many-to-one>
-		
-		<many-to-one name="ficheObjectifsTraites" class="FicheObjectifs" fetch="join" lazy="false">
+
+		<many-to-one name="ficheObjectifsTraites" class="FicheObjectifs"
+			fetch="join" lazy="false">
 			<column name="idFicheObjectifsTraites" />
 		</many-to-one>
 
-		<set name="plansAmelioration" table="plan_amelioration" inverse="false" lazy="false" cascade="all">
-			<key column="idBip"/>
-			<one-to-many class="PlanAmelioration" />
+		<set name="formations" table="formation" inverse="true"
+			lazy="false" cascade="delete,refresh">
+			<key column="idCollaborateur" />
+			<one-to-many class="Formation" />
+		</set>
+
+		<set name="actions" table="action" inverse="true" lazy="false"
+			cascade="delete,refresh">
+			<key column="idCollaborateur" />
+			<one-to-many class="Action" />
 		</set>
 	</class>
 </hibernate-mapping>

@@ -54,10 +54,11 @@ public class ObjectifService {
 		if(collaborateur != null)
 		{
 			ficheObjectifs = (FicheObjectifs) session.createQuery(
-					" select fiche from FicheObjectifs fiche, Collaborateur col"
+					" select bap.ficheObjectifsRediges from Collaborateur col, BAP bap"
 					+ " where col = :collaborateur"
-					+ " AND fiche IN elements(col.ficheObjectifs)"
-					+ " ORDER BY fiche.fichesEvaluations DESC")
+					+ " AND bap.collaborateur = col"
+					+ "	AND bap.statut = 'VALIDE'"
+					+ " ORDER BY bap.ficheObjectifsRediges.dateFicheObjectifs DESC")
 					.setEntity("collaborateur", collaborateur).setMaxResults(1).uniqueResult();
 		}
 		
@@ -84,12 +85,37 @@ public class ObjectifService {
 					" select fiche from FicheObjectifs fiche, Collaborateur col"
 					+ " where col = :collaborateur"
 					+ " AND fiche IN elements(col.ficheObjectifs)"
-					+ " ORDER BY fiche.fichesEvaluations DESC")
+					+ " ORDER BY fiche.dateFicheObjectifs DESC")
 					.setEntity("collaborateur", collaborateur).list();
 		}
 		
 		session.getTransaction().commit();
 		return fichesObjectifs;
+	}
+	
+	@Path("ficheobjectifs/encours/{id}")
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public FicheObjectifs getFicheObjectifsEnAttente(@PathParam("id") int id)
+	{
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+
+		Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
+		
+		FicheObjectifs ficheObjectifs = null;
+		
+		if(collaborateur != null)
+		{
+			ficheObjectifs = (FicheObjectifs) session.createQuery(
+					" select bap.ficheObjectifsRediges from BAP bap, Collaborateur col"
+					+ " where bap.collaborateur = col AND col = :collaborateur"
+					+ " AND bap.statut = 'EN_COURS'")
+					.setEntity("collaborateur", collaborateur).setMaxResults(1).uniqueResult();
+		}
+		
+		session.getTransaction().commit();
+		return ficheObjectifs;
 	}
 	
 	@Path("/link/ficheobjectif/{idobjectif}/{idficheobjectif}")

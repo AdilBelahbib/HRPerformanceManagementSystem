@@ -10,29 +10,38 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "bip")
 public class BIP extends Bilan{
 	/**Les plans d'amélioration décidés lors du BIP*/
-	private Set<PlanAmelioration> plansAmelioration;
+	private Set<Formation> formations;
+	private Set<Action> actions;
 
 	public BIP() {
 		super();
-		this.plansAmelioration = new HashSet<PlanAmelioration>();
+		this.formations = new HashSet<Formation>();
+		this.actions = new HashSet<Action>();
 	}	
 
-
-	/**
-	 * @return the plansAmelioration
-	 */
-	@XmlElementWrapper(name = "plansamelioration")
+	@XmlElementWrapper(name = "formations")
 	@XmlElement
-	public Set<PlanAmelioration> getPlansAmelioration() {
-		return plansAmelioration;
+	public Set<Formation> getFormations() {
+		return formations;
 	}
 
-	/**
-	 * @param plansAmelioration the plansAmelioration to set
-	 */
-	public void setPlansAmelioration(Set<PlanAmelioration> plansAmelioration) {
-		this.plansAmelioration = plansAmelioration;
+
+	public void setFormations(Set<Formation> formations) {
+		this.formations = formations;
 	}
+
+	@XmlElementWrapper(name = "actions")
+	@XmlElement
+	public Set<Action> getActions() {
+		return actions;
+	}
+
+
+	public void setActions(Set<Action> actions) {
+		this.actions = actions;
+	}
+	
+	
 	
 	
 }

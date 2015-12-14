@@ -18,6 +18,11 @@ app
                         
                         url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/objectifs/ficheobjectifscourants/collaborateur/:id'
                       },
+              'ficheEnAttente' : {
+                    method :'GET',
+                    isArray : false,
+                    url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/objectifs/ficheobjectifs/encours/:id'
+              },
             'collaborateur': { 
                         method: 'GET',
                         isArray: false,

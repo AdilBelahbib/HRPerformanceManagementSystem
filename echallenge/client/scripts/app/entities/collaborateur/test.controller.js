@@ -1,7 +1,7 @@
 'use strict';
 
 app
-    .controller('TestController', function ($scope, $stateParams,$filter ,Manager) {
+    .controller('TestController', function ($scope, $stateParams,$filter ,Encadrant) {
         console.log("Testing the rest API");
          
          // Put/Post errors
@@ -20,12 +20,15 @@ app
                 
                 
 
-                Manager.get({id:151},function (result) {
+                Encadrant.get({id:149},function (result) {
                     
                    
                     console.log(result);
                     
-                    // Manager.update({id:150},result);
+                    result.evaluations[0].poids=-1;
+                    Encadrant.update({id:149},result);
+
+
                     
 
                     // Formation.save(result);

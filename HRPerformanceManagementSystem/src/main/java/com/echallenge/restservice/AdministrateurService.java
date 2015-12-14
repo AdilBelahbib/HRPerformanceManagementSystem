@@ -58,9 +58,10 @@ public class AdministrateurService {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		
-		Administrateur administrateurPersiste = (Administrateur)session.get(Administrateur.class, administrateur.getId());
+		String mdp = (String) session.createQuery("select admin.motDePasse from Administrateur admin WHERE admin = :admin")
+				.setEntity("admin", administrateur).uniqueResult();
 		
-		if(!administrateur.getMotDePasse().equals(administrateurPersiste.getMotDePasse()))
+		if(!administrateur.getMotDePasse().equals(mdp))
 			administrateur.setMotDePasse(Security.get_SHA_1_SecurePassword(administrateur.getMotDePasse()));
 			
 		session.update(administrateur);
@@ -70,7 +71,6 @@ public class AdministrateurService {
 		return administrateur;
 	}
 
-	@Path("/ajouter")
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

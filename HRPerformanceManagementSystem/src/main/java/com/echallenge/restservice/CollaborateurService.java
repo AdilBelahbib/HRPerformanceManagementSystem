@@ -127,10 +127,11 @@ public class CollaborateurService {
 	public Collaborateur modifierCollaborateur(Collaborateur collaborateur) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-
-		Collaborateur collaborateurPersiste = (Collaborateur) session.get(Collaborateur.class, collaborateur.getId());
-
-		if (!collaborateur.getMotDePasse().equals(collaborateurPersiste.getMotDePasse()))
+		
+		String mdp = (String) session.createQuery("select col.motDePasse from Collaborateur col WHERE col = :collaborateur")
+				.setEntity("collaborateur", collaborateur).uniqueResult();
+		
+		if (!collaborateur.getMotDePasse().equals(mdp))
 			collaborateur.setMotDePasse(Security.get_SHA_1_SecurePassword(collaborateur.getMotDePasse()));
 
 		session.update(collaborateur);

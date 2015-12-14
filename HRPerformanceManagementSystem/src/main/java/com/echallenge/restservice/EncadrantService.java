@@ -55,9 +55,10 @@ public class EncadrantService {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
-		Encadrant encadrantPersiste = (Encadrant) session.get(Encadrant.class, encadrant.getId());
+		String mdp = (String) session.createQuery("select enc.motDePasse from Encadrant enc WHERE enc = :encadrant")
+				.setEntity("encadrant", encadrant).uniqueResult();
 
-		if (!encadrant.getMotDePasse().equals(encadrantPersiste.getMotDePasse()))
+		if (!encadrant.getMotDePasse().equals(mdp))
 			encadrant.setMotDePasse(Security.get_SHA_1_SecurePassword(encadrant.getMotDePasse()));
 
 		session.update(encadrant);

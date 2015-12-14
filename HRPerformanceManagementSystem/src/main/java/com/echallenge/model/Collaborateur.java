@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -13,29 +12,17 @@ public class Collaborateur extends Utilisateur{
 	
 	private Set<FicheObjectifs> ficheObjectifs;
 	private Set<FicheEvaluations> fichesEvaluations;
-	private Set<PlanAmelioration> plansAmelioration;
+	private Set<Formation> formations;
+	private Set<Action> actions;
 	
 	public Collaborateur() {
 		super();
 		this.ficheObjectifs = new HashSet<FicheObjectifs>();
 		this.fichesEvaluations = new HashSet<FicheEvaluations>();
-		this.plansAmelioration = new HashSet<PlanAmelioration>();
+		this.formations = new HashSet<Formation>();
+		this.actions = new HashSet<Action>();
 	}
 
-	public Collaborateur(Long id, String email, String motDePasse, String nom, String prenom, Profile profile) {
-		super(id, email, motDePasse, nom, prenom, profile);
-		this.ficheObjectifs = new HashSet<FicheObjectifs>();
-		this.fichesEvaluations = new HashSet<FicheEvaluations>();
-		this.plansAmelioration = new HashSet<PlanAmelioration>();
-	}
-
-	public Collaborateur(Long id, String email, String motDePasse, String nom, String prenom, Profile profile,
-			Set<FicheObjectifs> ficheObjectifs, Set<FicheEvaluations> fichesEvaluations, Set<PlanAmelioration> plansAmelioration) {
-		super(id, email, motDePasse, nom, prenom, profile);
-		this.ficheObjectifs = ficheObjectifs;
-		this.fichesEvaluations = fichesEvaluations;
-		this.plansAmelioration = plansAmelioration;
-	}
 
 	/**
 	 * @return the ficheObjectifs
@@ -69,20 +56,26 @@ public class Collaborateur extends Utilisateur{
 		this.fichesEvaluations = fichesEvaluations;
 	}
 
-	/**
-	 * @return the plansAmelioration
-	 */
-	@XmlElementWrapper(name = "plansamelioration")
-	@XmlElementRef
-	public Set<PlanAmelioration> getPlansAmelioration() {
-		return plansAmelioration;
+	@XmlElementWrapper(name = "formations")
+	@XmlElement
+	public Set<Formation> getFormations() {
+		return formations;
 	}
 
-	/**
-	 * @param plansAmelioration the plansAmelioration to set
-	 */
-	public void setPlansAmelioration(Set<PlanAmelioration> plansAmelioration) {
-		this.plansAmelioration = plansAmelioration;
+
+	public void setFormations(Set<Formation> formations) {
+		this.formations = formations;
+	}
+
+	@XmlElementWrapper(name = "actions")
+	@XmlElement
+	public Set<Action> getActions() {
+		return actions;
+	}
+
+
+	public void setActions(Set<Action> actions) {
+		this.actions = actions;
 	}
 	
 	

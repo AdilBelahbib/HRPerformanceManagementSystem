@@ -1,14 +1,10 @@
 'use strict';
 
 app
-    .controller('CollaborateurController', function ($scope, $stateParams,$filter, Collaborateur , Objectif, Utilisateur) {
+    .controller('CollaborateurController', function ($scope, $stateParams,$filter, Collaborateur , Objectif, Utilisateur , Bap) {
         console.log("Testing the rest API");
         
-        $scope.collaborateurs = Collaborateur.query();
-        // id récupérer à partir de la session ouverte 
-          Utilisateur.auth({email:"belahbib@mail.com",mdp:"1829bca2a2e6210239ce329dabf70722a71d8873"},function(result){
-            $scope.role = "c";
-          });
+        
           Collaborateur.get({id: 154}, function(result) {
                 $scope.collaborateur = result;
                 
@@ -19,19 +15,39 @@ app
                 entity.dateEvaluation = $filter('date')(entity.dateEvaluation, 'yyyy-MM-dd');    
                 });
                 //filter provisoir 
+                
                 $scope.collaborateur.fichesobjectifs= $scope.collaborateur.fichesobjectifs.filter(function (entity) { return entity.autorisationAcces==1;});
                 $scope.collaborateur.fichesevaluations= $scope.collaborateur.fichesevaluations.filter(function (entity) { return entity.autorisationAcces==1;});
                 
                 
             });  
-        console.log($scope.collaborateurs);
+
         $scope.currentfiche =Objectif.currentfiche({id:154});
 
+        Bap.bapCourant({id:154},function(result)
+            {
+                $scope.bap =result;
+                $scope.ficheEnAttente = result.ficheObjectifsRediges;        
+            });
+        
+        
         $scope.loadAll=function  () {
-        	$scope.collaborateurs = Collaborateur.query();
+            $scope.collaborateurs = Collaborateur.query();
 
         }
-
+        $scope.valider =function ()
+        {
+            $scope.bap.statut = "VALIDE";
+            console.log($scope.bap);
+            Bap.update({id:154},$scope.bap);
+        }
+        
+        $scope.rejeter =function ()
+        {
+            $scope.bap.statut = "REJETE";
+            console.log($scope.bap);
+            Bap.update({id:154},$scope.bap);
+        }
         $scope.showObjectifs = function (id) {
                 $scope.hideobjectifs=false;
                 var fichesobjectif= $scope.collaborateur.fichesobjectifs.filter(function (entity) { return entity.id==id;});

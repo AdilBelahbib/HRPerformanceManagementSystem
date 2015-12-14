@@ -13,13 +13,10 @@ app
             $scope.collaborateurs = $scope.manager.collaborateurs;        
             console.log($scope.collaborateurs);
 
+            //creation  bap 
+            
 
 
         });  
         
-
-        
-
-
-
     });
