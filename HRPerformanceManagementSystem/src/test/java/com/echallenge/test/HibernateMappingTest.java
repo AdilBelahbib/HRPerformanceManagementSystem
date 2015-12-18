@@ -345,7 +345,6 @@ public class HibernateMappingTest {
 		
 		
 		Feedback f1 = new Feedback();
-		f1.setCollaborateur(collaborateur);
 		f1.setEntete(en1);
 		f1.setValidation(true);
 		f1.setRemarqueGenerale("Ceci est une remarque");
@@ -354,7 +353,6 @@ public class HibernateMappingTest {
 		f1.getQualificationsTheme().add(qt3);
 		
 		Feedback f2 = new Feedback();
-		f2.setCollaborateur(collaborateur);
 		f2.setEntete(en2);
 		f2.setValidation(false);
 		f2.setRemarqueGenerale("Ceci est une remarque 2");

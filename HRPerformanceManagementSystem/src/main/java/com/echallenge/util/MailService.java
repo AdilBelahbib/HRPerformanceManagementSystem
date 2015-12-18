@@ -2,25 +2,38 @@ package com.echallenge.util;
 
 import java.util.Properties;
 
-import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class MailServices{
+public class MailService{
+	
+	public void test()
+	{
+		System.out.println("TESTING ...");
+	}
 	
 	public static void sendMailSSL(String subject, String text, String[] recipients)
 	{
-		String recipientslist = "";
+		String recipientslist = "aa@fff.ccc,sss@ff.cc,sss@gg.cc";
+		System.out.println("HERE");
+		
+//		try {
+//			System.out.println(InternetAddress.parse(recipientslist).toString());
+//		} catch (AddressException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		//for(int i = 0; i < recipients.length; i++)
 			//recipients[i] = InternetAddress.parse(recipients);
 	}
 	
-	public static void main(String[] args) {
+	public void testFunction() {
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.socketFactory.port", "465");

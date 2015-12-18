@@ -27,9 +27,9 @@ public class JobInitializer extends HttpServlet {
 		System.out.println("JOB INITIALIZER INIT()");
 
 		try {
-			JobDetail job = JobBuilder.newJob(BAPJob.class).withIdentity("dummyJobName", "group1").build();
+			JobDetail job = JobBuilder.newJob(BAPJob.class).withIdentity("bapjob", "group1").build();
 
-			Trigger trigger = TriggerBuilder.newTrigger().withIdentity("dummyTriggerName", "group1")
+			Trigger trigger = TriggerBuilder.newTrigger().withIdentity("bapjobtrigger", "group1")
 					.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(20).repeatForever())
 					.build();
 
