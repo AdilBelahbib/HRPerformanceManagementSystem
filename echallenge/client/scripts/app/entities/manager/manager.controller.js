@@ -11,20 +11,8 @@ app
 
        Manager.get({id: 160}, function(result) {
             $scope.manager = result;
-            //collaborateur du managerRH avec un BAp statut en cours
+            //collaborateurs du managerRH avec un BAp statut en cours
             $scope.collaborateurs = $scope.manager.collaborateurs;        
-            // get Bap foreach collaborator
-            $scope.CollaborateursBaps=[];
-            $scope.collaborateurs.forEach(function (entity) {
-            
-                Bap.collaborateur({id:entity.id},function  (result) {
-                console.log(result);
-                $scope.CollaborateursBaps[entity.id]=result;
-                   
-                });
-                
-                
-            });
             });
     
         $scope.class = function  (bap) {

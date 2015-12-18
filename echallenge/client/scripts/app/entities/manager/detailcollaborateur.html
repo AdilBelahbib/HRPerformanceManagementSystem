@@ -2,58 +2,81 @@
   <div class="jumbotron">
 
 
-    <h3>Collaborateur : {{baps[0].collaborateur.nom}} {{baps[0].collaborateur.prenom}} </h3>
-  <div class="btn-group pull-right">
-  <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Actions <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu">
-    <li><a ui-sref="manager.fiches({ id : baps[0].collaborateur.id })">Archive de Fiches</a></li>
-      <li><a ui-sref="manager.bip({ id : baps[0].collaborateur.id })">Créer Bip</a></li>
-      <li><a>Imprimer Fiche</a></li>
-  </ul>
-</div>
-    <div class="col-md-12 table-header">
-  <br>
-</div>
+    <h3>Collaborateur :  </h3>
+    <br>
+    <div class="col-md-6">
+      <div class="well well-sm bg-light">
+        <div class="row">
+          <div class="col-md-3"><h4>Nom : </h4></div> <div class="col-md-9 pull-right "><h4  class="black-text">{{bap.collaborateur.nom}}</h4></div>
+        </div>
+        <div class="row">
+          <div class="col-md-3"><h4>Prenom : </h4></div> <div class="col-md-9 pull-right "><h4 class="black-text">{{bap.collaborateur.prenom}}</h4></div>
+        </div>
+        <div class="row">
+          <div class="col-md-3"><h4>Email : </h4></div> <div class="col-md-9 pull-right "><h4 class="black-text">{{bap.collaborateur.email}}</h4></div>
+        </div>
+      </div>
 
-    <table class="table  table-bordered  table-striped table-hover">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Statut</th>
-          <th>Action </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="bap in baps" class="{{class(bap)}}">
-          
-          
-          <td> 2015/12/21 </td>  
-          <td> {{bap.statut}} </td> 
+    </div>
+    <div class="col-md-6">
 
-          <td><a ui-sref ="manager.collaborateur({ id : bap.collaborateur.id })" class="btn btn-default "ng-click="exec(bap)">{{actions(bap)}}</a></td>
-        </tr>
-        
-      </tbody>
-    </table>
-    <div class="col-md-12 table-footer">
-  <br>
-</div>
-    <br><br>
+
+      <div class="row">
+        <div class="well well-sm bg-light center-block">
+          <h5>Actions :</h5>
+          <div class="col-md-4 center-block ">
+            <a ui-sref="manager.fiches({ id : bap.collaborateur.id })" class="btn btn-default">Archive de Fiches</a>
+          </div>
+          <div class="col-md-4 center-block">
+            <a ui-sref="manager.bip({ id : bap.collaborateur.id })" class="btn btn-warning">Créer un Bip</a>
+          </div>
+          <div class="col-md-4 center-block">
+            <a class="btn btn-primary">Imprimer Fiche</a>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="well well-sm bg-light center-block">
+          <h5>Bap :</h5>
+          <div class="col-md-4 center-block ">
+           Date : 2015/12/21
+         </div>
+         <div class="col-md-4 center-block">
+          Etat : {{bap.statut}}
+        </div>
+        <div class="col-md-4 center-block">
+          <div class="btn-group">
+            <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Actions <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="" ng-click="initValiderBap(bap)"  >Valider</a></li>
+              <li><a ng-click="initPreparerBap(bap)" href="" >Modifier</a></li>
+
+            </ul>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
   </div>
 
-  </div>
+  <div class="clearfix"></div>
+
+</div>
+
+</div>
 
 
-  </div>
+</div>
 
 
 
 
 <!-- modals -->
 
- <!-- preparer Bap modal  -->
+<!-- modification Bap modal  -->
 
 <div class="modal fade bs-example-modal-lg" id="BapModal2"  data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="mySmallModalLabel">
   <div class="modal-dialog modal-lg" role="document">
@@ -81,28 +104,29 @@
                 </tr>
               </thead>
               <tbody>
-                <tr   ng-repeat="objectif in bapToPrepare.ficheObjectifsRediges.objectifs">
+                <tr   ng-repeat="evaluation in bapToPrepare.ficheEvaluations.evaluations">
 
 
-                  <td >{{objectif.descriptionObjectif}}</td> 
-                  <td >{{objectif.mesureObjectif}}</td> 
+                  <td >{{evaluation.objectif.descriptionObjectif}}</td> 
+                  <td >{{evaluation.objectif.mesureObjectif}}</td> 
                   <td ><div class="progress">
-                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{objectif.avancementObjectif}}" aria-valuemin="0" aria-valuemax="100" style="width: {{objectif.avancementObjectif}}%;">
-                      {{objectif.avancementObjectif}}%
+                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{evaluation.objectif.avancementObjectif}}" aria-valuemin="0" aria-valuemax="100" style="width: {{evaluation.objectif.avancementObjectif}}%;">
+                      {{evaluation.objectif.avancementObjectif}}%
                     </div>
-                    <td> <select name="" id="" class="form-control"><option ng-repeat="encadrant in encadrants">{{encadrant.nom}} {{encadrant.prenom}}</option></select></td>
-                    <td><input type="text" class="form-control" ng-model="ev.poids[objectif.id]"></td>
+                    <td> {{evaluation.encadrant.nom}} {{evaluation.encadrant.prenom}} </td>
+                    <td><input type="text" class="form-control" ng-model="evaluation.poids"  ng-change="majPoid()"></td>
                   </div></td> 
-                  
-
                 </tr>
-
+                <tr>
+    <td colspan="5" class="text-center">Somme de poids: {{total}} % </td>
+  </tr>
               </tbody>
             </table>
+
           </div>
         </div>
         
-        <div class="alert alert-danger col-md-offset-1 col-md-10 " role="alert" ng-show="error">la somme des poids ne doit pas dépasser 100!</div>
+        <div class="alert alert-danger col-md-offset-1 col-md-10 " role="alert" ng-show="error">la somme des poids  doit être egale 100% !</div>
         <div class="clearfix"></div>
         
         <div class="modal-footer">
@@ -115,8 +139,8 @@
       </div>
       
     </div>
-    </div>
-    </div>
+  </div>
+</div>
 
 <!-- valider Bap Modal -->
 
@@ -127,46 +151,14 @@
       <div id="step1_1">
         <div class="modal-header">
           <button type="button" class="close" ng-click="modalDissmiss()" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="exampleModalLabel">Validation des objectifs de l'année précédente : </h4>
+          <h4 class="modal-title" id="exampleModalLabel">Feedback du collaborateur </h4>
+          
+          <div class="scrollable">
+            
+
+          </div>
         </div>
         <div class="modal-body">
-
-
-
-          <div>
-            <h5>{{bapToValidate.collaborateur.nom}} {{bapToValidate.collaborateurBap.prenom}} :</h5>
-            <table class="table  table-bordered  table-striped" >
-              <thead>
-                <tr>
-                  <th>Description</th>
-                  <th>Mesure</th>
-                  <th>Avancement</th>
-                  <th>Décision</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr   ng-repeat="objectif in bapToValidate.ficheObjectifsRediges.objectifs">
-
-
-                  <td >{{objectif.descriptionObjectif}}</td> 
-                  <td >{{objectif.mesureObjectif}}</td> 
-                  <td ><div class="progress">
-                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{objectif.avancementObjectif}}" aria-valuemin="0" aria-valuemax="100" style="width: {{objectif.avancementObjectif}}%;">
-                      {{objectif.avancementObjectif}}%
-                    </div>
-                  </div></td> 
-                  <td>
-                    <div  id="objectif{{objectif.id}}">
-                      <button class="btn btn-sm btn-success" ng-click="valider(objectif,$index)">Valider</button>
-                      <button class="btn btn-sm btn-warning" ng-click="reporter(objectif,$index)">Reporter</button>
-                    </div>
-                  </td>
-
-                </tr>
-
-              </tbody>
-            </table>
-          </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-info" id="nextbtn" ng-click="nextStep()">Suivant</button>
             <button type="button" class="btn btn-default"  ng-click="modalDissmiss()" data-dismiss="modal">fermer</button>
@@ -187,72 +179,72 @@
 
           <div>
            <h5>{{bapToValidate.collaborateur.nom}} {{bapToValidate.collaborateurBap.prenom}} :</h5>
-            <table class="table  table-bordered  table-striped" >
-              <thead>
-                <tr>
-                  <th>Description</th>
-                  <th>Mesure</th>
-                  <th>Avancement</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><input type="text" class="form-control" ng-model="newobjectif.descriptionObjectif"></td>
-                  <td><input type="text" class="form-control" ng-model="newobjectif.mesureObjectif"></td>
-                  <td><input type="text" class="form-control" ng-model="newobjectif.avancementObjectif"></td>
-                  <td><button class="btn btn-info" ng-click="addObjectif()">ajouter</button></td>
-                </tr>
-                <tr   ng-repeat="objectif in bapToValidate.ficheObjectifsRediges.objectifs">
+           <table class="table  table-bordered  table-striped" >
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Mesure</th>
+                <th>Avancement</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="text" class="form-control" ng-model="newobjectif.descriptionObjectif"></td>
+                <td><input type="text" class="form-control" ng-model="newobjectif.mesureObjectif"></td>
+                <td><input type="text" class="form-control" ng-model="newobjectif.avancementObjectif"></td>
+                <td><button class="btn btn-info" ng-click="addObjectif()">ajouter</button></td>
+              </tr>
+              <tr   ng-repeat="objectif in bapToValidate.ficheObjectifsRediges.objectifs">
 
 
-                  <td >{{objectif.descriptionObjectif}}</td> 
-                  <td >{{objectif.mesureObjectif}}</td> 
-                  <td ><div class="progress">
-                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{objectif.avancementObjectif}}" aria-valuemin="0" aria-valuemax="100" style="width: {{objectif.avancementObjectif}}%;">
-                      {{objectif.avancementObjectif}}%
-                    </div>
-                  </div></td> 
-                  <td>
-                    <div  id="objectif{{objectif.id}}">
-                      <button class="btn btn-sm btn-info" ng-click="">Modifier</button>
-                      <button class="btn btn-sm btn-danger" ng-click="supprimerObjectif($index)">Supprimer</button>
-                    </div>
-                  </td>
+                <td >{{objectif.descriptionObjectif}}</td> 
+                <td >{{objectif.mesureObjectif}}</td> 
+                <td ><div class="progress">
+                  <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{objectif.avancementObjectif}}" aria-valuemin="0" aria-valuemax="100" style="width: {{objectif.avancementObjectif}}%;">
+                    {{objectif.avancementObjectif}}%
+                  </div>
+                </div></td> 
+                <td>
+                  <div  id="objectif{{objectif.id}}">
+                    <button class="btn btn-sm btn-info" ng-click="">Modifier</button>
+                    <button class="btn btn-sm btn-danger" ng-click="supprimerObjectif($index)">Supprimer</button>
+                  </div>
+                </td>
 
-                </tr>
+              </tr>
 
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-info" id="nextbtn" ng-click="nextStep()">Suivant</button>
-          <button type="button" class="btn btn-default"  ng-click="modalDissmiss()" data-dismiss="modal">fermer</button>
-
+            </tbody>
+          </table>
         </div>
       </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" id="nextbtn" ng-click="nextStep()">Suivant</button>
+        <button type="button" class="btn btn-default"  ng-click="modalDissmiss()" data-dismiss="modal">fermer</button>
 
-      <div id="step1_3">
-        <div class="modal-header">
-          <button type="button" class="close" ng-click="modalDissmiss()" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="exampleModalLabel">Validation du Bap :</h4>
-        </div>
-        
-        <div class="modal-body">
+      </div>
+    </div>
+
+    <div id="step1_3">
+      <div class="modal-header">
+        <button type="button" class="close" ng-click="modalDissmiss()" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">Validation du Bap :</h4>
+      </div>
+
+      <div class="modal-body">
 
 
 
 
-          <h3>Validation du Bap pour le Collaborateur {{bapToValidate.collaborateur.nom}} {{bapToValidate.collaborateur.prenom}} </h3>
+        <h3>Validation du Bap pour le Collaborateur {{bapToValidate.collaborateur.nom}} {{bapToValidate.collaborateur.prenom}} </h3>
 
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-info" id="nextbtn" ng-click="ValiderBap()">Valider</button>
-          <button type="button" class="btn btn-default"  ng-click="modalDissmiss()" data-dismiss="modal">fermer</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" id="nextbtn" ng-click="ValiderBap()">Valider</button>
+        <button type="button" class="btn btn-default"  ng-click="modalDissmiss()" data-dismiss="modal">fermer</button>
 
-        </div>
       </div>
     </div>
   </div>
+</div>
 </div>

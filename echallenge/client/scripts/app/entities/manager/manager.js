@@ -7,8 +7,8 @@ app
                 url: '/managers',
                 views: {
                     'content@': {
-                        templateUrl: 'scripts/app/entities/manager/manager.html',
-                        controller: 'ManagerController'
+                        templateUrl: 'scripts/app/entities/manager/listcollaborateurs.html',
+                        controller: 'ManagerCollaborateursController'
                     },
                     'navbar@': {
                         templateUrl: 'scripts/app/partials/navbar-m.partial.html'
