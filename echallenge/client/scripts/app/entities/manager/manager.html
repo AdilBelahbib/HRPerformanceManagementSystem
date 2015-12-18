@@ -1,26 +1,36 @@
 <div class="col-md-12  content">
   <div class="jumbotron">
-    <h4>Mes collaborateurs :</h4>
+    <h3>Liste des Baps  :</h3>
+
+  
+<div ng-repeat="collaborateur in collaborateurs">
     <div class="col-md-12 table-header">
-      <div class="col-lg-6">
-        
-      </div><!-- /.col-lg-6 -->
-      
-    </div>
+  <div class="col-lg-6">
+    <h5>Collaborateur : {{collaborateur.nom}} {{collaborateur.prenom}} </h5>
+  </div><!-- /.col-lg-6 -->
+  <div class="col-lg-2 pull-right ">
+    <a ui-sref ="manager.collaborateur({ id : CollaborateursBaps[collaborateur.id][0].collaborateur.id })" class="btn btn-default pull-right " >consulter</a>
+  
+  </div><!-- /.col-lg-6 -->
+</div>
+
+
+    
     <table class="table  table-bordered  table-striped table-hover">
       <thead>
         <tr>
-          <th class="text-center ">#</th>
-
-          <th>Nom complet</th>
+          <th>Date</th>
+          <th>Statut</th>
           
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="collaborateur in collaborateurs">
-          <th scope="row" class="text-center ">{{collaborateur.id}}</th>
+        <tr ng-repeat="bap in CollaborateursBaps[collaborateur.id]" class="{{class(bap)}}">
           
-          <td >{{collaborateur.nom}} {{collaborateur.prenom}}</td> 
+          
+          <td> 2015/12/21 </td>  
+          <td> {{bap.statut}} </td> 
+
           
         </tr>
         
@@ -28,7 +38,11 @@
     </table>
     <div class="col-md-12 table-footer">
       <br>
-    </div>
-    <div class="clearfix"></div>
+     </div>
+    <br><br>
   </div>
-</div>
+
+  </div>
+
+
+  </div>

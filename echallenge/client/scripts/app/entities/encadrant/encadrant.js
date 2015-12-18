@@ -3,12 +3,12 @@
 app
     .config(function ($stateProvider) {
         $stateProvider
-            .state('manager', {
-                url: '/managers',
+            .state('encadrant', {
+                url: '/encadrants',
                 views: {
                     'content@': {
-                        templateUrl: 'scripts/app/entities/manager/manager.html',
-                        controller: 'ManagerController'
+                        templateUrl: 'scripts/app/entities/encadrant/encadrant.html',
+                        controller: 'EncadrantController'
                     },
                     'navbar@': {
                         templateUrl: 'scripts/app/partials/navbar-m.partial.html'
@@ -18,30 +18,30 @@ app
 
                 
             })
-            .state('manager.fiches', {
+            .state('encadrant.fiches', {
                 url: '/fiches/:id',
                 views: {
                     'content@': {
-                        templateUrl: 'scripts/app/entities/manager/fiches.html',
-                        controller: 'ManagerArchiveController'
+                        templateUrl: 'scripts/app/entities/encadrant/fiches.html',
+                        controller: 'EncadrantArchiveController'
                     }
                 }
             })
-            .state('manager.collaborateur', {
+            .state('encadrant.collaborateur', {
                 url: '/collaborateur/:id',
                 views: {
                     'content@': {
-                        templateUrl: 'scripts/app/entities/manager/detailcollaborateur.html',
-                        controller: 'ManagerCollaborateurController'
+                        templateUrl: 'scripts/app/entities/encadrant/detailcollaborateur.html',
+                        controller: 'EncadrantCollaborateurController'
                     }
                 }
             })
-            .state('manager.collaborateurs', {
+            .state('encadrant.collaborateurs', {
                 url: '/collaborateurs',
                 views: {
                     'content@': {
-                        templateUrl: 'scripts/app/entities/manager/listcollaborateurs.html',
-                        controller: 'ManagerCollaborateursController'
+                        templateUrl: 'scripts/app/entities/encadrant/listcollaborateurs.html',
+                        controller: 'EncadrantCollaborateursController'
                     }
                 }
             });

@@ -1,4 +1,4 @@
-'use strict';
+    'use strict';
 
 app
     .factory('Bap', function ($resource, $filter) {
@@ -11,6 +11,7 @@ app
             },
             'collaborateur' : { 
                         method: 'GET',
+                        isArray : true,
                         url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/baps/collaborateur/:id'
                       },
             'bapCourant' :
