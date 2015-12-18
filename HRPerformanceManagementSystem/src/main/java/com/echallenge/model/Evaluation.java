@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "evaluation")
 public class Evaluation {
 	private Long id;
-	/** L'objectif concern� par l'�valuation */
+	private Encadrant encadrant;
 	private Objectif objectif;
 	private int poids;
 	private Double resultat;
@@ -14,8 +14,11 @@ public class Evaluation {
 	public Evaluation() {
 	}
 
-	public Evaluation(Long id, Encadrant encadrant, Objectif objectif, int poids, double resultat) {
+	
+
+	public Evaluation(Long id, Encadrant encadrant, Objectif objectif, int poids, Double resultat) {
 		this.id = id;
+		this.encadrant = encadrant;
 		this.objectif = objectif;
 		this.poids = poids;
 		this.resultat = resultat;
@@ -36,6 +39,25 @@ public class Evaluation {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+
+	/**
+	 * @return the encadrant
+	 */
+	@XmlElement
+	public Encadrant getEncadrant() {
+		return encadrant;
+	}
+
+
+	/**
+	 * @param encadrant the encadrant to set
+	 */
+	public void setEncadrant(Encadrant encadrant) {
+		this.encadrant = encadrant;
+	}
+
+
 
 	/**
 	 * @return the objectif

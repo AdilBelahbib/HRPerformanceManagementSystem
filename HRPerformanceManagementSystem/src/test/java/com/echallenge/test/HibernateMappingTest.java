@@ -7,10 +7,8 @@ import org.hibernate.Session;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.echallenge.model.Action;
 import com.echallenge.model.Administrateur;
 import com.echallenge.model.BAP;
-import com.echallenge.model.BIP;
 import com.echallenge.model.Collaborateur;
 import com.echallenge.model.Encadrant;
 import com.echallenge.model.Entete;
@@ -18,10 +16,8 @@ import com.echallenge.model.Evaluation;
 import com.echallenge.model.Feedback;
 import com.echallenge.model.FicheEvaluations;
 import com.echallenge.model.FicheObjectifs;
-import com.echallenge.model.Formation;
 import com.echallenge.model.ManagerRh;
 import com.echallenge.model.Objectif;
-import com.echallenge.model.PlanAmelioration;
 import com.echallenge.model.Projet;
 import com.echallenge.model.Qualification;
 import com.echallenge.model.QualificationTheme;
@@ -197,8 +193,7 @@ public class HibernateMappingTest {
 		ficheEvaluations.getEvaluations().add(e2);
 		
 		collaborateur.getFichesEvaluations().add(ficheEvaluations);
-		encadrant.getEvaluations().add(e1);
-		encadrant.getEvaluations().add(e2);
+
 		
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
@@ -218,128 +213,15 @@ public class HibernateMappingTest {
 		collaborateur = (Collaborateur) session.get(Collaborateur.class, collaborateur.getId());
 		//encadrant = (Encadrant) session.get(Encadrant.class, encadrant.getId());
 		
-		int sizeEvaluationEncadrant = encadrant.getEvaluations().size();
 		int sizeFicheEvaluation = collaborateur.getFichesEvaluations().size();
 
 		int sizeEvaluations = collaborateur.getFichesEvaluations().iterator().next().getEvaluations().size();
 		session.getTransaction().commit();
 
 		Assert.assertNotNull("FICHE EVALUATION EST NULLE", collaborateur.getFichesEvaluations());
-		Assert.assertNotNull("Liste Evaluation", encadrant.getEvaluations());
 		Assert.assertEquals("evaluationsTest: sizeFicheEvaluation", 1, sizeFicheEvaluation);
 		Assert.assertEquals("evaluationsTest: sizeEvaluations", 2, sizeEvaluations);
-		Assert.assertEquals("evaluationsTest: sizeEvaluationEncadrant",2, sizeEvaluationEncadrant);
 		
-	}
-	
-	@Test
-	public void BipTest()
-	{
-		ManagerRh manager = new ManagerRh();
-		manager.setEmail("manager4@mail.com");
-		manager.setPrenom("prenomManager2");
-		manager.setNom("nomManager2");
-		manager.setMotDePasse("motDePasseManager2");
-		
-		Collaborateur collaborateur = new Collaborateur();
-		collaborateur.setEmail("collaborateur4@mail.com");
-		collaborateur.setPrenom("prenomCollaborateur2");
-		collaborateur.setNom("nomCollaborateur2");
-		collaborateur.setMotDePasse("motDePasseCollaborateur2");		
-		
-		Objectif obj1 = new Objectif();
-		obj1.setDescriptionObjectif("Objectif 1");
-		obj1.setAvancementObjectif(5.66);
-		obj1.setMesureObjectif("Mesuré par blabla");
-		
-		Objectif obj2 = new Objectif();
-		obj2.setDescriptionObjectif("Objectif 2");
-		obj2.setAvancementObjectif(115.66);
-		obj2.setMesureObjectif("Mesuré par blabla 2 :D");
-		
-		Objectif obj3 = new Objectif();
-		obj3.setDescriptionObjectif("Objectif 3");
-		obj3.setAvancementObjectif(5.66);
-		obj3.setMesureObjectif("Mesuré par blabla 3");
-		
-		Objectif obj4 = new Objectif();
-		obj4.setDescriptionObjectif("Objectif 4");
-		obj4.setAvancementObjectif(115.66);
-		obj4.setMesureObjectif("Mesuré par blabla 4 :D");
-		
-		
-		FicheObjectifs ficheObjectifs = new FicheObjectifs();
-		ficheObjectifs.setAutorisationAcces(true);
-		ficheObjectifs.setDateFicheObjectifs(new Date());
-		ficheObjectifs.getObjectifs().add(obj1);
-		ficheObjectifs.getObjectifs().add(obj2);		
-		
-		collaborateur.getFicheObjectifs().add(ficheObjectifs);
-		
-		Action action1 = new Action();
-		action1.setDescriptionAction("Action 1");		
-		
-		Action action2 = new Action();
-		action2.setDescriptionAction("Action 2");
-		
-		Formation formation = new Formation();
-		formation.setAutoformation(true);
-		formation.getObjectifs().add(obj3);
-		formation.getObjectifs().add(obj4);
-		
-		collaborateur.getPlansAmelioration().add(action1);
-		collaborateur.getPlansAmelioration().add(action2);
-		collaborateur.getPlansAmelioration().add(formation);
-		
-		BIP bip = new BIP();
-		bip.setDateBilan(new Date());
-		bip.setFicheObjectifsTraites(ficheObjectifs);
-		bip.getPlansAmelioration().add(action1);
-		bip.getPlansAmelioration().add(action2);
-		bip.getPlansAmelioration().add(formation);
-		
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-
-		//Save the different users
-		session.save(manager);
-		session.save(collaborateur);
-		session.save(ficheObjectifs);
-		session.save(bip);
-		session.save(action1);
-		session.save(action2);
-		session.save(formation);
-		
-		session.getTransaction().commit();
-		
-		session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		collaborateur = (Collaborateur) session.get(Collaborateur.class, collaborateur.getId());
-
-		bip = (BIP) session.get(BIP.class, bip.getId());
-		
-		int sizePlanAmelioration = collaborateur.getPlansAmelioration().size();
-		int sizePlanAmeliorationBIP = bip.getPlansAmelioration().size();
-		
-		int sizeObjectifs = -1;
-		
-		//size objectif inside formation
-		Iterator<PlanAmelioration> iter = collaborateur.getPlansAmelioration().iterator();
-		while(iter.hasNext())
-		{
-			PlanAmelioration pa = iter.next();
-			if(pa instanceof Formation)
-				sizeObjectifs = ((Formation)pa).getObjectifs().size();
-		}
-
-		
-		session.getTransaction().commit();
-
-		Assert.assertNotNull("PLAN AMELIORATION NULL", collaborateur.getPlansAmelioration());
-		Assert.assertNotNull("PLAN AMELIORATION BIP", bip.getPlansAmelioration());
-		Assert.assertEquals("BipTest: sizePlanAmelioration", 3, sizePlanAmelioration);
-		Assert.assertEquals("BipTest: sizePlanAmeliorationBIP", 3, sizePlanAmeliorationBIP);
-		Assert.assertEquals("BipTest: sizeObjectifs", 2, sizeObjectifs);
 	}
 	
 	@Test

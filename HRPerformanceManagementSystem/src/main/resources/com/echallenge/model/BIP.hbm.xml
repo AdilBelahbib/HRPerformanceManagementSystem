@@ -28,13 +28,13 @@
 
 		<set name="formations" table="formation" inverse="true"
 			lazy="false" cascade="delete,refresh">
-			<key column="idCollaborateur" />
+			<key column="idBip" />
 			<one-to-many class="Formation" />
 		</set>
 
 		<set name="actions" table="action" inverse="true" lazy="false"
 			cascade="delete,refresh">
-			<key column="idCollaborateur" />
+			<key column="idBip" />
 			<one-to-many class="Action" />
 		</set>
 	</class>

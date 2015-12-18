@@ -11,51 +11,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Encadrant extends Utilisateur{
 	/**La liste des évaluations faites par l'encadrant
 	 * N.B: Nous pouvons en sortir les objectifs de l'encadrant*/
-	private Set<Evaluation> evaluations;
 	private Set<Feedback> feedbacks;
 	
 	public Encadrant() {
 		super();
-		this.evaluations = new HashSet<Evaluation>();
 		this.feedbacks = new HashSet<Feedback>();
 	}
-
-	
 
 	public Encadrant(Long id, String email, String motDePasse, String nom, String prenom, Profile profile) {
 		super(id, email, motDePasse, nom, prenom, profile);
-		this.evaluations = new HashSet<Evaluation>();
 		this.feedbacks = new HashSet<Feedback>();
 	}
 
-	
-	/**
-	 * @return the evaluations
-	 */
-	@XmlElementWrapper(name = "evaluations")
-	@XmlElement
-	public Set<Evaluation> getEvaluations() {
-		return evaluations;
-	}
-
-	/**
-	 * @param evaluations the evaluations to set
-	 */
-	public void setEvaluations(Set<Evaluation> evaluations) {
-		this.evaluations = evaluations;
-	}
-	
-	/**
-	 * R�cuperer la liste des objectifs de l'encadrant
-	 * @return La liste des objectifs �valu�s
-	 */
-	public Set<Objectif> getObjectifs() {
-		HashSet<Objectif> result = new HashSet<Objectif>();
-	    for (Evaluation evaluation : this.evaluations) {
-	        result.add(evaluation.getObjectif());
-	    }
-	    return result;
-	}
 
 	/**
 	 * @return the feedbacks

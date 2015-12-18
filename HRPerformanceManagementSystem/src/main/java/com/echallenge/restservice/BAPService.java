@@ -1,5 +1,6 @@
 package com.echallenge.restservice;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +20,9 @@ import com.echallenge.model.BAP;
 import com.echallenge.model.Collaborateur;
 import com.echallenge.model.Evaluation;
 import com.echallenge.model.FicheObjectifs;
+import com.echallenge.model.ManagerRh;
 import com.echallenge.model.Objectif;
+import com.echallenge.model.StatutBAP;
 import com.echallenge.util.HibernateUtil;
 
 @Path("/baps")
@@ -80,7 +83,7 @@ public class BAPService {
 			bap = (BAP) session.createQuery(
 					"select bap from BAP bap"
 					+ " where bap.collaborateur = :collaborateur"
-					+ " AND bap.statut = 'EN_COURS'"
+					+ " AND (bap.statut = 'EN_COURS' OR bap.statut = 'EN_ATTENTE')"
 					+ " ORDER BY bap.dateBilan DESC")
 					.setEntity("collaborateur", collaborateur).setMaxResults(1)
 					.uniqueResult();
@@ -88,6 +91,34 @@ public class BAPService {
 
 		session.getTransaction().commit();
 		return bap;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Path("/managerrh/statut/{id}/{statut}")
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public List<BAP> getBapByManagerRhAndStatut(@PathParam("id") int id, @PathParam("statut") String statut) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+
+		ManagerRh manager = (ManagerRh) session.get(ManagerRh.class, new Long(id));
+
+		List<BAP> baps = null;
+
+		if(manager != null)
+		{
+			baps = session.createQuery(
+					"select bap from BAP bap, ManagerRh manager"
+					+ " where manager = :manager"
+					+ " AND bap.collaborateur IN elements(manager.collaborateurs)"
+					+ " AND (bap.statut = 'EN_COURS' OR bap.statut = 'EN_ATTENTE')"
+					+ " ORDER BY bap.dateBilan DESC")
+					.setEntity("manager", manager)
+					.list();
+		}
+
+		session.getTransaction().commit();
+		return baps;
 	}
 	
 	@Path("/valider")
@@ -104,8 +135,6 @@ public class BAPService {
 		ficheObjectifs.setAutorisationAcces(false);
 		ficheObjectifs.setDateFicheObjectifs(new Date());
 		
-		bap.getCollaborateur().getFicheObjectifs().add(ficheObjectifs);
-		
 		for(Evaluation evaluation : bap.getFicheEvaluations().getEvaluations())
 		{
 			noteFinale += (evaluation.getResultat() * ((double)evaluation.getPoids()/100));
@@ -120,6 +149,8 @@ public class BAPService {
 				ficheObjectifs.getObjectifs().add(objectif);
 			}
 		}
+		
+		bap.getCollaborateur().getFicheObjectifs().add(ficheObjectifs);
 		
 		bap.getFicheEvaluations().setNoteFinale(noteFinale);
 		
@@ -151,8 +182,19 @@ public class BAPService {
 	public BAP ajouterBAP(BAP bap) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-
-		session.save(bap);
+		
+		BAP nouveauBap = new BAP();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.YEAR, 1);
+		
+		nouveauBap.setDateBilan(cal.getTime());
+		nouveauBap.setStatut(StatutBAP.EN_ATTENTE);
+		nouveauBap.setCollaborateur(bap.getCollaborateur());
+		nouveauBap.setFicheEvaluations(bap.getFicheEvaluations());
+		nouveauBap.setFicheObjectifsTraites(bap.getFicheObjectifsRediges());
+		
+		session.save(nouveauBap);
 
 		session.getTransaction().commit();
 

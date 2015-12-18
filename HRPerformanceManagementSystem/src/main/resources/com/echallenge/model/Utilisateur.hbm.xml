@@ -69,11 +69,6 @@
 		</subclass>
 
 		<subclass name="Encadrant" discriminator-value="E">
-			<set name="evaluations" table="EVALUATION" inverse="true" lazy="false" cascade="all">
-				<key column="idEncadrant" />
-				<one-to-many class="Evaluation" />
-			</set>
-
 			<set name="feedbacks" table="FEEDBACK" inverse="true" lazy="false">
 				<key column="idEncadrant" />
 				<one-to-many class="Feedback" />

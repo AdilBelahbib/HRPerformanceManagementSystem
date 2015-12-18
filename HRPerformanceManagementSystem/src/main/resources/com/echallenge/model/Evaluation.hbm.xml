@@ -10,8 +10,14 @@
 			<generator class="native" />
 		</id>
 
-		<many-to-one name="objectif" class="Objectif" fetch="join" lazy="false">
+		<many-to-one name="objectif" class="Objectif" fetch="join"
+			lazy="false">
 			<column name="idObjectif" />
+		</many-to-one>
+
+		<many-to-one name="encadrant" class="Encadrant" fetch="join"
+			lazy="false">
+			<column name="idEncadrant" />
 		</many-to-one>
 
 		<property name="poids" type="int">
