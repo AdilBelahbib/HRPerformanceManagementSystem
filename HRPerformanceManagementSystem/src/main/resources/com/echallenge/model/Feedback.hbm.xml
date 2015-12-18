@@ -11,11 +11,6 @@
 			<generator class="native" />
 		</id>
 
-		<many-to-one name="collaborateur" class="Collaborateur"
-			fetch="join" lazy="false">
-			<column name="idCollaborateur" />
-		</many-to-one>
-
 		<property name="remarqueGenerale" type="java.lang.String">
 			<column name="remarqueGenerale" />
 		</property>

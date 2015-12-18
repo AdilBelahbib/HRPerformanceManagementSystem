@@ -10,8 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "feedback")
 public class Feedback {
 	private Long id;
-	/**Le collaborateur concern�*/
-	private Collaborateur collaborateur;
+	/**Le collaborateur concerné*/
 	private String remarqueGenerale;
 	private boolean validation;
 	/**L'ent�te du feedback*/
@@ -37,21 +36,6 @@ public class Feedback {
 	 */
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	/**
-	 * @return the collaborateur
-	 */
-	@XmlElement
-	public Collaborateur getCollaborateur() {
-		return collaborateur;
-	}
-
-	/**
-	 * @param collaborateur the collaborateur to set
-	 */
-	public void setCollaborateur(Collaborateur collaborateur) {
-		this.collaborateur = collaborateur;
 	}
 
 	/**
@@ -126,7 +110,7 @@ public class Feedback {
 		if(id != null)
 			result = prime * result + id.intValue();
 		else
-			result = prime * result + entete.hashCode()*collaborateur.hashCode();
+			result = prime * result + entete.hashCode();
 		return result;
 	}
 
