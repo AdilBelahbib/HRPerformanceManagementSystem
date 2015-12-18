@@ -31,6 +31,10 @@
 			<column name="idFicheEvaluations" />
 		</many-to-one>
 		
+		<many-to-one name="ficheEvaluationsInitialisee" class="FicheEvaluations" fetch="join" not-null="false" cascade="persist,save-update" lazy="false">
+			<column name="idFicheEvaluationsInitialisee" />
+		</many-to-one>
+		
 		<property name="statut" column="StatutBAP" >
 			<type name="org.hibernate.type.EnumType">
 				<param name="enumClass">com.echallenge.model.StatutBAP</param>

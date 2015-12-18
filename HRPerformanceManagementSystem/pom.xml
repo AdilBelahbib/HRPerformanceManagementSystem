@@ -131,6 +131,13 @@
 		</dependency>
 
 
+		<!-- Quartz dependecy -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>2.1.5</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<finalName>HRPerformanceManagementSystem</finalName>

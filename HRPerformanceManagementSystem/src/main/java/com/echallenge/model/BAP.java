@@ -13,6 +13,8 @@ public class BAP extends Bilan{
 	private FicheObjectifs ficheObjectifsRediges;
 	/**La fiche des évaluations du collaborateur*/
 	private FicheEvaluations ficheEvaluations;
+	/**La nouvelle fiche des évaluations initialisée du collaborateur*/
+	private FicheEvaluations ficheEvaluationsInitialisee;
 	/**Les feedbacks concernant l'utilisateur*/
 	private Set<Feedback> feedbacks;	
 	/**Les statuts du BAP sont énumérés dans l'enum. 'StatusBAP'*/
@@ -51,6 +53,20 @@ public class BAP extends Bilan{
 	 */
 	public void setFicheEvaluations(FicheEvaluations ficheEvaluations) {
 		this.ficheEvaluations = ficheEvaluations;
+	}
+
+	/**
+	 * @return the ficheEvaluationsInitialisee
+	 */
+	public FicheEvaluations getFicheEvaluationsInitialisee() {
+		return ficheEvaluationsInitialisee;
+	}
+
+	/**
+	 * @param ficheEvaluationsInitialisee the ficheEvaluationsInitialisee to set
+	 */
+	public void setFicheEvaluationsInitialisee(FicheEvaluations ficheEvaluationsInitialisee) {
+		this.ficheEvaluationsInitialisee = ficheEvaluationsInitialisee;
 	}
 
 	/**

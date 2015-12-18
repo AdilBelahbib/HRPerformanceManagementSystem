@@ -2,10 +2,10 @@
 -- version 4.1.14
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Dec 13, 2015 at 12:42 PM
--- Server version: 5.6.17
--- PHP Version: 5.5.12
+-- Client :  127.0.0.1
+-- Généré le :  Ven 18 Décembre 2015 à 16:29
+-- Version du serveur :  5.6.17
+-- Version de PHP :  5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,41 +17,42 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `hrperformancemanagementsystem`
+-- Base de données :  `hrperformancemanagementsystem`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `action`
+-- Structure de la table `action`
 --
 
 CREATE TABLE IF NOT EXISTS `action` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `descriptionAction` varchar(256) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `idBip` int(11) NOT NULL,
+  `idCollaborateur` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idBip` (`idBip`),
+  KEY `idCollaborateur` (`idCollaborateur`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
--- Dumping data for table `action`
+-- Contenu de la table `action`
 --
 
-INSERT INTO `action` (`id`, `descriptionAction`) VALUES
-(2, 'tstststsfdsdf'),
-(4, 'dfddfdd'),
-(5, 'lkjkljlkjlkj'),
-(6, 'dscscscsxcsxc');
+INSERT INTO `action` (`id`, `descriptionAction`, `idBip`, `idCollaborateur`) VALUES
+(1, 'descriptionAction 1', 1, 154);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `bap`
+-- Structure de la table `bap`
 --
 
 CREATE TABLE IF NOT EXISTS `bap` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `dateBAP` datetime NOT NULL,
-  `StatutBAP` varchar(128) NOT NULL,
+  `StatutBAP` varchar(128) NOT NULL DEFAULT 'EN_ATTENTE',
   `idFicheObjectifsTraites` int(11) DEFAULT NULL,
   `idFicheObjectifsRediges` int(11) DEFAULT NULL,
   `idFicheEvaluations` int(11) DEFAULT NULL,
@@ -61,45 +62,50 @@ CREATE TABLE IF NOT EXISTS `bap` (
   KEY `idFicheObjectifsRediges` (`idFicheObjectifsRediges`),
   KEY `idFicheEvaluations` (`idFicheEvaluations`),
   KEY `idCollaborateur` (`idCollaborateur`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
 
 --
--- Dumping data for table `bap`
+-- Contenu de la table `bap`
 --
 
 INSERT INTO `bap` (`id`, `dateBAP`, `StatutBAP`, `idFicheObjectifsTraites`, `idFicheObjectifsRediges`, `idFicheEvaluations`, `idCollaborateur`) VALUES
-(1, '2015-12-16 00:00:00', 'ANNULE', 1, 2, 1, 154),
+(1, '2015-12-16 00:00:00', 'ANNULE', 7, 2, 1, 154),
 (2, '2015-12-02 00:00:00', 'VALIDE', 2, 3, 2, 154),
-(3, '2015-12-08 00:00:00', 'EN_ATTENTE', 3, 3, 3, 154),
-(4, '2015-12-20 00:00:00', 'REJETE', 3, 5, 4, 154),
-(5, '2015-12-20 00:00:00', 'REJETE', 4, 5, 4, 154);
+(3, '2015-12-08 00:00:00', 'VALIDE', 3, 3, 3, 154),
+(16, '2015-12-08 00:00:00', 'EN_ATTENTE', NULL, 7, 5, 164),
+(25, '2015-12-08 00:00:00', 'EN_ATTENTE', NULL, 6, 5, 163),
+(26, '2015-12-08 00:00:00', 'EN_COURS', NULL, 6, 5, 163),
+(27, '2015-12-08 00:00:00', 'EN_COURS', NULL, 7, 5, 164);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `bip`
+-- Structure de la table `bip`
 --
 
 CREATE TABLE IF NOT EXISTS `bip` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `dateBIP` datetime NOT NULL,
   `idFicheObjectifsTraites` int(11) NOT NULL,
+  `idCollaborateur` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `idFicheObjectifsTraites` (`idFicheObjectifsTraites`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+  KEY `idFicheObjectifsTraites` (`idFicheObjectifsTraites`),
+  KEY `idCollaborateur` (`idCollaborateur`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `bip`
+-- Contenu de la table `bip`
 --
 
-INSERT INTO `bip` (`id`, `dateBIP`, `idFicheObjectifsTraites`) VALUES
-(1, '2015-12-03 00:00:00', 5),
-(2, '2015-12-10 00:00:00', 3);
+INSERT INTO `bip` (`id`, `dateBIP`, `idFicheObjectifsTraites`, `idCollaborateur`) VALUES
+(1, '2015-12-03 00:00:00', 5, 154),
+(2, '2015-12-10 00:00:00', 3, 154),
+(3, '2015-12-03 00:00:00', 5, 154);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `collaborateur`
+-- Structure de la table `collaborateur`
 --
 
 CREATE TABLE IF NOT EXISTS `collaborateur` (
@@ -110,19 +116,21 @@ CREATE TABLE IF NOT EXISTS `collaborateur` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `collaborateur`
+-- Contenu de la table `collaborateur`
 --
 
 INSERT INTO `collaborateur` (`id`, `id_manager`) VALUES
 (154, 151),
 (156, 151),
 (157, 151),
-(155, 159);
+(155, 159),
+(163, 160),
+(164, 160);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `demande_bip`
+-- Structure de la table `demande_bip`
 --
 
 CREATE TABLE IF NOT EXISTS `demande_bip` (
@@ -136,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `demande_bip` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `demande_bip`
+-- Contenu de la table `demande_bip`
 --
 
 INSERT INTO `demande_bip` (`id`, `dateDemande`, `idCollaborateur`, `idEncadrant`) VALUES
@@ -148,7 +156,7 @@ INSERT INTO `demande_bip` (`id`, `dateDemande`, `idCollaborateur`, `idEncadrant`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `entete`
+-- Structure de la table `entete`
 --
 
 CREATE TABLE IF NOT EXISTS `entete` (
@@ -163,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `entete` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `entete`
+-- Contenu de la table `entete`
 --
 
 INSERT INTO `entete` (`id`, `dateDebutIntervention`, `dateFinIntervention`, `role`, `nombreJoursValorises`, `idProjet`) VALUES
@@ -173,7 +181,7 @@ INSERT INTO `entete` (`id`, `dateDebutIntervention`, `dateFinIntervention`, `rol
 -- --------------------------------------------------------
 
 --
--- Table structure for table `evaluation`
+-- Structure de la table `evaluation`
 --
 
 CREATE TABLE IF NOT EXISTS `evaluation` (
@@ -187,21 +195,24 @@ CREATE TABLE IF NOT EXISTS `evaluation` (
   KEY `idEncadrant` (`idEncadrant`,`idObjectif`),
   KEY `foreign key` (`idObjectif`),
   KEY `idFicheEvaluations` (`idFicheEvaluations`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
--- Dumping data for table `evaluation`
+-- Contenu de la table `evaluation`
 --
 
 INSERT INTO `evaluation` (`id`, `poids`, `resultat`, `idEncadrant`, `idObjectif`, `idFicheEvaluations`) VALUES
-(1, 121, 4521, 149, 1, 2),
-(2, 123, NULL, 149, 2, 2),
-(3, 120, 110, 149, 3, 3);
+(1, -1, 4521, 149, 1, 2),
+(3, 120, 110, 149, 3, 3),
+(6, 10, NULL, 161, 6, 4),
+(7, 90, 442, 162, 7, 4),
+(8, 50, NULL, 162, 8, 5),
+(9, 50, NULL, 162, 9, 5);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `feedback`
+-- Structure de la table `feedback`
 --
 
 CREATE TABLE IF NOT EXISTS `feedback` (
@@ -217,20 +228,12 @@ CREATE TABLE IF NOT EXISTS `feedback` (
   KEY `idEndacrant` (`idEncadrant`),
   KEY `idEntete` (`idEntete`),
   KEY `idBap` (`idBap`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `feedback`
---
-
-INSERT INTO `feedback` (`id`, `remarqueGenerale`, `validation`, `idEntete`, `idCollaborateur`, `idEncadrant`, `idBap`) VALUES
-(1, 'wdwsddfsfsdfsd', b'1', 1, 154, 149, 1),
-(2, 'cxcxcvxfvfgfgfgfdfs', b'0', 2, 155, 149, 1);
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `fiche_evaluations`
+-- Structure de la table `fiche_evaluations`
 --
 
 CREATE TABLE IF NOT EXISTS `fiche_evaluations` (
@@ -243,20 +246,20 @@ CREATE TABLE IF NOT EXISTS `fiche_evaluations` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
--- Dumping data for table `fiche_evaluations`
+-- Contenu de la table `fiche_evaluations`
 --
 
 INSERT INTO `fiche_evaluations` (`id`, `dateEvaluation`, `autorisationAcces`, `idCollaborateur`) VALUES
 (1, '2015-12-07 00:00:00', b'1', 154),
 (2, '2015-12-09 00:00:00', b'1', 154),
 (3, '2015-12-25 00:00:00', b'1', 155),
-(4, '2015-12-02 00:00:00', b'1', 154),
-(5, '2015-12-05 00:00:00', b'1', 155);
+(4, '2015-12-02 00:00:00', b'1', 163),
+(5, '2015-12-05 00:00:00', b'1', 164);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `fiche_objectifs`
+-- Structure de la table `fiche_objectifs`
 --
 
 CREATE TABLE IF NOT EXISTS `fiche_objectifs` (
@@ -269,40 +272,36 @@ CREATE TABLE IF NOT EXISTS `fiche_objectifs` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
--- Dumping data for table `fiche_objectifs`
+-- Contenu de la table `fiche_objectifs`
 --
 
 INSERT INTO `fiche_objectifs` (`id`, `dateFicheObjectifs`, `autorisationAcces`, `idCollaborateur`) VALUES
-(1, '2015-12-07 00:00:00', b'1', 154),
-(2, '2015-12-24 00:00:00', b'1', 154),
-(3, '2015-12-09 00:00:00', b'1', 156),
-(4, '2015-12-22 00:00:00', b'1', 155),
-(5, '2015-12-23 00:00:00', b'1', 155);
+(2, '2015-12-24 00:00:00', b'1', 156),
+(3, '2015-12-09 00:00:00', b'1', 154),
+(5, '2015-12-10 00:00:00', b'1', 155),
+(6, '2015-12-09 00:00:00', b'1', 163),
+(7, '2015-12-07 00:00:00', b'1', 164);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `formation`
+-- Structure de la table `formation`
 --
 
 CREATE TABLE IF NOT EXISTS `formation` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `autoformation` bit(1) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `formation`
---
-
-INSERT INTO `formation` (`id`, `autoformation`) VALUES
-(1, b'1'),
-(3, b'0');
+  `idBip` int(11) NOT NULL,
+  `idCollaborateur` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idBip` (`idBip`),
+  KEY `idCollaborateur` (`idCollaborateur`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `objectif`
+-- Structure de la table `objectif`
 --
 
 CREATE TABLE IF NOT EXISTS `objectif` (
@@ -317,24 +316,38 @@ CREATE TABLE IF NOT EXISTS `objectif` (
   KEY `idFicheObjectifs` (`idFicheObjectifs`),
   KEY `idFormation` (`idFormation`),
   KEY `idProjet` (`idProjet`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=39 ;
 
 --
--- Dumping data for table `objectif`
+-- Contenu de la table `objectif`
 --
 
 INSERT INTO `objectif` (`id`, `descriptionObjectif`, `mesureObjectif`, `avancementObjectif`, `idFicheObjectifs`, `idFormation`, `idProjet`) VALUES
-(1, 'fsdqsdqsdqdqdqxq', 'qsdqsdqsdqsd', 0, 3, NULL, 11),
-(2, 'gjghughughu', 'dtdsrtsrtsr', 0, 4, NULL, 12),
-(3, 'cghghcghcgh', 'xgxfgfxgxfg', 0, 2, NULL, 14),
-(4, 'xfgxfgxgxc', 'sfgsfgsf', 0, 1, NULL, 15),
-(5, 'qeqxqsdqsdqxq', 'qdfdfsdfcxvx', 0, NULL, 1, 11),
-(6, 'jkvbhjvhjvhj', 'xgxfgxxvcvxdd', 0, NULL, 1, 11);
+(1, 'hadi lli khassha tji', 'qsdqsdqsdqsd', 70, 5, NULL, 11),
+(3, 'hahwa', 'xgxfgfxgxfg', 50, 2, NULL, 14),
+(4, 'xfgxfgxgxc', 'sfgsfgsfzdzz', 90, 3, NULL, 15),
+(5, 'hadi lli khassha tji2', 'sfgsfgsfdadaa', 10, 3, NULL, 15),
+(6, 'objectif1', 'mesure1', 0, 6, NULL, 11),
+(7, 'object 2', 'mesure 2', 0, 6, NULL, 11),
+(8, 'object 2-1', 'mesure 2-1', 0, NULL, NULL, 12),
+(9, 'objet 2-2', 'mesure 2-2', 0, NULL, NULL, 12),
+(17, 'ddd', 'ddd', 50, NULL, NULL, NULL),
+(18, 'aad', 'ddda', 40, NULL, NULL, NULL),
+(29, 'objectif', 'mdada', 58, 7, NULL, NULL),
+(30, 'aaaa', 'aaaa', 78, NULL, NULL, NULL),
+(31, 'lelele', 'lelele', 30, NULL, NULL, NULL),
+(32, 'lelele', 'lelele', 30, NULL, NULL, NULL),
+(33, 'lelele', 'lelele', 30, NULL, NULL, NULL),
+(34, 'lelele', 'lelele', 30, NULL, NULL, NULL),
+(35, 'lelele', 'lelele', 30, NULL, NULL, NULL),
+(36, 'lelele', 'lelele', 30, NULL, NULL, NULL),
+(37, 'lelele', 'lelele', 30, NULL, NULL, NULL),
+(38, 'lelele', 'lelele', 30, 7, NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `plan_amelioration`
+-- Structure de la table `plan_amelioration`
 --
 
 CREATE TABLE IF NOT EXISTS `plan_amelioration` (
@@ -344,24 +357,12 @@ CREATE TABLE IF NOT EXISTS `plan_amelioration` (
   PRIMARY KEY (`id`),
   KEY `id_collaborateur` (`idCollaborateur`),
   KEY `id_bip` (`idBip`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
-
---
--- Dumping data for table `plan_amelioration`
---
-
-INSERT INTO `plan_amelioration` (`id`, `idBip`, `idCollaborateur`) VALUES
-(1, 1, 154),
-(2, 2, 155),
-(3, 1, 154),
-(4, 2, 157),
-(5, 1, 155),
-(6, 2, 155);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `profile`
+-- Structure de la table `profile`
 --
 
 CREATE TABLE IF NOT EXISTS `profile` (
@@ -373,7 +374,7 @@ CREATE TABLE IF NOT EXISTS `profile` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `profile`
+-- Contenu de la table `profile`
 --
 
 INSERT INTO `profile` (`id`, `codeProfile`, `descriptionProfile`) VALUES
@@ -384,7 +385,7 @@ INSERT INTO `profile` (`id`, `codeProfile`, `descriptionProfile`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `projet`
+-- Structure de la table `projet`
 --
 
 CREATE TABLE IF NOT EXISTS `projet` (
@@ -395,7 +396,7 @@ CREATE TABLE IF NOT EXISTS `projet` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
 
 --
--- Dumping data for table `projet`
+-- Contenu de la table `projet`
 --
 
 INSERT INTO `projet` (`id`, `codeProjet`, `nomProjet`) VALUES
@@ -412,7 +413,7 @@ INSERT INTO `projet` (`id`, `codeProjet`, `nomProjet`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qualification_theme`
+-- Structure de la table `qualification_theme`
 --
 
 CREATE TABLE IF NOT EXISTS `qualification_theme` (
@@ -425,18 +426,10 @@ CREATE TABLE IF NOT EXISTS `qualification_theme` (
   KEY `idFeedback` (`idFeedback`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
---
--- Dumping data for table `qualification_theme`
---
-
-INSERT INTO `qualification_theme` (`id`, `theme`, `qualification`, `remarque`, `idFeedback`) VALUES
-(1, 'PRODUCTIVITE', 'SELON_ATTENTE', '', 1),
-(2, 'GESTION_DES_EQUIPES', 'DEMONTRE_DES_FORCES', NULL, 1);
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `utilisateur`
+-- Structure de la table `utilisateur`
 --
 
 CREATE TABLE IF NOT EXISTS `utilisateur` (
@@ -450,72 +443,76 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   KEY `idProfile` (`idProfile`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=163 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=165 ;
 
 --
--- Dumping data for table `utilisateur`
+-- Contenu de la table `utilisateur`
 --
 
 INSERT INTO `utilisateur` (`id`, `email`, `motDePasse`, `nom`, `prenom`, `typeUtilisateur`, `idProfile`) VALUES
-(149, 'adil@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB', 'Adil', 'E', NULL),
+(149, 'adil@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'testing2', 'Adil', 'E', NULL),
 (150, 'hamza@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'TANJI', 'Hamza', 'A', NULL),
-(151, 'tanji@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'TANJI', 'Hamza', 'M', NULL),
-(154, 'belahbib@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB', 'Adil', 'C', NULL),
-(155, 'belahbib2@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB2', 'Adil2', 'C', NULL),
-(156, 'belahbib3@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB2', 'Adil2', 'C', NULL),
-(157, 'belahbib4@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB2', 'Adil2', 'C', NULL),
+(151, 'tanji@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'testing2', 'Hamza', 'M', NULL),
+(154, 'belahbib@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'testing', 'Adil', 'C', NULL),
+(155, 'belahbib2@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB155', 'Adil2', 'C', NULL),
+(156, 'belahbib3@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB2156', 'Adil2', 'C', NULL),
+(157, 'belahbib4@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB157', 'Adil2', 'C', NULL),
 (159, 'tanji2@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'TANJI', 'Hamza', 'M', NULL),
 (160, 'tanji3@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'TANJI', 'Hamza', 'M', NULL),
 (161, 'adil2@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB', 'Adil', 'E', NULL),
-(162, 'adil3@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB', 'Adil', 'E', NULL);
+(162, 'adil3@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB', 'Adil', 'E', NULL),
+(163, 'email', '1829bca2a2e6210239ce329dabf70722a71d8873', 'Elmedkouri', 'Amine', 'C', NULL),
+(164, 'ded', '1829bca2a2e6210239ce329dabf70722a71d8873', 'moustaid', 'ayoub', 'C', NULL);
 
 --
--- Constraints for dumped tables
+-- Contraintes pour les tables exportées
 --
 
 --
--- Constraints for table `action`
+-- Contraintes pour la table `action`
 --
 ALTER TABLE `action`
-  ADD CONSTRAINT `action_ibfk_1` FOREIGN KEY (`id`) REFERENCES `plan_amelioration` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `action_ibfk_2` FOREIGN KEY (`idBip`) REFERENCES `bip` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `action_ibfk_3` FOREIGN KEY (`idCollaborateur`) REFERENCES `collaborateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `bap`
+-- Contraintes pour la table `bap`
 --
 ALTER TABLE `bap`
-  ADD CONSTRAINT `bap_ibfk_5` FOREIGN KEY (`idCollaborateur`) REFERENCES `collaborateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `bap_ibfk_2` FOREIGN KEY (`idFicheObjectifsRediges`) REFERENCES `fiche_objectifs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `bap_ibfk_3` FOREIGN KEY (`idFicheEvaluations`) REFERENCES `fiche_evaluations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `bap_ibfk_4` FOREIGN KEY (`idFicheObjectifsTraites`) REFERENCES `fiche_objectifs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `bap_ibfk_4` FOREIGN KEY (`idFicheObjectifsTraites`) REFERENCES `fiche_objectifs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `bap_ibfk_5` FOREIGN KEY (`idCollaborateur`) REFERENCES `collaborateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `bip`
+-- Contraintes pour la table `bip`
 --
 ALTER TABLE `bip`
+  ADD CONSTRAINT `bip_ibfk_2` FOREIGN KEY (`idCollaborateur`) REFERENCES `collaborateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `bip_ibfk_1` FOREIGN KEY (`idFicheObjectifsTraites`) REFERENCES `fiche_objectifs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `collaborateur`
+-- Contraintes pour la table `collaborateur`
 --
 ALTER TABLE `collaborateur`
   ADD CONSTRAINT `collaborateur_ibfk_1` FOREIGN KEY (`id`) REFERENCES `utilisateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `collaborateur_ibfk_2` FOREIGN KEY (`id_manager`) REFERENCES `utilisateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `demande_bip`
+-- Contraintes pour la table `demande_bip`
 --
 ALTER TABLE `demande_bip`
   ADD CONSTRAINT `demande_bip_ibfk_1` FOREIGN KEY (`idCollaborateur`) REFERENCES `collaborateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `demande_bip_ibfk_2` FOREIGN KEY (`idEncadrant`) REFERENCES `utilisateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `entete`
+-- Contraintes pour la table `entete`
 --
 ALTER TABLE `entete`
   ADD CONSTRAINT `entete_ibfk_1` FOREIGN KEY (`idProjet`) REFERENCES `projet` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `evaluation`
+-- Contraintes pour la table `evaluation`
 --
 ALTER TABLE `evaluation`
   ADD CONSTRAINT `evaluation_ibfk_1` FOREIGN KEY (`idEncadrant`) REFERENCES `utilisateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -523,7 +520,7 @@ ALTER TABLE `evaluation`
   ADD CONSTRAINT `evaluation_ibfk_3` FOREIGN KEY (`idFicheEvaluations`) REFERENCES `fiche_evaluations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `feedback`
+-- Contraintes pour la table `feedback`
 --
 ALTER TABLE `feedback`
   ADD CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`idCollaborateur`) REFERENCES `collaborateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -532,46 +529,40 @@ ALTER TABLE `feedback`
   ADD CONSTRAINT `feedback_ibfk_4` FOREIGN KEY (`idBap`) REFERENCES `bap` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `fiche_evaluations`
+-- Contraintes pour la table `fiche_evaluations`
 --
 ALTER TABLE `fiche_evaluations`
   ADD CONSTRAINT `fiche_evaluations_ibfk_1` FOREIGN KEY (`idCollaborateur`) REFERENCES `collaborateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `fiche_objectifs`
+-- Contraintes pour la table `fiche_objectifs`
 --
 ALTER TABLE `fiche_objectifs`
   ADD CONSTRAINT `fiche_objectifs_ibfk_1` FOREIGN KEY (`idCollaborateur`) REFERENCES `collaborateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `formation`
+-- Contraintes pour la table `formation`
 --
 ALTER TABLE `formation`
-  ADD CONSTRAINT `formation_ibfk_1` FOREIGN KEY (`id`) REFERENCES `plan_amelioration` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `formation_ibfk_2` FOREIGN KEY (`idBip`) REFERENCES `bip` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `formation_ibfk_3` FOREIGN KEY (`idCollaborateur`) REFERENCES `collaborateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `objectif`
+-- Contraintes pour la table `objectif`
 --
 ALTER TABLE `objectif`
   ADD CONSTRAINT `objectif_ibfk_1` FOREIGN KEY (`idFicheObjectifs`) REFERENCES `fiche_objectifs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `objectif_ibfk_2` FOREIGN KEY (`idProjet`) REFERENCES `projet` (`id`),
+  ADD CONSTRAINT `objectif_ibfk_2` FOREIGN KEY (`idProjet`) REFERENCES `projet` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `objectif_ibfk_3` FOREIGN KEY (`idFormation`) REFERENCES `formation` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `plan_amelioration`
---
-ALTER TABLE `plan_amelioration`
-  ADD CONSTRAINT `plan_amelioration_ibfk_1` FOREIGN KEY (`idCollaborateur`) REFERENCES `collaborateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `plan_amelioration_ibfk_2` FOREIGN KEY (`idBip`) REFERENCES `bip` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `qualification_theme`
+-- Contraintes pour la table `qualification_theme`
 --
 ALTER TABLE `qualification_theme`
   ADD CONSTRAINT `qualification_theme_ibfk_1` FOREIGN KEY (`idFeedback`) REFERENCES `feedback` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `utilisateur`
+-- Contraintes pour la table `utilisateur`
 --
 ALTER TABLE `utilisateur`
   ADD CONSTRAINT `utilisateur_ibfk_1` FOREIGN KEY (`idProfile`) REFERENCES `profile` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;

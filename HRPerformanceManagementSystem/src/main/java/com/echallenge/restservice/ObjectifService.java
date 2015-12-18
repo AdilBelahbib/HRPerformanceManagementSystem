@@ -160,6 +160,7 @@ public class ObjectifService {
 			
 			encadrant.getEvaluations().add(evaluation);
 			session.update(encadrant);
+						
 		}
 		
 		session.getTransaction().commit();
