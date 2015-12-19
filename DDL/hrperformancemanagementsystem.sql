@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 18, 2015 at 07:32 PM
+-- Generation Time: Dec 19, 2015 at 01:37 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS `bap` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `dateBAP` datetime NOT NULL,
   `StatutBAP` varchar(128) NOT NULL DEFAULT 'EN_ATTENTE',
+  `nombreRejet` int(11) NOT NULL DEFAULT '0',
   `idFicheObjectifsTraites` int(11) DEFAULT NULL,
   `idFicheObjectifsRediges` int(11) DEFAULT NULL,
   `idFicheEvaluations` int(11) DEFAULT NULL,
@@ -70,14 +71,14 @@ CREATE TABLE IF NOT EXISTS `bap` (
 -- Dumping data for table `bap`
 --
 
-INSERT INTO `bap` (`id`, `dateBAP`, `StatutBAP`, `idFicheObjectifsTraites`, `idFicheObjectifsRediges`, `idFicheEvaluations`, `idFicheEvaluationsInitialisee`, `idCollaborateur`) VALUES
-(1, '2015-12-16 00:00:00', 'ANNULE', 7, 2, 1, 1, 154),
-(2, '2015-12-02 00:00:00', 'EN_COURS', 2, 3, 2, 1, 154),
-(3, '2015-12-08 00:00:00', 'VALIDE', 3, 3, 3, 1, 154),
-(16, '2015-12-08 00:00:00', 'EN_ATTENTE', NULL, 7, 5, 1, 164),
-(25, '2015-12-08 00:00:00', 'EN_ATTENTE', NULL, 6, 5, 1, 163),
-(26, '2015-12-08 00:00:00', 'EN_COURS', NULL, 6, 5, 1, 163),
-(27, '2015-12-08 00:00:00', 'EN_COURS', NULL, 7, 5, 1, 164);
+INSERT INTO `bap` (`id`, `dateBAP`, `StatutBAP`, `nombreRejet`, `idFicheObjectifsTraites`, `idFicheObjectifsRediges`, `idFicheEvaluations`, `idFicheEvaluationsInitialisee`, `idCollaborateur`) VALUES
+(1, '2015-12-16 00:00:00', 'ANNULE', 0, 7, 2, 1, 1, 154),
+(2, '2015-12-02 00:00:00', 'EN_COURS', 0, 2, 3, 2, 1, 154),
+(3, '2015-12-08 00:00:00', 'VALIDE', 0, 3, 3, 3, 1, 154),
+(16, '2015-12-08 00:00:00', 'EN_ATTENTE', 0, NULL, 7, 5, 1, 164),
+(25, '2015-12-08 00:00:00', 'EN_ATTENTE', 0, NULL, 6, 5, 1, 163),
+(26, '2015-12-08 00:00:00', 'EN_COURS', 0, NULL, 6, 5, 1, 163),
+(27, '2015-12-08 00:00:00', 'EN_COURS', 0, NULL, 7, 5, 1, 164);
 
 -- --------------------------------------------------------
 
@@ -222,11 +223,9 @@ CREATE TABLE IF NOT EXISTS `feedback` (
   `remarqueGenerale` varchar(1024) NOT NULL,
   `validation` bit(1) NOT NULL,
   `idEntete` int(11) DEFAULT NULL,
-  `idCollaborateur` int(11) NOT NULL,
   `idEncadrant` int(11) NOT NULL,
   `idBap` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `idCollaborateur` (`idCollaborateur`),
   KEY `idEndacrant` (`idEncadrant`),
   KEY `idEntete` (`idEntete`),
   KEY `idBap` (`idBap`)
@@ -466,11 +465,11 @@ ALTER TABLE `action`
 -- Constraints for table `bap`
 --
 ALTER TABLE `bap`
-  ADD CONSTRAINT `bap_ibfk_6` FOREIGN KEY (`idFicheEvaluationsInitialisee`) REFERENCES `fiche_evaluations` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
   ADD CONSTRAINT `bap_ibfk_2` FOREIGN KEY (`idFicheObjectifsRediges`) REFERENCES `fiche_objectifs` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
   ADD CONSTRAINT `bap_ibfk_3` FOREIGN KEY (`idFicheEvaluations`) REFERENCES `fiche_evaluations` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
   ADD CONSTRAINT `bap_ibfk_4` FOREIGN KEY (`idFicheObjectifsTraites`) REFERENCES `fiche_objectifs` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
-  ADD CONSTRAINT `bap_ibfk_5` FOREIGN KEY (`idCollaborateur`) REFERENCES `collaborateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `bap_ibfk_5` FOREIGN KEY (`idCollaborateur`) REFERENCES `collaborateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `bap_ibfk_6` FOREIGN KEY (`idFicheEvaluationsInitialisee`) REFERENCES `fiche_evaluations` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 --
 -- Constraints for table `bip`
@@ -511,7 +510,6 @@ ALTER TABLE `evaluation`
 -- Constraints for table `feedback`
 --
 ALTER TABLE `feedback`
-  ADD CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`idCollaborateur`) REFERENCES `collaborateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `feedback_ibfk_2` FOREIGN KEY (`idEncadrant`) REFERENCES `utilisateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `feedback_ibfk_3` FOREIGN KEY (`idEntete`) REFERENCES `entete` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
   ADD CONSTRAINT `feedback_ibfk_4` FOREIGN KEY (`idBap`) REFERENCES `bap` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
