@@ -1,0 +1,72 @@
+<div class="col-md-12  content">
+  <div class="jumbotron">
+
+
+    <h3>Collaborateur :  {{collaborateur.nom}} {{collaborateur.prenom}}</h3>
+    <br>
+    <div class="col-md-10">
+      <table class="table  table-bordered  table-striped" >
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Mesure</th>
+              <th>Avancement</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="text" class="form-control" ng-model="newobjectif.descriptionObjectif"></td>
+              <td><input type="text" class="form-control" ng-model="newobjectif.mesureObjectif"></td>
+              <td><input type="text" class="form-control" ng-model="newobjectif.avancementObjectif"></td>
+              <td><button class="btn btn-info" ng-click="addObjectif()">ajouter</button>
+
+              </td>
+            </tr>
+            <tr   ng-repeat="objectif in collaborateur.fichesobjectifs[0].objectifs">
+
+
+              <td > <div ng-hide="modif[$index]">{{objectif.descriptionObjectif}}</div>
+                
+                <input type="text" class="form-control" ng-model="objectif.descriptionObjectif" ng-show="modif[$index]">
+              </td> 
+              <td ><div ng-hide="modif[$index]">{{objectif.mesureObjectif}}</div>
+                
+                <input type="text" class="form-control" ng-model="objectif.mesureObjectif" ng-show="modif[$index]"> 
+              </td> 
+              <td ><div class="progress" ng-hide="modif[$index]">
+                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{objectif.avancementObjectif}}" aria-valuemin="0" aria-valuemax="100" style="width: {{objectif.avancementObjectif}}%;">
+                  {{objectif.avancementObjectif}}%
+
+                </div>
+                <div class="clearfix"></div>
+              </div>
+              
+              <input type="text" class="form-control" ng-model="objectif.avancementObjectif" ng-show="modif[$index]">
+
+            </td> 
+            <td>
+              <div  id="objectif{{objectif.id}}">
+                <button class="btn btn-sm btn-info" ng-hide="modif[$index]" ng-click="initModif($index)">Modifier</button>
+                <button class="btn btn-sm btn-danger" ng-hide="modif[$index]" ng-click="supprimerObjectif($index)">Supprimer</button>
+                <button class="btn btn-sm btn-success" ng-show="modif[$index]" ng-click="Modif($index)">Confirmer</button>
+              </div>
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+<div class="clearfix"></div>
+
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="col-md-2">
+
+
+</div>
+
+</div>
+</div>

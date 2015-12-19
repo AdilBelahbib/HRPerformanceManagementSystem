@@ -36,6 +36,15 @@ app
                     }
                 }
             })
+            .state('manager.bip', {
+                url: '/bip/:id',
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/entities/manager/bipcollaborateur.html',
+                        controller: 'ManagerBipController'
+                    }
+                }
+            })
             .state('manager.collaborateurs', {
                 url: '/collaborateurs',
                 views: {
