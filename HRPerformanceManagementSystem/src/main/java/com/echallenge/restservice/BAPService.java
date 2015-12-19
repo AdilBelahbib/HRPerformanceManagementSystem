@@ -211,7 +211,7 @@ public class BAPService {
 		session.update(bap.getCollaborateur());
 		session.getTransaction().commit();
 
-		return nouveauBap;
+		return bap;
 	}
 
 	@Path("{id}")
