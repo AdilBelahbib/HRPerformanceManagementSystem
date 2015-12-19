@@ -5,6 +5,7 @@
     <h3>Collaborateur :  {{collaborateur.nom}} {{collaborateur.prenom}}</h3>
     <br>
     <div class="col-md-10">
+      <div class="table-header"></div>
       <table class="table  table-bordered  table-striped" >
           <thead>
             <tr>
@@ -23,7 +24,7 @@
 
               </td>
             </tr>
-            <tr   ng-repeat="objectif in collaborateur.fichesobjectifs[0].objectifs">
+            <tr   ng-repeat="objectif in ficheCourant.objectifs">
 
 
               <td > <div ng-hide="modif[$index]">{{objectif.descriptionObjectif}}</div>
@@ -58,15 +59,22 @@
         </tbody>
 
       </table>
+      <div class="table-footer"></div>
 <div class="clearfix"></div>
 
     </div>
-    <div class="clearfix"></div>
+    
 
     <div class="col-md-2">
+      <br><br>
+  <button class="btn btn-sm btn-info btn-block"  ng-click="">ajouter une Formation</button>
+  <div class="clearfix"></div>
+  <br>
+  <button class="btn btn-sm btn-success btn-block"  ng-click="">ajouter une action </button>
+  
 
 
 </div>
-
+<div class="clearfix"></div>
 </div>
 </div>

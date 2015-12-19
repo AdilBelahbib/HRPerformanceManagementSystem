@@ -62,10 +62,10 @@ public class BAPService {
 		return baps;
 	}
 
-	@Path("/courant/collaborateur/{id}")
+	@Path("/collaborateur/statut/{id}/{statut}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public BAP getBapCourantByCollaborateur(@PathParam("id") int id) {
+	public BAP getBapCourantByCollaborateur(@PathParam("id") int id, @PathParam("statut") String statut) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
@@ -76,8 +76,8 @@ public class BAPService {
 		if (collaborateur != null) {
 			bap = (BAP) session
 					.createQuery("select bap from BAP bap" + " where bap.collaborateur = :collaborateur"
-							+ " AND (bap.statut = 'A_VALIDER')" + " ORDER BY bap.dateBilan DESC")
-					.setEntity("collaborateur", collaborateur).setMaxResults(1).uniqueResult();
+							+ " AND (bap.statut = :statut)" + " ORDER BY bap.dateBilan DESC")
+					.setEntity("collaborateur", collaborateur).setString("statut", statut).setMaxResults(1).uniqueResult();
 		}
 
 		session.getTransaction().commit();
