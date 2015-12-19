@@ -3,16 +3,26 @@
 app
 .controller('ManagerCollaborateurController', function ($scope, $stateParams,$filter , Bap  ,Feedback , Collaborateur) {
 
+  $scope.modif = [];
     Bap.bapCourant({id:$stateParams.id},function  (result) {
 
       $scope.bap=result;
+      console.log(result);
 
   });
 
 
 
 
+    $scope.initModif=function (i)
+    {
+     
+      $scope.modif[i] =true;
+    }
 
+    $scope.Modif = function  (i) {
+     $scope.modif[i] =false; 
+    }
     $scope.initValiderBap = function  (bap) {
 
       $scope.bapToValidate = bap;
@@ -155,7 +165,10 @@ app
 }
 
 
-
+$scope.SaveBap = function  () {
+  console.log($scope.bapToValidate);
+  Bap.save($scope.bapToValidate);
+}
 
 
 });

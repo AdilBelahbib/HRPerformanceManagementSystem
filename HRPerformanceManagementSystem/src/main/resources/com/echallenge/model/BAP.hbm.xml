@@ -23,7 +23,7 @@
 			<column name="idFicheObjectifsTraites" />
 		</many-to-one>
 		
-		<many-to-one name="ficheObjectifsRediges" class="FicheObjectifs" cascade="persist,save-update" lazy="false">
+		<many-to-one name="ficheObjectifsRediges" class="FicheObjectifs" cascade="all" lazy="false">
 			<column name="idFicheObjectifsRediges" />
 		</many-to-one>
 		

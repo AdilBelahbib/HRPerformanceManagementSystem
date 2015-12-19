@@ -1,5 +1,9 @@
 package com.echallenge.model;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "objectif")
 public class Objectif {
 	private Long id;
 	private String descriptionObjectif;
@@ -20,6 +24,7 @@ public class Objectif {
 	/**
 	 * @return the id
 	 */
+	@XmlElement
 	public Long getId() {
 		return id;
 	}
@@ -34,6 +39,7 @@ public class Objectif {
 	/**
 	 * @return the descriptionObjectif
 	 */
+	@XmlElement
 	public String getDescriptionObjectif() {
 		return descriptionObjectif;
 	}
@@ -48,6 +54,7 @@ public class Objectif {
 	/**
 	 * @return the mesureObjectif
 	 */
+	@XmlElement
 	public String getMesureObjectif() {
 		return mesureObjectif;
 	}
@@ -62,6 +69,7 @@ public class Objectif {
 	/**
 	 * @return the avancementObjectif
 	 */
+	@XmlElement
 	public double getAvancementObjectif() {
 		return avancementObjectif;
 	}

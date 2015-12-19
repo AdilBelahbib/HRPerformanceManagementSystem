@@ -83,7 +83,7 @@ public class BAPService {
 			bap = (BAP) session.createQuery(
 					"select bap from BAP bap"
 					+ " where bap.collaborateur = :collaborateur"
-					+ " AND (bap.statut = 'EN_COURS' OR bap.statut = 'EN_ATTENTE')"
+					+ " AND (bap.statut = 'EN_COURS')"
 					+ " ORDER BY bap.dateBilan DESC")
 					.setEntity("collaborateur", collaborateur).setMaxResults(1)
 					.uniqueResult();
@@ -111,7 +111,7 @@ public class BAPService {
 					"select bap from BAP bap, ManagerRh manager"
 					+ " where manager = :manager"
 					+ " AND bap.collaborateur IN elements(manager.collaborateurs)"
-					+ " AND (bap.statut = 'EN_COURS' OR bap.statut = 'EN_ATTENTE')"
+					+ " AND (bap.statut = 'EN_COURS')"
 					+ " ORDER BY bap.dateBilan DESC")
 					.setEntity("manager", manager)
 					.list();
@@ -191,18 +191,27 @@ public class BAPService {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
 		cal.add(Calendar.YEAR, 1);
-		
+				
 		nouveauBap.setDateBilan(cal.getTime());
 		nouveauBap.setStatut(StatutBAP.EN_ATTENTE);
 		nouveauBap.setCollaborateur(bap.getCollaborateur());
 		nouveauBap.setFicheEvaluations(bap.getFicheEvaluations());
-		nouveauBap.setFicheObjectifsTraites(bap.getFicheObjectifsRediges());
-		
+		nouveauBap.setFicheObjectifsTraites(bap.getFicheObjectifsRediges());;
 		session.save(nouveauBap);
-
+				
+		session.getTransaction().commit();
+		
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		session.update(bap.getFicheObjectifsRediges());		
+		session.getTransaction().commit();
+		
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		session.update(bap.getCollaborateur());
 		session.getTransaction().commit();
 
-		return bap;
+		return nouveauBap;
 	}
 
 	@Path("{id}")
