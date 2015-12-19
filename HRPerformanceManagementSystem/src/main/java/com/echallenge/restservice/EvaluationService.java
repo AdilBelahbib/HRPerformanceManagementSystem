@@ -14,7 +14,9 @@ import javax.ws.rs.core.MediaType;
 
 import org.hibernate.Session;
 
+import com.echallenge.model.BAP;
 import com.echallenge.model.Collaborateur;
+import com.echallenge.model.Encadrant;
 import com.echallenge.model.Evaluation;
 import com.echallenge.model.FicheEvaluations;
 import com.echallenge.util.HibernateUtil;
@@ -109,6 +111,34 @@ public class EvaluationService {
 		return ficheEvaluations;
 	}
 	
+//	@SuppressWarnings("unchecked")
+//	@Path("/bap/encadrant/{idbap}/{idencadrant}")
+//	@GET
+//	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+//	public List<Evaluation> getEvaluationsByBapAndEncadrant(@PathParam("idbap") int idBap,@PathParam("idencadrant") int idEncadrant)
+//	{
+//		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+//		session.beginTransaction();
+//
+//		BAP bap = (BAP) session.get(BAP.class, new Long(idBap));
+//		Encadrant encadrant = (Encadrant) session.get(Encadrant.class, new Long(idEncadrant));
+//		
+//		List<Evaluation> evaluations = null;
+//		
+//		if((bap != null) && (encadrant != null))
+//		{
+//			evaluations = session.createQuery("FROM Evaluation ev, FicheEvaluations fiche, BAP bap"
+//					+ "	WHERE ev.encadrant = :encadrant AND bap.ficheEvaluations = fiche AND bap = :bap"
+//					+ "	AND ev IN elements(fiche.evaluations)")
+//					.setEntity("encadrant", encadrant)
+//					.setEntity("bap", bap)
+//					.list();
+//		}
+//		
+//		session.getTransaction().commit();
+//		return evaluations;
+//	}
+//	
 	@Path("/ficheevaluations")
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

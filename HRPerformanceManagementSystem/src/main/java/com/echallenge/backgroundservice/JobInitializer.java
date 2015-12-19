@@ -25,13 +25,12 @@ public class JobInitializer extends HttpServlet {
 	 * @see Servlet#init(ServletConfig)
 	 */
 	public void init(ServletConfig config) throws ServletException {
-		System.out.println("JOB INITIALIZER INIT()");
 
 		try {
 			JobDetail job = JobBuilder.newJob(BAPJob.class).withIdentity("bapjob", "group1").build();
 
 			Trigger trigger = TriggerBuilder.newTrigger().withIdentity("bapjobtrigger", "group1")
-					.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(10).repeatForever())
+					.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(60).repeatForever())
 					.build();
 
 	        String key = "org.quartz.impl.StdSchedulerFactory.KEY";

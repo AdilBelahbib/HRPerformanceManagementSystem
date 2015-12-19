@@ -40,30 +40,6 @@ public class ObjectifService {
 		return objectif;
 	}
 
-	@Path("ficheobjectifscourants/collaborateur/{id}")
-	@GET
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public FicheObjectifs getFicheObjectifsCourantsByCollaborateur(@PathParam("id") int id) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-
-		Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
-
-		FicheObjectifs ficheObjectifs = null;
-
-		if (collaborateur != null) {
-			ficheObjectifs = (FicheObjectifs) session
-					.createQuery(" select bap.ficheObjectifsRediges from Collaborateur col, BAP bap"
-							+ " where col = :collaborateur" + " AND bap.collaborateur = col"
-							+ "	AND bap.statut = 'VALIDE'"
-							+ " ORDER BY bap.ficheObjectifsRediges.dateFicheObjectifs DESC")
-					.setEntity("collaborateur", collaborateur).setMaxResults(1).uniqueResult();
-		}
-
-		session.getTransaction().commit();
-		return ficheObjectifs;
-	}
-
 	@SuppressWarnings("unchecked")
 	@Path("ficheobjectifs/collaborateur/{id}")
 	@GET

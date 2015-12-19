@@ -7,22 +7,25 @@ import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class MailService {
 
-	public static void test() throws MessagingException {
-		System.out.println("TESTING I ...");
+	private static String host = "smtp.gmail.com";
+	private static String port = "587";
+	private static String username = "echallenge.lambda@gmail.com";
+	private static String password = "sqli.echallenge";
 
-		final String username = "username@gmail.com";
-		final String password = "password";
+	public static void sendEmail(String toAddress, String subject, String text)
+			throws AddressException, MessagingException {
 
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.host", host);
+		props.put("mail.smtp.port", port);
 
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
@@ -30,20 +33,19 @@ public class MailService {
 			}
 		});
 
-		Message message = new MimeMessage(session);
-		message.setFrom(new InternetAddress("from-email@gmail.com"));
-		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("to-email@gmail.com"));
-		message.setSubject("Testing Subject");
-		message.setText("Dear Mail Crawler," + "\n\n No spam to my email, please!");
+		try {
 
-		Transport.send(message);
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(username));
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toAddress));
+			message.setSubject(subject);
+			message.setText(text);
 
-		System.out.println("Done");
+			Transport.send(message);
 
-	}
-
-	public static void test2() {
-		System.out.println("TESTING II ...");
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }
