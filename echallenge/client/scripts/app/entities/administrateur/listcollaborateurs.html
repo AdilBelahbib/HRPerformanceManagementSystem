@@ -1,0 +1,50 @@
+<div class="col-md-12  content">
+  <div class="jumbotron">
+    <h3>Gestion des collaborateurs :</h3>
+	<div class="col-md-12 table-header">
+      
+     </div>
+
+<table class="table  table-bordered  table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Nom </th>
+          <th>Prenom </th>
+          <th>email</th>
+          <th>Mot de passe</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="collaborateur in collaborateurs" >
+        <td> <div ng-hide="modif[$index]">{{collaborateur.nom}}  </div>
+			<input class="form-control" type="text" ng-show="modif[$index]" ng-model="collaborateur.nom">
+        </td>
+        <td><div ng-hide="modif[$index]">{{collaborateur.prenom}}</div>
+			<input class="form-control" type="text" ng-show="modif[$index]" ng-model="collaborateur.prenom">
+        </td>
+        <td> <div ng-hide="modif[$index]">{{collaborateur.email}}</div>
+			<input class="form-control" type="text" ng-show="modif[$index]" ng-model="collaborateur.email">
+        </td>
+        <td> <div ng-hide="modif[$index]">****************</div>
+			<input class="form-control" type="text" ng-show="modif[$index]" ng-model="collaborateur.motDePasse">
+        </td>
+        <td>  <a ui-sref ="admin.collaborateur({ id : collaborateur.id })" ng-hide="modif[$index]" class="btn btn-default" >consulter</a> 
+			<a class="btn btn-info" ng-click="initModif($index)" ng-hide="modif[$index]" >modifier</a> 
+			<a class="btn btn-success" ng-click="modifier(collaborateur)" ng-show="modif[$index]" >Confirmer</a> 
+        	<a class="btn btn-danger" ng-click="supprimer(collaborateur)" ng-hide="modif[$index]" >supprimer</a> 
+        </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="col-md-12 table-footer">
+      
+     </div>
+<div class="clearfix"></div>
+</div>
+</div>
+
+  
+
+
+  

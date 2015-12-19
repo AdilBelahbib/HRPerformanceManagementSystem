@@ -3,13 +3,15 @@
 app
 .controller('EncadrantCollaborateurController', function ($scope, $state,$stateParams,$filter , Bap ,DemandeBip ,Feedback , Collaborateur , Encadrant ) {
 
+    $scope.modif = [];
     $scope.feedback = {};
-
+    $scope.feedback.qualificationstheme =[];
+    $scope.newqualification={};
     $scope.encadrant = Encadrant.get({id:161});
     Bap.bapCourant({id:$stateParams.id},function  (result) {
 
         $scope.bap=result;
-        console.log(result);
+        console.log($scope.encadrant);
 
     });
 
@@ -38,13 +40,13 @@ app
         }
 
         $scope.evaluer= function  (collaborateur) {
-        
-        Bap.update({id:$scope.bap.id} , $scope.bap);
+
+            Bap.update({id:$scope.bap.id} , $scope.bap);
 
 
-    }
+        }
         $scope.initEvaluation = function  () {
-            
+
 
             $('#evaluationModal').modal('show');             
 
@@ -58,5 +60,26 @@ app
 
         }
 
-});
+        $scope.addqualification=function  () {
+            $scope.feedback.qualificationstheme.push( $scope.newqualification);
+            $scope.newqualification={};
+        }
+
+        $scope.supprimerQualification=function  (i) {
+            $scope.feedback.qualificationstheme.splice(i,1);
+
+        }
+        
+        $scope.initModif=function (i)
+        {
+
+            $scope.modif[i] =true;
+        }
+
+        $scope.Modif = function  (i) {
+         $scope.modif[i] =false; 
+     }
+
+
+ });
 

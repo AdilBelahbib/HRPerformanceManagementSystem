@@ -203,9 +203,24 @@
               <tr ng-repeat = "qualification in feedback.qualificationstheme">
 
 
-                <td >{{qualification.theme}}</td> 
-                <td >{{qualification.qualification}} </td> 
-                <td>{{qualification.remarque}}</td>
+                <td> <div ng-hide="modif[$index]">
+                  {{qualification.theme}}
+                </div>
+                  <input type="text" class="form-control" ng-model="qualification.theme" ng-show="modif[$index]">
+                </td> 
+                <td> <div ng-hide="modif[$index]">
+                  {{qualification.qualification}} 
+                </div>
+                  <input type="text" class="form-control" ng-model="qualification.qualification" ng-show="modif[$index]">
+                </td> 
+                <td>
+                 <div ng-hide="modif[$index]">{{qualification.remarque}}
+                 </div>
+                  <input type="text" class="form-control" ng-model="qualification.remarque" ng-show="modif[$index]">
+                </td>
+                
+                
+                
                 <td>
                   <div  >
                     <button class="btn btn-sm btn-info" ng-hide="modif[$index]" ng-click="initModif($index)">Modifier</button>
