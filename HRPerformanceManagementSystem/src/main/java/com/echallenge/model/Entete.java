@@ -12,20 +12,10 @@ public class Entete {
 	private Date dateFinIntervention;
 	private String role;
 	private int nombreJoursValorises;
-	/**Le projet concern� par l'ent�te*/
-	private Projet projet;
+	private String codeProjet;
+	private String nomProjet;
 	
 	public Entete() {
-	}
-
-	public Entete(Long id, Date dateDebutIntervention, Date dateFinIntervention, String role, int nombreJoursValorises,
-			Projet projet) {
-		this.id = id;
-		this.dateDebutIntervention = dateDebutIntervention;
-		this.dateFinIntervention = dateFinIntervention;
-		this.role = role;
-		this.nombreJoursValorises = nombreJoursValorises;
-		this.projet = projet;
 	}
 
 	/**
@@ -104,18 +94,33 @@ public class Entete {
 	}
 
 	/**
-	 * @return the projet
+	 * @return the codeProjet
 	 */
 	@XmlElement
-	public Projet getProjet() {
-		return projet;
+	public String getCodeProjet() {
+		return codeProjet;
 	}
 
 	/**
-	 * @param projet the projet to set
+	 * @param codeProjet the codeProjet to set
 	 */
-	public void setProjet(Projet projet) {
-		this.projet = projet;
+	public void setCodeProjet(String codeProjet) {
+		this.codeProjet = codeProjet;
+	}
+
+	/**
+	 * @return the nomProjet
+	 */
+	@XmlElement
+	public String getNomProjet() {
+		return nomProjet;
+	}
+
+	/**
+	 * @param nomProjet the nomProjet to set
+	 */
+	public void setNomProjet(String nomProjet) {
+		this.nomProjet = nomProjet;
 	}
 
 	/* (non-Javadoc)

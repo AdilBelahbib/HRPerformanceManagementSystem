@@ -18,7 +18,6 @@ import com.echallenge.model.FicheEvaluations;
 import com.echallenge.model.FicheObjectifs;
 import com.echallenge.model.ManagerRh;
 import com.echallenge.model.Objectif;
-import com.echallenge.model.Projet;
 import com.echallenge.model.Qualification;
 import com.echallenge.model.QualificationTheme;
 import com.echallenge.model.StatutBAP;
@@ -307,23 +306,18 @@ public class HibernateMappingTest {
 		
 		collaborateur.getFichesEvaluations().add(ficheEvaluations);
 		
-		Projet projet = new Projet();
-		projet.setCodeProjet("AB");
-		projet.setNomProjet("blabla");
 		
 		Entete en1 = new Entete();
 		en1.setDateDebutIntervention(new Date());
 		en1.setDateFinIntervention(new Date());
 		en1.setNombreJoursValorises(20);
 		en1.setRole("Rien");
-		en1.setProjet(projet);
 		
 		Entete en2 = new Entete();
 		en2.setDateDebutIntervention(new Date());
 		en2.setDateFinIntervention(new Date());
 		en2.setNombreJoursValorises(25);
 		en2.setRole("Rien 2");
-		en2.setProjet(projet);
 		
 		QualificationTheme qt1 = new QualificationTheme();
 		qt1.setQualification(Qualification.A_DEVELOPPER);
@@ -375,7 +369,6 @@ public class HibernateMappingTest {
 		session.save(manager);
 		session.save(collaborateur);
 		session.save(encadrant);
-		session.save(projet);
 		session.save(ficheObjectifs);
 		session.save(ficheEvaluations);
 		session.save(bap);

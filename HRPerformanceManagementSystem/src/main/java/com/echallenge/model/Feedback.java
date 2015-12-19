@@ -12,6 +12,7 @@ public class Feedback {
 	private Long id;
 	/**Le collaborateur concerné*/
 	private String remarqueGenerale;
+	private Encadrant encadrant;
 	private boolean validation;
 	/**L'ent�te du feedback*/
 	private Entete entete;
@@ -99,6 +100,22 @@ public class Feedback {
 	public void setQualificationsTheme(Set<QualificationTheme> qualificationsTheme) {
 		this.qualificationsTheme = qualificationsTheme;
 	}
+
+	/**
+	 * @return the encadrant
+	 */
+	@XmlElement
+	public Encadrant getEncadrant() {
+		return encadrant;
+	}
+
+	/**
+	 * @param encadrant the encadrant to set
+	 */
+	public void setEncadrant(Encadrant encadrant) {
+		this.encadrant = encadrant;
+	}
+
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()

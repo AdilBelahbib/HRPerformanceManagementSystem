@@ -19,11 +19,17 @@
         <property name="role" type="java.lang.String">
             <column name="ROLE" />
         </property>
+        
+        <property name="codeProjet" type="java.lang.String">
+            <column name="codeProjet" />
+        </property>
+        
+        <property name="nomProjet" type="java.lang.String">
+            <column name="nomProjet" />
+        </property>
+        
         <property name="nombreJoursValorises" type="int">
             <column name="nombreJoursValorises" />
         </property>
-        <many-to-one name="projet" class="Projet" fetch="join" lazy="false">
-            <column name="idProjet" />
-        </many-to-one>
     </class>
 </hibernate-mapping>

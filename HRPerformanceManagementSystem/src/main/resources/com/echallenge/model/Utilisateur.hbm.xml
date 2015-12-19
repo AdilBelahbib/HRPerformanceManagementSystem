@@ -69,10 +69,6 @@
 		</subclass>
 
 		<subclass name="Encadrant" discriminator-value="E">
-			<set name="feedbacks" table="FEEDBACK" inverse="true" lazy="false">
-				<key column="idEncadrant" />
-				<one-to-many class="Feedback" />
-			</set>
 		</subclass>
 	</class>
 </hibernate-mapping>

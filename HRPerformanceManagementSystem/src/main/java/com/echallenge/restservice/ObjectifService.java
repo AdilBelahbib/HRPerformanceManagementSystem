@@ -21,7 +21,6 @@ import com.echallenge.model.FicheEvaluations;
 import com.echallenge.model.FicheObjectifs;
 import com.echallenge.model.Formation;
 import com.echallenge.model.Objectif;
-import com.echallenge.model.Projet;
 import com.echallenge.util.HibernateUtil;
 
 @Path("/objectifs")
@@ -161,25 +160,6 @@ public class ObjectifService {
 
 		session.getTransaction().commit();
 		return formation;
-	}
-
-	@Path("/link/projet/{idobjectif}/{idprojet}")
-	@GET
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Projet linkObjectifToProjet(@PathParam("idobjectif") int idObjectif, @PathParam("idprojet") int idProjet) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-
-		Objectif objectif = (Objectif) session.get(Objectif.class, new Long(idObjectif));
-		Projet projet = (Projet) session.get(Projet.class, new Long(idProjet));
-
-		if ((objectif != null) && (projet != null)) {
-			projet.getObjectifs().add(objectif);
-			session.update(projet);
-		}
-
-		session.getTransaction().commit();
-		return projet;
 	}
 
 	@Path("/ficheobjectifs")

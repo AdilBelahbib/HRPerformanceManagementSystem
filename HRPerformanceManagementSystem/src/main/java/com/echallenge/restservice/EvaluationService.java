@@ -93,7 +93,7 @@ public class EvaluationService {
 	@Path("/link/ficheevaluation/{idevaluation}/{idficheevaluations}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public FicheEvaluations linkObjectifToProjet(@PathParam("idevaluation") int idEvaluation,@PathParam("idficheevaluations") int idFicheEvaluations)
+	public FicheEvaluations linkEvaluationToFicheEvaluation(@PathParam("idevaluation") int idEvaluation,@PathParam("idficheevaluations") int idFicheEvaluations)
 	{
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();

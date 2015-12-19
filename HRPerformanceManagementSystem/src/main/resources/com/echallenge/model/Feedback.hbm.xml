@@ -23,6 +23,10 @@
 			<column name="idEntete" />
 		</many-to-one>
 		
+		<many-to-one name="encadrant" class="Encadrant" lazy="false">
+			<column name="idEncadrant" />
+		</many-to-one>
+		
 		<set name="qualificationsTheme" table="qualification_theme" inverse="false" lazy="false" cascade="all">
 			<key>
 				<column name="idFeedback" />
