@@ -154,7 +154,9 @@ public class ObjectifService {
 
 			FicheEvaluations ficheEvaluations = (FicheEvaluations) session
 					.createQuery("SELECT bap.ficheEvaluationsInitialisee from BAP bap"
-							+ " JOIN bap.ficheObjectifsRediges fiche WHERE :objectif IN elements(fiche.objectifs)")
+							+ " JOIN bap.ficheObjectifsRediges fiche"
+							+ " WHERE :objectif IN elements(fiche.objectifs)")
+							.setEntity("objectif", objectif)
 					.setMaxResults(1).uniqueResult();
 
 			ficheEvaluations.getEvaluations().add(evaluation);

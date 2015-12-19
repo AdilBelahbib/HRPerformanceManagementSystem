@@ -127,6 +127,12 @@ public class BAPService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public BAP validerFicheEvaluations(BAP bap) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		
+		if(session.getTransaction().isActive())
+			session.getTransaction().commit();
+		
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
+
 		session.beginTransaction();
 
 		double noteFinale = 0;
