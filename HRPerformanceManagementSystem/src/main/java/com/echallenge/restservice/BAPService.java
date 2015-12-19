@@ -187,6 +187,35 @@ public class BAPService {
 
 		return bap;
 	}
+	
+	@Path("revalider/{id}")
+	@PUT
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public BAP revaliderBAPByManager(BAP bap) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		session.update(bap.getFicheObjectifsRediges());
+		session.getTransaction().commit();
+
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		session.update(bap.getCollaborateur());
+		session.getTransaction().commit();
+
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		
+		if (bap.getNombreRejet() >= 3)
+			bap.setStatut(StatutBAP.VALIDE);
+		else
+			bap.setStatut(StatutBAP.A_VALIDER);
+
+		session.update(bap);
+		session.getTransaction().commit();
+
+		return bap;
+	}
 
 	@Path("{id}")
 	@PUT
