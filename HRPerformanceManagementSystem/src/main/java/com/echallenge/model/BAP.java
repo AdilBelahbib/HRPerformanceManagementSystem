@@ -19,6 +19,7 @@ public class BAP extends Bilan{
 	private Set<Feedback> feedbacks;	
 	/**Les statuts du BAP sont énumérés dans l'enum. 'StatusBAP'*/
 	private StatutBAP statut;
+	private int nombreRejet;
 	
 	public BAP() {
 		super();
@@ -100,5 +101,20 @@ public class BAP extends Bilan{
 		this.feedbacks = feedbacks;
 	}
 
+	/**
+	 * @return the nombreRejet
+	 */
+	public int getNombreRejet() {
+		return nombreRejet;
+	}
+
+	/**
+	 * @param nombreRejet the nombreRejet to set
+	 */
+	public void setNombreRejet(int nombreRejet) {
+		this.nombreRejet = nombreRejet;
+	}
+	
+	
 	
 }

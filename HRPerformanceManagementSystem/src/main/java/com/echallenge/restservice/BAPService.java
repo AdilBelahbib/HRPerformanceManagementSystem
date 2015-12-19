@@ -36,11 +36,11 @@ public class BAPService {
 		session.beginTransaction();
 
 		BAP bap = (BAP) session.get(BAP.class, new Long(id));
-		
+
 		session.getTransaction().commit();
 		return bap;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Path("/collaborateur/{id}")
 	@GET
@@ -53,20 +53,15 @@ public class BAPService {
 
 		List<BAP> baps = null;
 
-		if(collaborateur != null)
-		{
-			baps = session.createQuery(
-					" select bap from BAP bap"
-					+ " where bap.collaborateur = :collaborateur"
-					+ " ORDER BY bap.dateBilan DESC")
-					.setEntity("collaborateur", collaborateur)
-					.list();
+		if (collaborateur != null) {
+			baps = session.createQuery(" select bap from BAP bap" + " where bap.collaborateur = :collaborateur"
+					+ " ORDER BY bap.dateBilan DESC").setEntity("collaborateur", collaborateur).list();
 		}
 
 		session.getTransaction().commit();
 		return baps;
 	}
-	
+
 	@Path("/courant/collaborateur/{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -78,21 +73,17 @@ public class BAPService {
 
 		BAP bap = null;
 
-		if(collaborateur != null)
-		{
-			bap = (BAP) session.createQuery(
-					"select bap from BAP bap"
-					+ " where bap.collaborateur = :collaborateur"
-					+ " AND (bap.statut = 'EN_COURS')"
-					+ " ORDER BY bap.dateBilan DESC")
-					.setEntity("collaborateur", collaborateur).setMaxResults(1)
-					.uniqueResult();
+		if (collaborateur != null) {
+			bap = (BAP) session
+					.createQuery("select bap from BAP bap" + " where bap.collaborateur = :collaborateur"
+							+ " AND (bap.statut = 'A_VALIDER')" + " ORDER BY bap.dateBilan DESC")
+					.setEntity("collaborateur", collaborateur).setMaxResults(1).uniqueResult();
 		}
 
 		session.getTransaction().commit();
 		return bap;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Path("/managerrh/statut/{id}/{statut}")
 	@GET
@@ -105,22 +96,18 @@ public class BAPService {
 
 		List<BAP> baps = null;
 
-		if(manager != null)
-		{
-			baps = session.createQuery(
-					"select bap from BAP bap, ManagerRh manager"
-					+ " where manager = :manager"
-					+ " AND bap.collaborateur IN elements(manager.collaborateurs)"
-					+ " AND (bap.statut = 'EN_COURS')"
-					+ " ORDER BY bap.dateBilan DESC")
-					.setEntity("manager", manager)
-					.list();
+		if (manager != null) {
+			baps = session
+					.createQuery("select bap from BAP bap, ManagerRh manager" + " where manager = :manager"
+							+ " AND bap.collaborateur IN elements(manager.collaborateurs)"
+							+ " AND (bap.statut = 'EN_COURS')" + " ORDER BY bap.dateBilan DESC")
+					.setEntity("manager", manager).list();
 		}
 
 		session.getTransaction().commit();
 		return baps;
 	}
-	
+
 	@Path("/valider")
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -130,41 +117,77 @@ public class BAPService {
 		session.beginTransaction();
 
 		double noteFinale = 0;
-		
+
 		FicheObjectifs ficheObjectifs = new FicheObjectifs();
 		ficheObjectifs.setAutorisationAcces(false);
 		ficheObjectifs.setDateFicheObjectifs(new Date());
-		
-		for(Evaluation evaluation : bap.getFicheEvaluations().getEvaluations())
-		{
-			noteFinale += (evaluation.getResultat() * ((double)evaluation.getPoids()/100));
-			
-			if(evaluation.getObjectif().getAvancementObjectif() < 100)
-			{
+
+		for (Evaluation evaluation : bap.getFicheEvaluations().getEvaluations()) {
+			noteFinale += (evaluation.getResultat() * ((double) evaluation.getPoids() / 100));
+
+			if (evaluation.getObjectif().getAvancementObjectif() < 100) {
 				Objectif objectif = new Objectif();
 				objectif.setDescriptionObjectif(evaluation.getObjectif().getDescriptionObjectif());
 				objectif.setMesureObjectif(evaluation.getObjectif().getMesureObjectif());
 				objectif.setAvancementObjectif(evaluation.getObjectif().getAvancementObjectif());
-				
+
 				ficheObjectifs.getObjectifs().add(objectif);
 			}
 		}
-		
+
 		bap.getCollaborateur().getFicheObjectifs().add(ficheObjectifs);
 		session.update(bap.getCollaborateur());
-		
+
 		bap.getFicheEvaluations().setNoteFinale(noteFinale);
-		
+
 		session.update(bap.getFicheEvaluations());
-		
+
 		bap.setFicheObjectifsRediges(ficheObjectifs);
 		session.update(bap);
 
 		session.getTransaction().commit();
-				
+
 		return bap;
 	}
-	
+
+	@Path("valider/{id}")
+	@PUT
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public BAP validerBAPbyCollaborateur(BAP bap) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+
+		bap.setStatut(StatutBAP.VALIDE);
+		session.saveOrUpdate(bap);
+
+		session.getTransaction().commit();
+
+		return bap;
+	}
+
+	@Path("rejeter/{id}")
+	@PUT
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public BAP rejeterBAPbyCollaborateur(BAP bap) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+
+		bap.setNombreRejet(bap.getNombreRejet() + 1);
+
+		if (bap.getNombreRejet() >= 3)
+			bap.setStatut(StatutBAP.VALIDE);
+		else
+			bap.setStatut(StatutBAP.REJETE);
+
+		session.saveOrUpdate(bap);
+
+		session.getTransaction().commit();
+
+		return bap;
+	}
+
 	@Path("{id}")
 	@PUT
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -186,29 +209,36 @@ public class BAPService {
 	public BAP ajouterBAP(BAP bap) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-		
+
 		BAP nouveauBap = new BAP();
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
 		cal.add(Calendar.YEAR, 1);
-				
+
 		nouveauBap.setDateBilan(cal.getTime());
 		nouveauBap.setStatut(StatutBAP.EN_ATTENTE);
 		nouveauBap.setCollaborateur(bap.getCollaborateur());
 		nouveauBap.setFicheEvaluations(bap.getFicheEvaluations());
-		nouveauBap.setFicheObjectifsTraites(bap.getFicheObjectifsRediges());;
+		nouveauBap.setFicheObjectifsTraites(bap.getFicheObjectifsRediges());
+		nouveauBap.setNombreRejet(0);
 		session.save(nouveauBap);
-				
+
 		session.getTransaction().commit();
-		
+
 		session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-		session.update(bap.getFicheObjectifsRediges());		
+		session.update(bap.getFicheObjectifsRediges());
 		session.getTransaction().commit();
-		
+
 		session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		session.update(bap.getCollaborateur());
+		session.getTransaction().commit();
+
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		bap.setStatut(StatutBAP.A_VALIDER);
+		session.update(bap);
 		session.getTransaction().commit();
 
 		return bap;

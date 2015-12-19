@@ -2,6 +2,7 @@ package com.echallenge.backgroundservice;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
@@ -30,10 +31,14 @@ public class JobInitializer extends HttpServlet {
 			JobDetail job = JobBuilder.newJob(BAPJob.class).withIdentity("bapjob", "group1").build();
 
 			Trigger trigger = TriggerBuilder.newTrigger().withIdentity("bapjobtrigger", "group1")
-					.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(20).repeatForever())
+					.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(10).repeatForever())
 					.build();
 
-			Scheduler scheduler = new StdSchedulerFactory().getScheduler();;
+	        String key = "org.quartz.impl.StdSchedulerFactory.KEY";
+	        ServletContext servletContext = config.getServletContext();
+	        StdSchedulerFactory factory = (StdSchedulerFactory) servletContext.getAttribute(key);
+	        Scheduler scheduler = factory.getScheduler("MyQuartzScheduler");
+			
 			scheduler.start();
 			scheduler.scheduleJob(job, trigger);
 			
