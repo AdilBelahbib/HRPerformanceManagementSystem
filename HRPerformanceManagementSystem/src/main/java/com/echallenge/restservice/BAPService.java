@@ -154,10 +154,11 @@ public class BAPService {
 		
 		bap.getFicheEvaluations().setNoteFinale(noteFinale);
 		
+		session.update(bap.getFicheEvaluations());
 		session.update(bap);
 
 		session.getTransaction().commit();
-
+				
 		return bap;
 	}
 	

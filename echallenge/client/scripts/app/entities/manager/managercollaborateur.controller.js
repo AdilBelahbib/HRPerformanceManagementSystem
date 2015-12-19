@@ -4,7 +4,7 @@ app
 .controller('ManagerCollaborateurController', function ($scope, $stateParams,$filter , Bap  ,Feedback , Collaborateur) {
 
     Bap.bapCourant({id:$stateParams.id},function  (result) {
-      console.log(result);
+
       $scope.bap=result;
 
   });
@@ -17,6 +17,12 @@ app
 
       $scope.bapToValidate = bap;
       
+      $scope.totalaValider = 0
+      $scope.bapToValidate.ficheEvaluations.evaluations.forEach(function (obje) {
+
+        if(obje.poids != '' )$scope.totalaValider+=parseInt(obje.poids); 
+    });
+
       $scope.current = 1;
       $('#step1_1').show();	
       $('#step1_2').hide();	
@@ -44,12 +50,14 @@ app
 
     $scope.nextStep=function()
     {
-        if($scope.current==1)
+        if($scope.current==2)
         {
             //valider bap 
-            Bap.valider($scope.bapToValidate);
-            // mise à jours bap
+            $scope.ValiderBap();
+            console.log($scope.bapToValidate);
         }
+        if($scope.current==3)console.log($scope.bapToValidate);
+        
         $('#step1_'+$scope.current).hide();
         $scope.current++;
         $('#step1_'+$scope.current).show();
@@ -70,56 +78,83 @@ app
 
         $scope.ValiderBap=function()
         {
+            $scope.totalaValider = 0
+            $scope.bapToValidate.ficheEvaluations.evaluations.forEach(function (obje) {
+              $scope.totalaValider+=parseInt(obje.poids); 
+          });
+            if($scope.totalaValider!=100)
+            {
+              $scope.error=true;
+          }
+          else
+          {
 
-           console.log("Creation d'un nouveau Bap et mise à jour de l'ancien");
+            Bap.valider($scope.bapToValidate,function  (result) {
+                console.log(result);
+                $scope.bapToValidate = result;
+            });
 
-       }
+        }
 
-
-
-
-       $scope.initPreparerBap = function  (bap) {
-
-         $scope.bapToPrepare = bap;
-
-         $scope.current = 1;
-         $('#step2_2').hide();   
-         $('#step2_3').hide();   
-         $('#step2_1').show();   
-         $('#BapModal2').modal('show');
-
-         $scope.total = 0
-         $scope.bapToPrepare.ficheEvaluations.evaluations.forEach(function (obje) {
-
-          $scope.total+=parseInt(obje.poids); 
-      });
-
-
-     }
-     $scope.majPoid = function  () {
-         $scope.total = 0
-         $scope.bapToPrepare.ficheEvaluations.evaluations.forEach(function (obje) {
-            
-            if(obje.poids != '' )$scope.total+=parseInt(obje.poids); 
-        });
-     }
-
-     $scope.MAJBap = function  () {
-        $scope.total = 0
-        $scope.bapToPrepare.ficheEvaluations.evaluations.forEach(function (obje) {
-          $scope.total+=parseInt(obje.poids); 
-      });
-        if($scope.total!=100)
-        {
-          $scope.error=true;
-      }
-      else
-      {
         
-        Bap.update({id :$scope.bapToPrepare } , $scope.bapToPrepare);
-        $('#BapModal2').modal('hide');
+
     }
+
+
+
+
+    $scope.initPreparerBap = function  (bap) {
+
+     $scope.bapToPrepare = bap;
+
+     $scope.current = 1;
+     $('#step2_2').hide();   
+     $('#step2_3').hide();   
+     $('#step2_1').show();   
+     $('#BapModal2').modal('show');
+
+     $scope.total = 0
+     $scope.bapToPrepare.ficheEvaluations.evaluations.forEach(function (obje) {
+
+      $scope.total+=parseInt(obje.poids); 
+  });
+
+
+ }
+ $scope.majPoid = function  () {
+     $scope.total = 0
+     $scope.bapToPrepare.ficheEvaluations.evaluations.forEach(function (obje) {
+
+        if(obje.poids != '' )$scope.total+=parseInt(obje.poids); 
+    });
+ }
+ $scope.majPoidaValider = function  () {
+     $scope.totalaValider = 0
+     $scope.bapToValidate.ficheEvaluations.evaluations.forEach(function (obje) {
+
+        if(obje.poids != '' )$scope.totalaValider+=parseInt(obje.poids); 
+    });
+ }
+
+ $scope.MAJBap = function  () {
+    $scope.total = 0
+    $scope.bapToPrepare.ficheEvaluations.evaluations.forEach(function (obje) {
+      $scope.total+=parseInt(obje.poids); 
+  });
+    if($scope.total!=100)
+    {
+      $scope.error=true;
+  }
+  else
+  {
+
+    Bap.update({id :$scope.bapToPrepare } , $scope.bapToPrepare);
+    $('#BapModal2').modal('hide');
 }
+}
+
+
+
 
 
 });
