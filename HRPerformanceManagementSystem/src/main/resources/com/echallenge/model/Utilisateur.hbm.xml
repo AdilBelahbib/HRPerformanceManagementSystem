@@ -38,14 +38,14 @@
 
 		<subclass name="Collaborateur" discriminator-value="C">
 
-			<set name="ficheObjectifs" table="fiche_objectifs" inverse="true"
-				lazy="false" cascade="delete,refresh">
+			<set name="ficheObjectifs" table="fiche_objectifs" inverse="false"
+				lazy="false" cascade="all">
 				<key column="idCollaborateur" />
 				<one-to-many class="FicheObjectifs" />
 			</set>
 
 			<set name="fichesEvaluations" table="fiche_evaluations" inverse="true"
-				lazy="false" cascade="delete,refresh">
+				lazy="false" cascade="persist,delete,refresh">
 				<key column="idCollaborateur" />
 				<one-to-many class="FicheEvaluations" />
 			</set>

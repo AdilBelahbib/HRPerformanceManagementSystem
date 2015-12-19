@@ -27,6 +27,7 @@ app
       $('#step1_1').show();	
       $('#step1_2').hide();	
       $('#step1_3').hide();	
+      $('#step1_4').hide(); 
       $('#BapModal').modal('show');
 
   }
@@ -84,7 +85,7 @@ app
           });
             if($scope.totalaValider!=100)
             {
-              $scope.error=true;
+              $scope.error2=true;
           }
           else
           {

@@ -151,10 +151,13 @@ public class BAPService {
 		}
 		
 		bap.getCollaborateur().getFicheObjectifs().add(ficheObjectifs);
+		session.update(bap.getCollaborateur());
 		
 		bap.getFicheEvaluations().setNoteFinale(noteFinale);
 		
 		session.update(bap.getFicheEvaluations());
+		
+		bap.setFicheObjectifsRediges(ficheObjectifs);
 		session.update(bap);
 
 		session.getTransaction().commit();
