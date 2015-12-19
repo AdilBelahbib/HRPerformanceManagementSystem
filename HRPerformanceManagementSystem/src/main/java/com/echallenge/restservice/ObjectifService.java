@@ -103,7 +103,7 @@ public class ObjectifService {
 			ficheObjectifs = (FicheObjectifs) session
 					.createQuery(" select bap.ficheObjectifsTraites from BAP bap, Collaborateur col"
 							+ " where bap.collaborateur = col AND col = :collaborateur"
-							+ " AND (bap.statut = 'EN_COURS' OR bap.statut = 'EN_ATTENTE'")
+							+ " AND (bap.statut = 'EN_COURS' OR bap.statut = 'EN_ATTENTE')")
 					.setEntity("collaborateur", collaborateur).setMaxResults(1).uniqueResult();
 		}
 

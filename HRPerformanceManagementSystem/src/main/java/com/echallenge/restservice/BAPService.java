@@ -229,10 +229,14 @@ public class BAPService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public BAP modifierBAP(BAP bap) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		
 		session.beginTransaction();
-
+		session.update(bap.getFicheEvaluations());
+		session.getTransaction().commit();
+		
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
 		session.saveOrUpdate(bap);
-
 		session.getTransaction().commit();
 
 		return bap;

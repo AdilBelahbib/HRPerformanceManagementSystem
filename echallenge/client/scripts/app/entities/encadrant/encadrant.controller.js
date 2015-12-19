@@ -4,30 +4,15 @@ app
 .controller('EncadrantController', function ($scope, $state,$stateParams,$filter , Manager , Encadrant,Bap , Collaborateur , DemandeBip) {
 
 
-        //recupérer les collaborateurs de l'encadrant !!!
+
 
 
         $scope.encadrant = Encadrant.get({id:161});
 
-        Manager.get({id: 160}, function(result) {
-            $scope.manager = result;
-            //collaborateur du managerRH avec un BAp statut en cours
-            $scope.collaborateurs = $scope.manager.collaborateurs;        
-            // get Bap foreach collaborator
-            $scope.CollaborateursBaps=[];
-            $scope.collaborateurs.forEach(function (entity) {
-
-                Bap.collaborateur({id:entity.id},function  (result) {
-
-
-                    $scope.CollaborateursBaps[entity.id]=result;
-
-                });
-                
-                
-            });
-
-        });
+        Collaborateur.encadrant({id:162},function  (result) {
+            
+           $scope.collaborateurs=result;
+        })        
         
         $scope.initdemandeBip = function  (collaborateur) {
             // afficher modal

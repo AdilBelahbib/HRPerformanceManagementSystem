@@ -1,0 +1,246 @@
+<div class="col-md-12  content">
+  <div class="jumbotron">
+
+
+    <h3>Collaborateur :  </h3>
+    <br>
+    <div class="col-md-6">
+      <div class="well well-sm bg-light">
+        <div class="row">
+          <div class="col-md-3"><h4>Nom : </h4></div> <div class="col-md-9 pull-right "><h4  class="black-text">{{bap.collaborateur.nom}}</h4></div>
+        </div>
+        <div class="row">
+          <div class="col-md-3"><h4>Prenom : </h4></div> <div class="col-md-9 pull-right "><h4 class="black-text">{{bap.collaborateur.prenom}}</h4></div>
+        </div>
+        <div class="row">
+          <div class="col-md-3"><h4>Email : </h4></div> <div class="col-md-9 pull-right "><h4 class="black-text">{{bap.collaborateur.email}}</h4></div>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-6">
+
+
+      <div class="row">
+        <div class="well well-sm bg-light center-block">
+          <h5>Actions :</h5>
+          
+          <div class="col-md-4 center-block">
+            <a ng-click="initdemandeBip(bap.collaborateur)" class="btn btn-warning">Demande de Bip</a>
+          </div>
+          <div class="col-md-4 center-block">
+            <a class="btn btn-primary">imprimer fiche</a>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="well well-sm bg-light center-block">
+          <h5>Bap :</h5>
+          <div class="col-md-4 center-block ">
+           Date : 2015/12/21
+         </div>
+         <div class="col-md-4 center-block">
+          Etat : {{bap.statut}}
+        </div>
+        <div class="col-md-4 center-block">
+          <div class="btn-group">
+            <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Actions <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="" ng-click="initFeedBack()"  >Rédaction Feedback </a></li>
+              <li><a ng-click="initEvaluation()" href="" > Evaluation </a></li>
+
+            </ul>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="clearfix"></div>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+
+<!-- modals -->
+
+<div class="modal fade bs-example-modal-md" id="demandeBipModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Confirmation de la demande de Bip</h4>
+      </div>
+      <div class="modal-body">
+        <p>etes-vous sur de demander un bip pour le collaborateur {{collaborateurdemande.nom}} {{collaborateurdemande.prenom}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
+        <button type="button" class="btn btn-success" ng-click="demandeBip(collaborateurdemande)">Oui</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div>
+</div>
+
+
+<!-- evaluation modal -->
+
+
+<div class="modal fade bs-example-modal-md" id="evaluationModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Evaluation </h4>
+      </div>
+      <div class="modal-body">
+        <table class="table  table-bordered  table-striped" >
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Mesure</th>
+              <th>Avancement</th>
+
+              <th>Resultat</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr   ng-repeat="evaluation in bap.ficheEvaluations.evaluations   | filter:{encadrant : {id : encadrant.id } } ">
+
+
+              <td >{{evaluation.objectif.descriptionObjectif}}</td> 
+              <td >{{evaluation.objectif.mesureObjectif}} </td> 
+              <td ><div class="progress">
+                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{evaluation.objectif.avancementObjectif}}" aria-valuemin="0" aria-valuemax="100" style="width: {{evaluation.objectif.avancementObjectif}}%;">
+                  {{evaluation.objectif.avancementObjectif}}%
+                </div>
+                <td><input type="text" class="form-control" ng-model="evaluation.resultat"  ></td>
+              </div></td> 
+            </tr>
+
+          </tbody>
+        </table>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" ng-click="evaluer()">confirmer </button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+
+      </div>
+    </div><!-- /.modal-content -->
+  </div>
+</div>
+
+<!-- feed back modal -->
+
+
+<div class="modal fade bs-example-modal-lg" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Feedback </h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+          <fieldset>
+            <legend>Entete : </legend>
+
+            <div class="form-group">
+              <label  class="col-lg-2 control-label">date Debut Intervention</label>
+              <div class="col-lg-9">
+                <input type="text" class="form-control" ng-model ='feedback.entete.dateDebutIntervention' > 
+
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label  class="col-lg-2 control-label">date Fin Intervention</label>
+              <div class="col-lg-9">
+                <input type="text"  class="form-control"ng-model ='feedback.entete.dateFinIntervention' > 
+              </div>
+            </div>
+            <div class="form-group">
+              <label  class="col-lg-2 control-label">nombre de Jours Valorisés</label>
+              <div class="col-lg-9">
+                <input type="text" class="form-control" ng-model ='feedback.entete.nombreJoursValorises' > 
+              </div>
+            </div>
+
+
+            <legend>Qualifications theme</legend>
+            <div class="table-header"></div>
+            <table class="table  table-bordered  table-striped" >
+              <thead>
+                <tr>
+                  <th>Theme </th>
+                  <th>Qualification</th>
+                  <th>remarque</th>
+                  <th>Action</th>
+                </tr>
+
+              </thead>
+
+              <tbody>
+               <tr>
+                <td><input type="text" class="form-control" ng-model="newqualification.theme"></td>
+                <td><input type="text" class="form-control" ng-model="newqualification.qualification"></td>
+                <td><input type="text" class="form-control" ng-model="newqualification.remarque"></td>
+                <td><button class="btn btn-info" ng-click="addqualification()">ajouter</button>
+
+                </td>
+              </tr>
+              <tr ng-repeat = "qualification in feedback.qualificationstheme">
+
+
+                <td >{{qualification.theme}}</td> 
+                <td >{{qualification.qualification}} </td> 
+                <td>{{qualification.remarque}}</td>
+                <td>
+                  <div  >
+                    <button class="btn btn-sm btn-info" ng-hide="modif[$index]" ng-click="initModif($index)">Modifier</button>
+                    <button class="btn btn-sm btn-danger" ng-hide="modif[$index]" ng-click="supprimerQualification($index)">Supprimer</button>
+                    <button class="btn btn-sm btn-success" ng-show="modif[$index]" ng-click="Modif($index)">Confirmer</button>
+                  </div>
+                </td>
+
+
+              </div>
+            </td> 
+          </tr>
+
+        </tbody>
+      </table>
+      <div class="table-footer"></div>
+      <br>
+      <legend>Remarque General </legend>
+
+      <div class="form-group">
+        <div class="col-lg-12">
+          <textarea class="form-control" rows="3" id="textArea" ng-model="feedback.remarqueGenerale"></textarea>
+        </div>
+      </div>
+
+    </fieldset>
+  </form>
+
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-success" ng-click="feedBack()">confirmer </button>
+  <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+
+</div>
+</div><!-- /.modal-content -->
+</div>
+</div>
+

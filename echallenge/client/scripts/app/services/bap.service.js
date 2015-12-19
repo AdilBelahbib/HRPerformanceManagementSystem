@@ -14,10 +14,15 @@ app
                         isArray : true,
                         url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/baps/collaborateur/:id'
                       },
+            'bapByStatut' :
+            {
+                     method: 'GET',
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/baps/collaborateur/statut/:id/:statut'
+            },
             'bapCourant' :
             {
                      method: 'GET',
-                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/baps/courant/collaborateur/:id'
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/baps/collaborateur/statut/:id/EN_COURS'
             },
             'valider' : {
                     method : 'POST',

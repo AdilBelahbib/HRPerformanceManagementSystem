@@ -1,5 +1,6 @@
 package com.echallenge.restservice;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -16,6 +17,7 @@ import org.hibernate.Session;
 
 import com.echallenge.model.BIP;
 import com.echallenge.model.Collaborateur;
+import com.echallenge.model.Formation;
 import com.echallenge.util.HibernateUtil;
 
 @Path("/bips")
@@ -82,9 +84,27 @@ public class BIPService {
 	public BIP ajouterBIP(BIP bip) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-
+		
+		bip.setDateBilan(new Date());
+		
 		session.save(bip);
 
+		session.getTransaction().commit();
+		
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		session.update(bip.getFicheObjectifsTraites());
+		session.getTransaction().commit();
+		
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		for(Formation formation: bip.getFormations())
+			session.update(formation);
+		session.getTransaction().commit();
+
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		session.update(bip.getCollaborateur());
 		session.getTransaction().commit();
 
 		return bip;
