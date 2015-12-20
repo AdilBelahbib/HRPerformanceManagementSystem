@@ -1,8 +1,8 @@
-var app=angular.module('hrPerformanceApp',['ui.router','ngResource']);
+var app=angular.module('hrPerformanceApp',['ui.router','ngResource','ngCookies']);
 app.config(['$locationProvider', function($scope,$locationProvider, Utilisateur) {
      // 
 
-  }]);
+ }]);
 app.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
 
         //enable CSRF
@@ -27,6 +27,22 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locatio
         });
 
     });
+
+app.controller('mainController', function ($scope, $state, $cookieStore,$stateParams,$filter ) {
+
+
+    $scope.logOut = function  () {
+
+        $cookieStore.remove('connectedUser');
+        $cookieStore.remove('logged');    
+        $state.go('login');
+    }
+
+    
+});
+
+
+
 
 
 

@@ -14,11 +14,14 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
 import com.echallenge.model.BAP;
 import com.echallenge.model.Collaborateur;
 import com.echallenge.model.Encadrant;
+import com.echallenge.model.FicheEvaluations;
+import com.echallenge.model.FicheObjectifs;
 import com.echallenge.model.ManagerRh;
 import com.echallenge.model.StatutBAP;
 import com.echallenge.util.HibernateUtil;
@@ -225,11 +228,11 @@ public class CollaborateurService {
 
 			if (managerRh != null) {
 				collaborateur.setMotDePasse(Security.get_SHA_1_SecurePassword(collaborateur.getMotDePasse()));
+				session.save(collaborateur);
 
-				managerRh.getCollaborateurs().add(collaborateur);
-				session.update(managerRh);
-				session.getTransaction().commit();
-
+				SQLQuery query = session.createSQLQuery("update collaborateur set id_manager = "+managerRh.getId()+" where id = "+collaborateur.getId() );
+				query.executeUpdate();
+				
 				BAP nouveauBap = new BAP();
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(new Date());
@@ -238,11 +241,37 @@ public class CollaborateurService {
 				nouveauBap.setDateBilan(cal.getTime());
 				nouveauBap.setStatut(StatutBAP.EN_ATTENTE);
 				nouveauBap.setCollaborateur(collaborateur);
+				
+				FicheEvaluations ficheEvaluation = new FicheEvaluations();
+				ficheEvaluation.setAutorisationAcces(false);
+				ficheEvaluation.setDateEvaluation(new Date());
+				ficheEvaluation.setNoteFinale(0);
+				
+				FicheObjectifs ficheObjectifs = new FicheObjectifs();
+				ficheObjectifs.setAutorisationAcces(false);
+				ficheObjectifs.setDateFicheObjectifs(new Date());
+				
+				nouveauBap.setFicheEvaluations(ficheEvaluation);
+				nouveauBap.setFicheObjectifsTraites(ficheObjectifs);
 				nouveauBap.setNombreRejet(0);
+				session.save(nouveauBap);
+
+				session.getTransaction().commit();
 
 				session = HibernateUtil.getSessionFactory().getCurrentSession();
 				session.beginTransaction();
-				session.save(nouveauBap);
+				session.update(ficheObjectifs);
+				session.getTransaction().commit();
+				
+				session = HibernateUtil.getSessionFactory().getCurrentSession();
+				session.beginTransaction();
+				session.update(ficheEvaluation);
+				session.getTransaction().commit();
+
+				session = HibernateUtil.getSessionFactory().getCurrentSession();
+				session.beginTransaction();
+				session.update(nouveauBap.getCollaborateur());
+				
 			}
 
 			session.getTransaction().commit();

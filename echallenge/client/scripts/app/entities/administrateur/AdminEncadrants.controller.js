@@ -1,10 +1,22 @@
 'use strict';
 
 app
-.controller('AdminEncadrantsController', function ($scope, $state,$stateParams,$filter , Encadrant ) {
+.controller('AdminEncadrantsController', function ($scope, $state,$stateParams,$filter ,$cookieStore, Encadrant ) {
 
 	console.log("admin encadrant");
-
+	$scope.user = $cookieStore.get('connectedUser');
+	 if(!$scope.user )
+  {
+  	 $state.go('login');
+  }
+   else if($scope.user.utilisateur.type != 'A')
+	{
+		$state.go('login');
+	}
+	else
+	{
+		$scope.id = $scope.user.utilisateur.id ;
+	}
 	$scope.modif = [];
 	$scope.newencadrant = {};
 	$scope.encadrants = Encadrant.query();
@@ -52,7 +64,7 @@ app
 	$scope.ajouter = function  () {
 
 		
-		 Encadrant.save($scope.newencadrant)
+		Encadrant.save($scope.newencadrant)
 		$('#addModal').modal('hide');                                         
 
 	}

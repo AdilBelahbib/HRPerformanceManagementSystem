@@ -1,40 +1,53 @@
 'use strict';
 
 app
-.controller('AdminArchiveController', function ($scope, $state,$stateParams,$filter , Collaborateur ) {
+.controller('AdminArchiveController', function ($scope, $state,$stateParams,$filter, $cookieStore , Collaborateur ) {
 
-Collaborateur.get({id : $stateParams.id} , function  (result) {
-	
-	$scope.collaborateur = result; 
+    $scope.user = $cookieStore.get('connectedUser');
+     if(!$scope.user )
+  {
+  	 $state.go('login');
+  }
+   else if($scope.user.utilisateur.type != 'A')
+    {
+        $state.go('login');
+    }
+    else
+    {
+        $scope.id = $scope.user.utilisateur.id ;
+    }
+    Collaborateur.get({id : $stateParams.id} , function  (result) {
 
-            
-        });  
+       $scope.collaborateur = result; 
 
-        $scope.showObjectifs = function (id) {
 
-            $scope.hideobjectifs=false;
+   });  
 
-            var fichesobjectif= $scope.collaborateur.fichesobjectifs.filter(function (entity) { return entity.id==id;});
+    $scope.showObjectifs = function (id) {
 
-            $scope.fichesobjectif=fichesobjectif[0];
+        $scope.hideobjectifs=false;
 
-            if($scope.fichesobjectif.objectifs.length==0)$scope.hideobjectifs=true;
+        var fichesobjectif= $scope.collaborateur.fichesobjectifs.filter(function (entity) { return entity.id==id;});
 
-            $('#objectifsModal').modal('show');
-        };
+        $scope.fichesobjectif=fichesobjectif[0];
 
-        $scope.showEvaluations = function (id) {
+        if($scope.fichesobjectif.objectifs.length==0)$scope.hideobjectifs=true;
 
-            $scope.hideevaluations=false;
+        $('#objectifsModal').modal('show');
+    };
 
-            var fichesevaluations= $scope.collaborateur.fichesevaluations.filter(function (entity) { return entity.id==id;});
+    $scope.showEvaluations = function (id) {
 
-            $scope.fichesevaluation=fichesevaluations[0];
+        $scope.hideevaluations=false;
 
-            if($scope.fichesevaluation.evaluations.length==0)$scope.hideevaluations=true;
+        var fichesevaluations= $scope.collaborateur.fichesevaluations.filter(function (entity) { return entity.id==id;});
 
-            $('#evaluationModal').modal('show');
-        };
+        $scope.fichesevaluation=fichesevaluations[0];
+
+        if($scope.fichesevaluation.evaluations.length==0)$scope.hideevaluations=true;
+
+        $('#evaluationModal').modal('show');
+    };
 
 
 });

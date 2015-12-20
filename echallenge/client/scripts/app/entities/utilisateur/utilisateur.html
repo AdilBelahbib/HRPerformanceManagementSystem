@@ -1,136 +1,30 @@
-<div class="col-md-12  content">
+<div class=" col-sm-offset-2 col-md-8  content">
+  <br><br><br><br>
   <div class="jumbotron">
-    <h4>Liste  des Utilisateurs :</h4>
-     
-    <div class="col-md-12 table-header">
-  <div class="col-lg-6">
-    <div class="input-group">
-      <input type="text" class="form-control" placeholder="Search for Utilisateur...">
-      <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Search </button>
-      </span>
-      <div class="clearfix"></div>
-    </div><!-- /input-group -->
-  
-  </div><!-- /.col-lg-6 -->
-  <div class="col-lg-2 pull-right ">
-    <div class="btn-group pull-right">
-  <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Actions <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu">
-    <li><a href=""ng-click="addUtilisateur()">Ajouter </a></li>
-    <li><a href="#">Imprimer la liste</a></li>
-    <li><a href="#">Something else here</a></li>
-    <li role="separator" class="divider"></li>
-    <li><a href="#">Separated link</a></li>
-  </ul>
-</div>
-  
-  </div><!-- /.col-lg-6 -->
-</div>
-<div class="clearfix"></div>
-          <table class="table  table-bordered  table-striped table-hover">
-        <thead>
-          <tr>
-            <th class="text-center ">#</th>
 
-            <th>nom</th>
-            <th>prenom</th>
-            <th>email</th>
-             <th>actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="Utilisateur in Utilisateurs">
-            <th scope="row" class="text-center "><input type="checkbox"></th>
-                        <td>{{Utilisateur.nom}}</td>
-                        <td>{{Utilisateur.prenom}}</td>
-                        <td>{{Utilisateur.email}}</td>
 
-            <td class="text-center ">  <div class="btn-group">
-  <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Actions <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu">
-    <li><a href="#">Modifier</a></li>
-    <li><a href="#">fiche d'objectifs</a></li>
-    <li><a href="#">fiche d'evaluation </a></li>
-  </ul>
-</div></td>
-            
-
-          </tr>
+    <h3>Login   </h3>
+    <form class="form-horizontal">
+          <div class="form-group">
+            <label class="col-lg-2 control-label">email : </label>
+            <div class="col-lg-8">
+              <input type="text" class="form-control" ng-model = "user.email">
+            </div>
+          </div>
           
-        </tbody>
-      </table>
-     <div class="col-md-12 table-footer">
-      <center>
-       <button class="btn btn-sm"><span class="ti-angle-left"></span></button>
-       <button class="btn btn-sm"><span class="ti-angle-right"></span></button>
-       </center>
-     </div>
-      <div class="clearfix"></div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">mot de passe :  </label>
+            <div class="col-lg-8">
+              <input type="password" class="form-control" ng-model = "user.motDePasse">
+            </div>
+          </div>
+          <div class="form-group">
+          <div class="col-lg-2"></div>
+            <div class="col-lg-10 pull-right">
+          <button class="btn btn-lg btn-primary" ng-click="login()"> Connexion </button>
+          </div>
+        </div>
+      </form>
+    
 </div>
-        </div>
-        <div class="col-md-6">
-        	<div class="jumbotron">
-    	<h4>Notifications :</h4>    	
-    	<div class="alert alert-success" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  <strong>Warning!</strong> Better check yourself, you're not looking too good.</div>
-		<div class="alert alert-info" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  <strong>Warning!</strong> Better check yourself, you're not looking too good.</div>
-		<div class="alert alert-warning" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  <strong>Warning!</strong> Better check yourself, you're not looking too good.</div>
-		<div class="alert alert-danger" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  <strong>Warning!</strong> Better check yourself, you're not looking too good.</div>
-        </div>
-    </div>
-        <div class="col-md-6"><div class="jumbotron">
-    	<h4>Mes Taches :</h4>    	
-    	<div class="list-group">
-  <a href="#" class="list-group-item active">
-    Cras justo odio
-  </a>
-  <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
-  <a href="#" class="list-group-item">Morbi leo risus</a>
-  <a href="#" class="list-group-item">Porta ac consectetur ac</a>
-  <a href="#" class="list-group-item">Vestibulum at eros</a>
-</div>
-        </div>
-    </div>
-
-<div class="modal fade bs-example-modal-sm" id="editModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel">Ajouter/modifier Utilisateur : </h4>
-      </div>
-      <div class="modal-body">
-        <form >
-          <div class="form-group">
-            <label for="todoTask" class="control-label">Nom:</label>
-            <input type="text" class="form-control"  ng-model="Utilisateur.nom" >
-          </div>
-          <div class="form-group">
-            <label for="todoTask" class="control-label">Prenom:</label>
-            <input type="text" class="form-control"  ng-model="Utilisateur.prenom" >
-          </div>
-          <div class="form-group">
-            <label for="todoTask" class="control-label">Email:</label>
-            <input type="text" class="form-control"  ng-model="Utilisateur.email" >
-          </div>
-          <div class="form-group">
-            <label for="todoTask" class="control-label">Mot de Passe:</label>
-            <input type="password" class="form-control"  ng-model="Utilisateur.motDePasse" >
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">annuler</button>
-        <button type="submit" class="btn btn-success" ng-click="create()">confirmer</button>
-      </div>
-    </div>
-  </div>
 </div>

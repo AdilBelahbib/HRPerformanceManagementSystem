@@ -28,8 +28,8 @@
 
 		<subclass name="ManagerRh" discriminator-value="M">
 			<set name="collaborateurs" table="COLLABORATEUR" inverse="false"
-				lazy="false" cascade="all">
-				<key column="id_manager" not-null="true" />
+				lazy="false">
+				<key column="id_manager"/>
 				<many-to-many column="id" class="Collaborateur" />
 			</set>
 		</subclass>

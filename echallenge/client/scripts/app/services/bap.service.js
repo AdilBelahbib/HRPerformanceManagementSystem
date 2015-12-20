@@ -41,6 +41,11 @@
                         isArray:false,
                         url :'http://localhost:8080/HRPerformanceManagementSystem/resources/baps/valider'
                     },
+                    'rejeter' : {
+                        method : 'POST',
+                        isArray:false,
+                        url :'http://localhost:8080/HRPerformanceManagementSystem/resources/baps/rejeter'
+                    },
                     'update': { method:'PUT' },
                     'save': { method:'POST' }
                 });

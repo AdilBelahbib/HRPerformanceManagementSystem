@@ -1,20 +1,28 @@
 'use strict';
 
 app
-.controller('EncadrantController', function ($scope, $state,$stateParams,$filter , Manager , Encadrant,Bap , Collaborateur , DemandeBip) {
+.controller('EncadrantController', function ($scope,$stateParams,$filter , Manager ,$cookieStore,$state , Encadrant,Bap , Collaborateur , DemandeBip) {
 
 
+   $scope.user = $cookieStore.get('connectedUser');
+   if($scope.user.utilisateur.type != 'E')
+   {
+     $state.go('login');
+ }
+ else
+ {
+    $scope.id = $scope.user.utilisateur.id ;
+}
 
 
+$scope.encadrant = Encadrant.get({id:$scope.id});
 
-        $scope.encadrant = Encadrant.get({id:149});
+Collaborateur.encadrant({id:$scope.id},function  (result) {
 
-        Collaborateur.encadrant({id:149},function  (result) {
-            
-           $scope.collaborateurs=result;
-        })        
-        
-        $scope.initdemandeBip = function  (collaborateur) {
+ $scope.collaborateurs=result;
+})        
+
+$scope.initdemandeBip = function  (collaborateur) {
             // afficher modal
             $scope.collaborateurdemande = collaborateur ; 
 

@@ -1,10 +1,22 @@
 'use strict';
 
 app
-.controller('AdminManagersController', function ($scope, $state,$stateParams,$filter , Manager ) {
+.controller('AdminManagersController', function ($scope, $state,$stateParams,$filter ,$cookieStore, Manager ) {
 
 	console.log("admin manager");
-
+	$scope.user = $cookieStore.get('connectedUser');
+	 if(!$scope.user )
+  {
+  	 $state.go('login');
+  }
+   else if($scope.user.utilisateur.type != 'A')
+	{
+		$state.go('login');
+	}
+	else
+	{
+		$scope.id = $scope.user.utilisateur.id ;
+	}
 	$scope.modif = [];
 	$scope.newmanager = {};
 	$scope.managers = Manager.query();

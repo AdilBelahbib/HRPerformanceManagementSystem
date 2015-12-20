@@ -1,13 +1,25 @@
 'use strict';
 
 app
-.controller('EncadrantCollaborateurController', function ($scope, $state,$stateParams,$filter , Bap ,DemandeBip ,Feedback , Collaborateur , Encadrant ) {
+.controller('EncadrantCollaborateurController', function ($scope, $state,$stateParams,$filter , Bap ,DemandeBip ,Feedback ,$cookieStore, Collaborateur , Encadrant ) {
+
+
+  $scope.user = $cookieStore.get('connectedUser');
+   if($scope.user.utilisateur.type != 'E')
+   {
+     $state.go('login');
+ }
+ else
+ {
+    $scope.id = $scope.user.utilisateur.id ;
+}
+
 
     $scope.modif = [];
     $scope.feedback = {};
     $scope.feedback.qualificationstheme =[];
     $scope.newqualification={};
-    $scope.encadrant = Encadrant.get({id:161});
+    $scope.encadrant = Encadrant.get({id:$scope.id});
     Bap.bapCourant({id:$stateParams.id},function  (result) {
 
         $scope.bap=result;

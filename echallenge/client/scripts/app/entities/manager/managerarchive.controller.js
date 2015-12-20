@@ -1,7 +1,21 @@
 'use strict';
 
 app
-.controller('ManagerArchiveController', function ($scope, $stateParams,$filter  , Collaborateur) {
+.controller('ManagerArchiveController', function ($scope, $stateParams,$filter  ,$cookieStore,$state, Collaborateur) {
+
+  $scope.user = $cookieStore.get('connectedUser');
+   if(!$scope.user )
+  {
+  	 $state.go('login');
+  }
+   else if($scope.user.utilisateur.type != 'M')
+  {
+   $state.go('login');
+}
+else
+{
+    $scope.id = $scope.user.utilisateur.id ;
+}
 
 
         //recupérer les fiches du  collaborateur selectionné

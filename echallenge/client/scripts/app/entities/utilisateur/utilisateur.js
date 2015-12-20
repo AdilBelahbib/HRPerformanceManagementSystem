@@ -3,14 +3,18 @@
 app
     .config(function ($stateProvider) {
         $stateProvider
-            .state('utilisateur', {
-                url: '/utilisateurs',
+            .state('login', {
+                url: '/login',
                 views: {
-                    'content@': {
+                    'login@': {
                         templateUrl: 'scripts/app/entities/utilisateur/utilisateur.html',
                         controller: 'UtilisateurController'
                     }
-                }
+                
+                },
+                data: {
+                    logged : false 
+                },
             });
             
     });

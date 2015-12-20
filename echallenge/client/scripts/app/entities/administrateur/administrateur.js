@@ -14,7 +14,8 @@ app
                         templateUrl: 'scripts/app/partials/navbar-a.partial.html'
                     }
                     
-                    }
+                    },
+                    
             })
             .state('administrateur.fiches', {
                 url: '/fiches/:id',

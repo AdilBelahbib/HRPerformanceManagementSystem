@@ -201,7 +201,7 @@ public class BAPService {
 		return bap;
 	}
 
-	@Path("valider/{id}")
+	@Path("valider")
 	@PUT
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -226,7 +226,7 @@ public class BAPService {
 		return bap;
 	}
 
-	@Path("rejeter/{id}")
+	@Path("rejeter")
 	@PUT
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

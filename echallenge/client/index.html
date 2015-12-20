@@ -15,9 +15,9 @@
 
 
 </head>
- <body ng-app="hrPerformanceApp">
+ <body ng-app="hrPerformanceApp" ui-view="login" ng-controller="mainController"> 
     
-    <nav class="first-nav navbar-fixed-top">
+    <nav  class="first-nav navbar-fixed-top">
     <div class="container">
       <ul class="pull-left">
         
@@ -26,9 +26,8 @@
       </ul>
       <ul class="pull-right menu-right">
         
-        <li><a href="">{{rol}}Hamza Tanji Cherkaoui</a></li>
-        <li><a href=""><span class="notification">10</span></a></li>
-        <li><a href="">Déconnexion</a></li>
+        
+        <li><a href ="" ng-click="logOut()">Déconnexion</a></li>
       </ul>
       <div class="clearfix"></div>
     </div>
@@ -65,13 +64,15 @@
   <!-- bower:js -->
   <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="bower_components/angular/angular.js"></script>
-  <script src="bower_components/angular-resource/angular-resource.js"></script>
   <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="bower_components/angular-resource/angular-resource.js"></script>
+  <script src="bower_components/angular-resource/angular-resource.js"></script>
   <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
   <!-- endbower -->
 
   <!-- injector:js -->
   <script src="scripts/app/app.js"></script>
+  <script src="scripts/app/components/angular-cookies.js"></script>
   <script src="scripts/app/components/angular-resource.js"></script>
   <script src="scripts/app/entities/administrateur/Admin.controller.js"></script>
   <script src="scripts/app/entities/administrateur/AdminArchive.controller.js"></script>
@@ -100,6 +101,7 @@
   <script src="scripts/app/services/bap.service.js"></script>
   <script src="scripts/app/services/bip.services.js"></script>
   <script src="scripts/app/services/collaborateur.service.js"></script>
+  <script src="scripts/app/services/connect.service.js"></script>
   <script src="scripts/app/services/demandebip.service.js"></script>
   <script src="scripts/app/services/encadrant.service.js"></script>
   <script src="scripts/app/services/entete.service.js"></script>

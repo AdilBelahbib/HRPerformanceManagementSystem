@@ -11,7 +11,7 @@ app
                         controller: 'EncadrantController'
                     },
                     'navbar@': {
-                        templateUrl: 'scripts/app/partials/navbar-m.partial.html'
+                        templateUrl: 'scripts/app/partials/navbar-e.partial.html'
                     }
                     
                     }

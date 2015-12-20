@@ -1,9 +1,24 @@
 'use strict';
 
 app
-.controller('AdminCollaborateursController', function ($scope, $state,$stateParams,$filter , Collaborateur , Manager ) {
+.controller('AdminCollaborateursController', function ($scope, $state,$stateParams,$filter ,$cookieStore , Collaborateur , Manager , connect ) {
 
 	console.log("admin collaborateur");
+	
+  $scope.user = $cookieStore.get('connectedUser');
+	 if(!$scope.user )
+  {
+  	 $state.go('login');
+  }
+   else if($scope.user.utilisateur.type != 'A')
+	{
+		$state.go('login');
+	}
+	else
+	{
+		$scope.id = $scope.user.utilisateur.id ;
+	}
+
 	$scope.managerupdt = {};
 	$scope.modif = [];
 	$scope.newcollaborateur = {};

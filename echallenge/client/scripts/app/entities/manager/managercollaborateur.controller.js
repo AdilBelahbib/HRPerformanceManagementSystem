@@ -1,29 +1,46 @@
 'use strict';
 
 app
-.controller('ManagerCollaborateurController', function ($scope, $stateParams,$filter , Bap  , Objectif ,Encadrant , Feedback , Collaborateur) {
-
-  $scope.modif = [];
-  Bap.bapCourant({id:$stateParams.id},function  (result) {
-
-    $scope.bap=result;
-    console.log(result);
-
-  });
+.controller('ManagerCollaborateurController', function ($scope, $stateParams,$filter , Bap  , Objectif ,Encadrant , Feedback , $cookieStore,$state,Collaborateur) {
 
 
-
-
-  $scope.initModif=function (i)
+  $scope.user = $cookieStore.get('connectedUser');
+  
+   if(!$scope.user )
   {
-
-    $scope.modif[i] =true;
+  	 $state.go('login');
   }
-
-  $scope.Modif = function  (i) {
-   $scope.modif[i] =false; 
+   else if($scope.user.utilisateur.type != 'M')
+  {
+   $state.go('login');
  }
- $scope.initValiderBap = function  (bap) {
+ else
+ {
+  $scope.id = $scope.user.utilisateur.id ;
+}
+
+$scope.modif = [];
+Bap.bapCourant({id:$stateParams.id},function  (result) {
+
+  $scope.bap=result;
+  console.log(result);
+
+});
+
+
+
+
+$scope.initModif=function (i)
+{
+
+  $scope.modif[i] =true;
+}
+
+$scope.Modif = function  (i) {
+ $scope.modif[i] =false; 
+}
+$scope.initValiderBap = function  (bap) {
+
 
   $scope.bapToValidate = bap;
 
@@ -33,10 +50,10 @@ app
     if(obje.poids != '' )$scope.totalaValider+=parseInt(obje.poids); 
   });
 
-    $scope.bapToValidate.feedbacks.forEach(function (f) {
+  $scope.bapToValidate.feedbacks.forEach(function (f) {
 
-      var q = Feedback.qualificationglobale({id : f.id}); 
-      f.qualificationglobal = q ;
+    var q = Feedback.qualificationglobale({id : f.id}); 
+    f.qualificationglobal = q ;
   });
 
 

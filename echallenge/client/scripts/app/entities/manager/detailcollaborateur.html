@@ -45,24 +45,21 @@
          <div class="col-md-4 center-block">
           Etat : {{bap.statut}}
         </div>
-        <div class="col-md-4 center-block">
-          <div class="btn-group">
-            <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Actions <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-              <li><a href="" ng-click="initValiderBap(bap)"  >Valider</a></li>
-              <li><a ng-click="initPreparerBap(bap)" href="" >Modifier</a></li>
+        <div class="col-md-2 center-block">
+          <a href="" ng-click="initValiderBap(bap)" class=" btn btn-xs btn-default" >Valider</a>
 
-            </ul>
-          </div>
         </div>
-        <div class="clearfix"></div>
-      </div>
-    </div>
-  </div>
+        <div class="col-md-2 center-block">
+          <a ng-click="initPreparerBap(bap)" class=" btn btn-xs btn-info" href="" >Modifier</a>
 
-  <div class="clearfix"></div>
+       </div>
+
+       <div class="clearfix"></div>
+     </div>
+   </div>
+ </div>
+
+ <div class="clearfix"></div>
 
 </div>
 
@@ -234,7 +231,9 @@
               </table>
 
               <div class="col-md-12 table-footer text-center">
-                {{feedback.qualificationglobal.nombreThemesQualifies}}
+                <h5>nombres themes qualifiés</h5>{{feedback.qualificationglobal.nombreThemesQualifies}}
+                <h5>total poids</h5>{{feedback.qualificationglobal.totalPoidsObtenu}}
+                <h5>note Globale</h5>{{feedback.qualificationglobal.noteGlobale}}
                 <br>
               </div>
               <div class="clearfix"></div>
@@ -393,11 +392,11 @@
 
 
               <td > <div ng-hide="modif[$index]">{{objectif.descriptionObjectif}}</div>
-                
+
                 <input type="text" class="form-control" ng-model="objectif.descriptionObjectif" ng-show="modif[$index]">
               </td> 
               <td ><div ng-hide="modif[$index]">{{objectif.mesureObjectif}}</div>
-                
+
                 <input type="text" class="form-control" ng-model="objectif.mesureObjectif" ng-show="modif[$index]"> 
               </td> 
               <td ><div class="progress" ng-hide="modif[$index]">
@@ -434,67 +433,67 @@
     </div>
   </div>
   <div id="step1_5">
-        <div class="modal-header">
-          <button type="button" class="close" ng-click="modalDissmiss()" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="exampleModalLabel">affectation des objectifs  :</h4>
-        </div>
-
-        <div class="modal-body">
-
-
-         <table class="table  table-bordered  table-striped" >
-          <thead>
-            <tr>
-              <th>Description</th>
-              <th>Mesure</th>
-              <th>Avancement</th>
-              <th>Encadrant</th>
-              
-            </tr>
-          </thead>
-          <tbody>
-            
-            <tr   ng-repeat="objectif in objectifsToLink">
-
-
-              <td > <div >{{objectif.descriptionObjectif}}</div>
-                
-              </td> 
-              <td ><div>{{objectif.mesureObjectif}}</div>
-                
-              </td> 
-              <td ><div class="progress" >
-                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{objectif.avancementObjectif}}" aria-valuemin="0" aria-valuemax="100" style="width: {{objectif.avancementObjectif}}%;">
-                  {{objectif.avancementObjectif}}%
-
-                </div>
-                <div class="clearfix"></div>
-              </div>
-              
-              
-
-            </td> 
-            <td>
-              <select  class="form-control" ng-model="encadrant" ng-change="initLinkObject(objectif,encadrant)" 
-     data-ng-options="encadrant as (encadrant.nom+' '+encadrant.prenom)  for encadrant in encadrants">
-    <option value="">Select Encadrant</option>
-      </select>
-            </td>
-
-          </tr>
-
-        </tbody>
-      </table>
-
-
-
+    <div class="modal-header">
+      <button type="button" class="close" ng-click="modalDissmiss()" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title" id="exampleModalLabel">affectation des objectifs  :</h4>
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-success" id="nextbtn" ng-click="LinkObjcetif()">Affecter</button>
-      <button type="button" class="btn btn-default"  ng-click="modalDissmiss()" data-dismiss="modal">fermer</button>
 
-    </div>
-  </div>
+    <div class="modal-body">
+
+
+     <table class="table  table-bordered  table-striped" >
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Mesure</th>
+          <th>Avancement</th>
+          <th>Encadrant</th>
+
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr   ng-repeat="objectif in objectifsToLink">
+
+
+          <td > <div >{{objectif.descriptionObjectif}}</div>
+
+          </td> 
+          <td ><div>{{objectif.mesureObjectif}}</div>
+
+          </td> 
+          <td ><div class="progress" >
+            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{objectif.avancementObjectif}}" aria-valuemin="0" aria-valuemax="100" style="width: {{objectif.avancementObjectif}}%;">
+              {{objectif.avancementObjectif}}%
+
+            </div>
+            <div class="clearfix"></div>
+          </div>
+
+
+
+        </td> 
+        <td>
+          <select  class="form-control" ng-model="encadrant" ng-change="initLinkObject(objectif,encadrant)" 
+          data-ng-options="encadrant as (encadrant.nom+' '+encadrant.prenom)  for encadrant in encadrants">
+          <option value="">Select Encadrant</option>
+        </select>
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-success" id="nextbtn" ng-click="LinkObjcetif()">Affecter</button>
+  <button type="button" class="btn btn-default"  ng-click="modalDissmiss()" data-dismiss="modal">fermer</button>
+
+</div>
+</div>
 </div>
 </div>
 </div>
