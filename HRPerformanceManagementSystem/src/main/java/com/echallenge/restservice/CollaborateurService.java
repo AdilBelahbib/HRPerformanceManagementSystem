@@ -27,16 +27,25 @@ import com.echallenge.util.Security;
 @Path("/collaborateurs")
 public class CollaborateurService {
 
+	@SuppressWarnings("unchecked")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<Collaborateur> getAllCollaborateurs() {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		List<Collaborateur> collaborateurs = null;
 
-		@SuppressWarnings("unchecked")
-		List<Collaborateur> collaborateurs = session.createQuery("from Collaborateur").list();
+		try {
+			session.beginTransaction();
+			collaborateurs = session.createQuery("from Collaborateur").list();
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
+
 		return collaborateurs;
 	}
 
@@ -44,32 +53,50 @@ public class CollaborateurService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Collaborateur getCollaborateurById(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		Collaborateur collaborateur = null;
 
-		Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
+		try {
+			session.beginTransaction();
+			collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
+
 		return collaborateur;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Path("/encadrant/{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<Collaborateur> getCollaborateurByEncadrant(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		Encadrant encadrant = (Encadrant) session.get(Encadrant.class, new Long(id));
+		List<Collaborateur> collaborateurs = null;
 
-		@SuppressWarnings("unchecked")
-		List<Collaborateur> collaborateurs = session
-				.createQuery("select distinct col from Collaborateur as col"
-						+ " join col.fichesEvaluations as fiche"
-						+ " join fiche.evaluations as eval"
-						+ " where eval.encadrant = :encadrant")
-				.setEntity("encadrant", encadrant).list();
+		try {
+			session.beginTransaction();
+			Encadrant encadrant = (Encadrant) session.get(Encadrant.class, new Long(id));
 
-		session.getTransaction().commit();
+			if (encadrant != null) {
+				collaborateurs = session
+						.createQuery("select distinct col from Collaborateur as col join col.fichesEvaluations as fiche"
+								+ " join fiche.evaluations as eval where eval.encadrant = :encadrant")
+						.setEntity("encadrant", encadrant).list();
+			}
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
+
 		return collaborateurs;
 	}
 
@@ -78,20 +105,27 @@ public class CollaborateurService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<Collaborateur> getCollaborateurByManagerRh(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		ManagerRh managerRh = (ManagerRh) session.get(ManagerRh.class, new Long(id));
 		List<Collaborateur> collaborateurs = null;
 
-		if (managerRh != null) {
-			collaborateurs = session.createQuery(
-					" select col from Collaborateur col, ManagerRh man"
-					+ " where man = :managerrh"
-					+ " AND col IN elements(man.collaborateurs)")
-					.setEntity("managerRh", managerRh).list();
+		try {
+			session.beginTransaction();
+			ManagerRh managerRh = (ManagerRh) session.get(ManagerRh.class, new Long(id));
+
+			if (managerRh != null) {
+				collaborateurs = session.createQuery(" select col from Collaborateur col, ManagerRh man"
+						+ " where man = :managerrh" + " AND col IN elements(man.collaborateurs)")
+						.setEntity("managerRh", managerRh).list();
+			}
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
 		}
 
-		session.getTransaction().commit();
 		return collaborateurs;
 	}
 
@@ -99,27 +133,32 @@ public class CollaborateurService {
 	@Path("/bapstatut/{idencadrant}/{statut}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public List<Collaborateur> getCollaborateurByBapStatut(@PathParam("idencadrant") int id, @PathParam("statut") StatutBAP statut) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+	public List<Collaborateur> getCollaborateurByBapStatut(@PathParam("idencadrant") int id,
+			@PathParam("statut") StatutBAP statut) {
 
-		ManagerRh managerRh = (ManagerRh) session.get(ManagerRh.class, new Long(id));
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		List<Collaborateur> collaborateurs = null;
 
-		if (managerRh != null) {
+		try {
+			session.beginTransaction();
+			ManagerRh managerRh = (ManagerRh) session.get(ManagerRh.class, new Long(id));
 
-		collaborateurs = session.createQuery(
-				"select distinct col"
-				+ " from Collaborateur as col, BAP as bap"
-				+ " where bap.ficheObjectifsTraites IN elements(col.ficheObjectifs)"
-				+ " AND bap.statut = :statut"
-				+ " AND col.managerRh = :managerRh")
-				.setString("statut", statut.name())
-				.setEntity("managerRh", managerRh)
-				.list();
+			if (managerRh != null) {
+
+				collaborateurs = session
+						.createQuery("select distinct col" + " from Collaborateur as col, BAP as bap"
+								+ " where bap.ficheObjectifsTraites IN elements(col.ficheObjectifs)"
+								+ " AND bap.statut = :statut" + " AND col.managerRh = :managerRh")
+						.setString("statut", statut.name()).setEntity("managerRh", managerRh).list();
+			}
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
 		}
 
-		session.getTransaction().commit();
 		return collaborateurs;
 	}
 
@@ -128,56 +167,71 @@ public class CollaborateurService {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Collaborateur modifierCollaborateur(Collaborateur collaborateur) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		
-		String mdp = (String) session.createQuery("select col.motDePasse from Collaborateur col WHERE col = :collaborateur")
-				.setEntity("collaborateur", collaborateur).uniqueResult();
-		
-		if (!collaborateur.getMotDePasse().equals(mdp))
-			collaborateur.setMotDePasse(Security.get_SHA_1_SecurePassword(collaborateur.getMotDePasse()));
 
-		session.update(collaborateur);
+		try {
+			session.beginTransaction();
+			String mdp = (String) session
+					.createQuery("select col.motDePasse from Collaborateur col WHERE col = :collaborateur")
+					.setEntity("collaborateur", collaborateur).uniqueResult();
 
-		session.getTransaction().commit();
+			if (!collaborateur.getMotDePasse().equals(mdp))
+				collaborateur.setMotDePasse(Security.get_SHA_1_SecurePassword(collaborateur.getMotDePasse()));
+
+			session.update(collaborateur);
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return collaborateur;
 	}
-	
+
 	@Path("{idmanager}")
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Collaborateur ajouterCollaborateurWithManager(Collaborateur collaborateur, @PathParam("idmanager") int idManager) {
+	public Collaborateur ajouterCollaborateurWithManager(Collaborateur collaborateur,
+			@PathParam("idmanager") int idManager) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		
-		ManagerRh managerRh = (ManagerRh) session.get(ManagerRh.class, new Long(idManager));
 
-		if(managerRh != null)
-		{
-			collaborateur.setMotDePasse(Security.get_SHA_1_SecurePassword(collaborateur.getMotDePasse()));
-			
-			managerRh.getCollaborateurs().add(collaborateur);
-			session.update(managerRh);
-			session.getTransaction().commit();
-			
-			BAP nouveauBap = new BAP();
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(new Date());
-			cal.add(Calendar.YEAR, 1);
-
-			nouveauBap.setDateBilan(cal.getTime());
-			nouveauBap.setStatut(StatutBAP.EN_ATTENTE);
-			nouveauBap.setCollaborateur(collaborateur);
-			nouveauBap.setNombreRejet(0);
-			
-			session = HibernateUtil.getSessionFactory().getCurrentSession();
+		try {
 			session.beginTransaction();
-			session.save(nouveauBap);
-		}
+			ManagerRh managerRh = (ManagerRh) session.get(ManagerRh.class, new Long(idManager));
 
-		session.getTransaction().commit();
+			if (managerRh != null) {
+				collaborateur.setMotDePasse(Security.get_SHA_1_SecurePassword(collaborateur.getMotDePasse()));
+
+				managerRh.getCollaborateurs().add(collaborateur);
+				session.update(managerRh);
+				session.getTransaction().commit();
+
+				BAP nouveauBap = new BAP();
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(new Date());
+				cal.add(Calendar.YEAR, 1);
+
+				nouveauBap.setDateBilan(cal.getTime());
+				nouveauBap.setStatut(StatutBAP.EN_ATTENTE);
+				nouveauBap.setCollaborateur(collaborateur);
+				nouveauBap.setNombreRejet(0);
+
+				session = HibernateUtil.getSessionFactory().getCurrentSession();
+				session.beginTransaction();
+				session.save(nouveauBap);
+			}
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return collaborateur;
 	}
@@ -186,14 +240,21 @@ public class CollaborateurService {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Collaborateur ajouterCollaborateur(Collaborateur collaborateur) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		collaborateur.setMotDePasse(Security.get_SHA_1_SecurePassword(collaborateur.getMotDePasse()));
+		try {
+			session.beginTransaction();
+			collaborateur.setMotDePasse(Security.get_SHA_1_SecurePassword(collaborateur.getMotDePasse()));
 
-		session.save(collaborateur);
+			session.save(collaborateur);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return collaborateur;
 	}
@@ -203,12 +264,19 @@ public class CollaborateurService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Collaborateur supprimerCollaborateur(@PathParam("id") int id) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		Collaborateur collaborateur = null;
 
-		Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
-		session.delete(collaborateur);
+		try {
+			session.beginTransaction();
+			collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
+			session.delete(collaborateur);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return collaborateur;
 	}

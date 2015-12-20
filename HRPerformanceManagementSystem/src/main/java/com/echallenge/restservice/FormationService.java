@@ -25,12 +25,21 @@ public class FormationService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Formation getFormationById(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		Formation formation = null;
 
-		Formation formation = (Formation) session.get(Formation.class, new Long(id));
+		try {
+			session.beginTransaction();
+			formation = (Formation) session.get(Formation.class, new Long(id));
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
+
 		return formation;
 	}
 
@@ -39,36 +48,47 @@ public class FormationService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<Formation> getFormationByCollaborateur(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-
-		Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
-
 		List<Formation> formations = null;
 
-		if(collaborateur != null)
-		{
-			formations = session.createQuery(
-					"from Formation form WHERE form.collaborateur = :collaborateur")
-			.setEntity("collaborateur", collaborateur)
-			.list();
+		try {
+			session.beginTransaction();
+			Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
+
+			if (collaborateur != null) {
+				formations = session.createQuery("from Formation form WHERE form.collaborateur = :collaborateur")
+						.setEntity("collaborateur", collaborateur).list();
+			}
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
 		}
 
-		session.getTransaction().commit();
 		return formations;
 	}
-	
+
 	@Path("{id}")
 	@PUT
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Formation modifierFormation(Formation formation) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		session.saveOrUpdate(formation);
+		try {
+			session.beginTransaction();
+			session.saveOrUpdate(formation);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return formation;
 	}
@@ -77,12 +97,19 @@ public class FormationService {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Formation ajouterFormation(Formation formation) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		session.save(formation);
+		try {
+			session.beginTransaction();
+			session.save(formation);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return formation;
 	}
@@ -91,13 +118,21 @@ public class FormationService {
 	@DELETE
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Formation supprimerFormation(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		Formation formation = null;
 
-		Formation formation = (Formation) session.get(Formation.class, new Long(id));
-		session.delete(formation);
+		try {
+			session.beginTransaction();
+			formation = (Formation) session.get(Formation.class, new Long(id));
+			session.delete(formation);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return formation;
 	}

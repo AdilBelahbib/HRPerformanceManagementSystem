@@ -25,12 +25,21 @@ public class QualificationThemeService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public QualificationTheme getQualificationThemeById(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		QualificationTheme qualificationTheme = null;
 
-		QualificationTheme qualificationTheme = (QualificationTheme) session.get(QualificationTheme.class, new Long(id));
+		try {
+			session.beginTransaction();
+			qualificationTheme = (QualificationTheme) session.get(QualificationTheme.class, new Long(id));
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
+
 		return qualificationTheme;
 	}
 
@@ -39,39 +48,49 @@ public class QualificationThemeService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<QualificationTheme> getQualificationThemeByFeedback(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-
-		Feedback feedback = (Feedback) session.get(Feedback.class, new Long(id));
-
 		List<QualificationTheme> qualificationThemes = null;
 
-		if(feedback != null)
-		{
-			qualificationThemes = session.createQuery(
-					"select qt"
-					+ " from QualificationTheme qt, Feedback feed"
-					+ " WHERE feed = :feedback"
-					+ " AND qt IN elements(feed.qualificationsTheme)")
-			.setEntity("feedback", feedback)
-			.list();
+		try {
+			session.beginTransaction();
+			Feedback feedback = (Feedback) session.get(Feedback.class, new Long(id));
+
+			if (feedback != null) {
+				qualificationThemes = session
+						.createQuery("select qt" + " from QualificationTheme qt, Feedback feed"
+								+ " WHERE feed = :feedback" + " AND qt IN elements(feed.qualificationsTheme)")
+						.setEntity("feedback", feedback).list();
+			}
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
 		}
 
-		session.getTransaction().commit();
 		return qualificationThemes;
 	}
-	
+
 	@Path("{id}")
 	@PUT
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public QualificationTheme modifierQualificationTheme(QualificationTheme qualificationTheme) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		session.saveOrUpdate(qualificationTheme);
+		try {
+			session.beginTransaction();
+			session.saveOrUpdate(qualificationTheme);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return qualificationTheme;
 	}
@@ -80,12 +99,19 @@ public class QualificationThemeService {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public QualificationTheme ajouterQualificationTheme(QualificationTheme qualificationTheme) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		session.save(qualificationTheme);
+		try {
+			session.beginTransaction();
+			session.save(qualificationTheme);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return qualificationTheme;
 	}
@@ -94,13 +120,21 @@ public class QualificationThemeService {
 	@DELETE
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public QualificationTheme supprimerQualificationTheme(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		QualificationTheme qualificationTheme = null;
 
-		QualificationTheme qualificationTheme = (QualificationTheme) session.get(QualificationTheme.class, new Long(id));
-		session.delete(qualificationTheme);
+		try {
+			session.beginTransaction();
+			qualificationTheme = (QualificationTheme) session.get(QualificationTheme.class, new Long(id));
+			session.delete(qualificationTheme);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return qualificationTheme;
 	}

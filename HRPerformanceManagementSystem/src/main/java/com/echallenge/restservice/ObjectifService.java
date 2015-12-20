@@ -19,7 +19,6 @@ import com.echallenge.model.Encadrant;
 import com.echallenge.model.Evaluation;
 import com.echallenge.model.FicheEvaluations;
 import com.echallenge.model.FicheObjectifs;
-import com.echallenge.model.Formation;
 import com.echallenge.model.Objectif;
 import com.echallenge.util.HibernateUtil;
 
@@ -30,12 +29,21 @@ public class ObjectifService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Objectif getObjectifById(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		Objectif objectif = null;
 
-		Objectif objectif = (Objectif) session.get(Objectif.class, new Long(id));
+		try {
+			session.beginTransaction();
+			objectif = (Objectif) session.get(Objectif.class, new Long(id));
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
+
 		return objectif;
 	}
 
@@ -44,22 +52,29 @@ public class ObjectifService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<FicheObjectifs> getFicheObjectifsByCollaborateur(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-
-		Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
-
 		List<FicheObjectifs> fichesObjectifs = null;
 
-		if (collaborateur != null) {
-			fichesObjectifs = session
-					.createQuery(" select fiche from FicheObjectifs fiche, Collaborateur col"
-							+ " where col = :collaborateur" + " AND fiche IN elements(col.ficheObjectifs)"
-							+ " ORDER BY fiche.dateFicheObjectifs DESC")
-					.setEntity("collaborateur", collaborateur).list();
+		try {
+			session.beginTransaction();
+			Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
+
+			if (collaborateur != null) {
+				fichesObjectifs = session
+						.createQuery(" select fiche from FicheObjectifs fiche, Collaborateur col"
+								+ " where col = :collaborateur" + " AND fiche IN elements(col.ficheObjectifs)"
+								+ " ORDER BY fiche.dateFicheObjectifs DESC")
+						.setEntity("collaborateur", collaborateur).list();
+			}
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
 		}
 
-		session.getTransaction().commit();
 		return fichesObjectifs;
 	}
 
@@ -67,42 +82,29 @@ public class ObjectifService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public FicheObjectifs getFicheObjectifsEnAttente(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-
-		Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
-
 		FicheObjectifs ficheObjectifs = null;
 
-		if (collaborateur != null) {
-			ficheObjectifs = (FicheObjectifs) session
-					.createQuery(" select bap.ficheObjectifsTraites from BAP bap, Collaborateur col"
-							+ " where bap.collaborateur = col AND col = :collaborateur"
-							+ " AND (bap.statut = 'EN_COURS' OR bap.statut = 'EN_ATTENTE')")
-					.setEntity("collaborateur", collaborateur).setMaxResults(1).uniqueResult();
+		try {
+			session.beginTransaction();
+			Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
+
+			if (collaborateur != null) {
+				ficheObjectifs = (FicheObjectifs) session
+						.createQuery(" select bap.ficheObjectifsTraites from BAP bap, Collaborateur col"
+								+ " where bap.collaborateur = col AND col = :collaborateur"
+								+ " AND (bap.statut = 'EN_COURS' OR bap.statut = 'EN_ATTENTE')")
+						.setEntity("collaborateur", collaborateur).setMaxResults(1).uniqueResult();
+			}
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
 		}
 
-		session.getTransaction().commit();
-		return ficheObjectifs;
-	}
-
-	@Path("/link/ficheobjectif/{idobjectif}/{idficheobjectif}")
-	@GET
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public FicheObjectifs linkObjectifToFicheObjectifs(@PathParam("idobjectif") int idObjectif,
-			@PathParam("idficheobjectif") int idFicheObjectif) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-
-		Objectif objectif = (Objectif) session.get(Objectif.class, new Long(idObjectif));
-		FicheObjectifs ficheObjectifs = (FicheObjectifs) session.get(FicheObjectifs.class, new Long(idFicheObjectif));
-
-		if ((objectif != null) && (ficheObjectifs != null)) {
-			ficheObjectifs.getObjectifs().add(objectif);
-			session.update(ficheObjectifs);
-		}
-
-		session.getTransaction().commit();
 		return ficheObjectifs;
 	}
 
@@ -111,55 +113,42 @@ public class ObjectifService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Evaluation linkObjectifToEncadrant(@PathParam("idObjectif") int idObjectif,
 			@PathParam("idencadrant") int idEncadrant) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		Objectif objectif = (Objectif) session.get(Objectif.class, new Long(idObjectif));
-		Encadrant encadrant = (Encadrant) session.get(Encadrant.class, new Long(idEncadrant));
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		Evaluation evaluation = null;
 
-		if ((objectif != null) && (encadrant != null)) {
-			evaluation = new Evaluation();
-			evaluation.setObjectif(objectif);
-			evaluation.setPoids(1);
-			evaluation.setResultat(0.0);
-			evaluation.setEncadrant(encadrant);
+		try {
+			session.beginTransaction();
+			Objectif objectif = (Objectif) session.get(Objectif.class, new Long(idObjectif));
+			Encadrant encadrant = (Encadrant) session.get(Encadrant.class, new Long(idEncadrant));
 
-			session.save(evaluation);
+			if ((objectif != null) && (encadrant != null)) {
+				evaluation = new Evaluation();
+				evaluation.setObjectif(objectif);
+				evaluation.setPoids(1);
+				evaluation.setResultat(0.0);
+				evaluation.setEncadrant(encadrant);
 
-			FicheEvaluations ficheEvaluations = (FicheEvaluations) session
-					.createQuery("SELECT bap.ficheEvaluationsInitialisee from BAP bap"
-							+ " JOIN bap.ficheObjectifsRediges fiche"
-							+ " WHERE :objectif IN elements(fiche.objectifs)")
-							.setEntity("objectif", objectif)
-					.setMaxResults(1).uniqueResult();
+				session.save(evaluation);
 
-			ficheEvaluations.getEvaluations().add(evaluation);
-			session.update(ficheEvaluations);
+				FicheEvaluations ficheEvaluations = (FicheEvaluations) session
+						.createQuery("SELECT bap.ficheEvaluationsInitialisee from BAP bap"
+								+ " JOIN bap.ficheObjectifsRediges fiche"
+								+ " WHERE :objectif IN elements(fiche.objectifs)")
+						.setEntity("objectif", objectif).setMaxResults(1).uniqueResult();
+
+				ficheEvaluations.getEvaluations().add(evaluation);
+				session.update(ficheEvaluations);
+			}
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
 		}
 
-		session.getTransaction().commit();
 		return evaluation;
-	}
-
-	@Path("/link/formation/{idobjectif}/{idformation}")
-	@GET
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Formation linkObjectifToFormation(@PathParam("idobjectif") int idObjectif,
-			@PathParam("idformation") int idFormation) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-
-		Objectif objectif = (Objectif) session.get(Objectif.class, new Long(idObjectif));
-		Formation formation = (Formation) session.get(Formation.class, new Long(idFormation));
-
-		if ((objectif != null) && (formation != null)) {
-			formation.getObjectifs().add(objectif);
-			session.update(formation);
-		}
-
-		session.getTransaction().commit();
-		return formation;
 	}
 
 	@Path("/ficheobjectifs")
@@ -167,12 +156,19 @@ public class ObjectifService {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public FicheObjectifs ajouterFicheObjectifs(FicheObjectifs ficheObjectifs) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		session.save(ficheObjectifs);
+		try {
+			session.beginTransaction();
+			session.save(ficheObjectifs);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return ficheObjectifs;
 	}
@@ -181,12 +177,19 @@ public class ObjectifService {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Objectif ajouterObjectif(Objectif objectif) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		session.save(objectif);
+		try {
+			session.beginTransaction();
+			session.save(objectif);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return objectif;
 	}
@@ -196,12 +199,19 @@ public class ObjectifService {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public FicheObjectifs modifierFicheObjectifs(FicheObjectifs ficheObjectifs) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		session.saveOrUpdate(ficheObjectifs);
+		try {
+			session.beginTransaction();
+			session.saveOrUpdate(ficheObjectifs);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return ficheObjectifs;
 	}
@@ -211,12 +221,19 @@ public class ObjectifService {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Objectif modifierObjectif(Objectif objectif) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		session.saveOrUpdate(objectif);
+		try {
+			session.beginTransaction();
+			session.saveOrUpdate(objectif);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return objectif;
 	}
@@ -225,13 +242,21 @@ public class ObjectifService {
 	@DELETE
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public FicheObjectifs supprimerFicheObjectifs(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		FicheObjectifs ficheObjectifs = null;
 
-		FicheObjectifs ficheObjectifs = (FicheObjectifs) session.get(FicheObjectifs.class, new Long(id));
-		session.delete(ficheObjectifs);
+		try {
+			session.beginTransaction();
+			ficheObjectifs = (FicheObjectifs) session.get(FicheObjectifs.class, new Long(id));
+			session.delete(ficheObjectifs);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return ficheObjectifs;
 	}
@@ -240,13 +265,21 @@ public class ObjectifService {
 	@DELETE
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Objectif supprimerObjectif(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		Objectif objectif = null;
 
-		Objectif objectif = (Objectif) session.get(Objectif.class, new Long(id));
-		session.delete(objectif);
+		try {
+			session.beginTransaction();
+			objectif = (Objectif) session.get(Objectif.class, new Long(id));
+			session.delete(objectif);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return objectif;
 	}

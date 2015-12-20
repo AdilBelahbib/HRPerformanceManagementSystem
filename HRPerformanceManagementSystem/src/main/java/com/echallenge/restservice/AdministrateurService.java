@@ -18,55 +18,53 @@ import com.echallenge.util.Security;
 
 @Path("/administrateurs")
 public class AdministrateurService {
-	
-	@Path("/test")
-	@GET
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Administrateur addTestAdministrateur() {
-		Administrateur administrateur = new Administrateur();
-		administrateur.setEmail("hamza@mail.com");
-		administrateur.setMotDePasse(Security.get_SHA_1_SecurePassword("motDePasse"));
-		administrateur.setNom("TANJI");
-		administrateur.setPrenom("Hamza");
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		session.save(administrateur);
-		session.getTransaction().commit();
-		
-		return administrateur;
-	}
 
 	@Path("{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Administrateur getAdministrateurById(@PathParam("id") int id) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		Administrateur administrateur = (Administrateur) session.get(Administrateur.class, new Long(id));
-		
-		session.getTransaction().commit();
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Administrateur administrateur = null;
+
+		try {
+			session.beginTransaction();
+			administrateur = (Administrateur) session.get(Administrateur.class, new Long(id));
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
+
 		return administrateur;
 	}
 
-	
 	@Path("{id}")
 	@PUT
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Administrateur modifierAdministrateur(Administrateur administrateur) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		
-		String mdp = (String) session.createQuery("select admin.motDePasse from Administrateur admin WHERE admin = :admin")
-				.setEntity("admin", administrateur).uniqueResult();
-		
-		if(!administrateur.getMotDePasse().equals(mdp))
-			administrateur.setMotDePasse(Security.get_SHA_1_SecurePassword(administrateur.getMotDePasse()));
-			
-		session.update(administrateur);
 
-		session.getTransaction().commit();
+		try {
+			session.beginTransaction();
+			String mdp = (String) session
+					.createQuery("select admin.motDePasse from Administrateur admin WHERE admin = :admin")
+					.setEntity("admin", administrateur).uniqueResult();
+
+			if (!administrateur.getMotDePasse().equals(mdp))
+				administrateur.setMotDePasse(Security.get_SHA_1_SecurePassword(administrateur.getMotDePasse()));
+
+			session.update(administrateur);
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return administrateur;
 	}
@@ -76,13 +74,19 @@ public class AdministrateurService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Administrateur ajouterAdministrateur(Administrateur administrateur) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		administrateur.setMotDePasse(Security.get_SHA_1_SecurePassword(administrateur.getMotDePasse()));
+		try {
+			session.beginTransaction();
+			administrateur.setMotDePasse(Security.get_SHA_1_SecurePassword(administrateur.getMotDePasse()));
 
-		session.save(administrateur);
+			session.save(administrateur);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return administrateur;
 	}
@@ -92,12 +96,19 @@ public class AdministrateurService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Administrateur supprimerAdministrateur(@PathParam("id") int id) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		Administrateur administrateur = null;
 
-		Administrateur administrateur = (Administrateur) session.get(Administrateur.class, new Long(id));
-		session.delete(administrateur);
+		try {
+			session.beginTransaction();
+			administrateur = (Administrateur) session.get(Administrateur.class, new Long(id));
+			session.delete(administrateur);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return administrateur;
 	}

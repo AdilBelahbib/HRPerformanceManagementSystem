@@ -33,11 +33,19 @@ public class BAPService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public BAP getBAPById(@PathParam("id") int id) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		BAP bap = null;
 
-		BAP bap = (BAP) session.get(BAP.class, new Long(id));
+		try {
+			session.beginTransaction();
+			bap = (BAP) session.get(BAP.class, new Long(id));
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
+
 		return bap;
 	}
 
@@ -46,19 +54,26 @@ public class BAPService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<BAP> getBapByCollaborateur(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-
-		Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
-
 		List<BAP> baps = null;
 
-		if (collaborateur != null) {
-			baps = session.createQuery(" select bap from BAP bap" + " where bap.collaborateur = :collaborateur"
-					+ " ORDER BY bap.dateBilan DESC").setEntity("collaborateur", collaborateur).list();
+		try {
+			session.beginTransaction();
+			Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
+
+			if (collaborateur != null) {
+				baps = session.createQuery(" select bap from BAP bap" + " where bap.collaborateur = :collaborateur"
+						+ " ORDER BY bap.dateBilan DESC").setEntity("collaborateur", collaborateur).list();
+			}
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
 		}
 
-		session.getTransaction().commit();
 		return baps;
 	}
 
@@ -66,21 +81,29 @@ public class BAPService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public BAP getBapCourantByCollaborateur(@PathParam("id") int id, @PathParam("statut") String statut) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-
-		Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
-
 		BAP bap = null;
 
-		if (collaborateur != null) {
-			bap = (BAP) session
-					.createQuery("select bap from BAP bap" + " where bap.collaborateur = :collaborateur"
-							+ " AND (bap.statut = :statut)" + " ORDER BY bap.dateBilan DESC")
-					.setEntity("collaborateur", collaborateur).setString("statut", statut).setMaxResults(1).uniqueResult();
+		try {
+			session.beginTransaction();
+			Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
+
+			if (collaborateur != null) {
+				bap = (BAP) session
+						.createQuery("select bap from BAP bap" + " where bap.collaborateur = :collaborateur"
+								+ " AND (bap.statut = :statut)" + " ORDER BY bap.dateBilan DESC")
+						.setEntity("collaborateur", collaborateur).setString("statut", statut).setMaxResults(1)
+						.uniqueResult();
+			}
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
 		}
 
-		session.getTransaction().commit();
 		return bap;
 	}
 
@@ -89,22 +112,29 @@ public class BAPService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<BAP> getBapByManagerRhAndStatut(@PathParam("id") int id, @PathParam("statut") String statut) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-
-		ManagerRh manager = (ManagerRh) session.get(ManagerRh.class, new Long(id));
-
 		List<BAP> baps = null;
 
-		if (manager != null) {
-			baps = session
-					.createQuery("select bap from BAP bap, ManagerRh manager" + " where manager = :manager"
-							+ " AND bap.collaborateur IN elements(manager.collaborateurs)"
-							+ " AND (bap.statut = 'EN_COURS')" + " ORDER BY bap.dateBilan DESC")
-					.setEntity("manager", manager).list();
+		try {
+			session.beginTransaction();
+			ManagerRh manager = (ManagerRh) session.get(ManagerRh.class, new Long(id));
+
+			if (manager != null) {
+				baps = session
+						.createQuery("select bap from BAP bap, ManagerRh manager" + " where manager = :manager"
+								+ " AND bap.collaborateur IN elements(manager.collaborateurs)"
+								+ " AND (bap.statut = 'EN_COURS')" + " ORDER BY bap.dateBilan DESC")
+						.setEntity("manager", manager).list();
+			}
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
 		}
 
-		session.getTransaction().commit();
 		return baps;
 	}
 
@@ -114,44 +144,44 @@ public class BAPService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public BAP validerFicheEvaluations(BAP bap) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		
-		if(session.getTransaction().isActive())
-			session.getTransaction().commit();
-		
-		session = HibernateUtil.getSessionFactory().getCurrentSession();
 
-		session.beginTransaction();
+		try {
+			session.beginTransaction();
+			double noteFinale = 0;
 
-		double noteFinale = 0;
+			FicheObjectifs ficheObjectifs = new FicheObjectifs();
+			ficheObjectifs.setAutorisationAcces(false);
+			ficheObjectifs.setDateFicheObjectifs(new Date());
 
-		FicheObjectifs ficheObjectifs = new FicheObjectifs();
-		ficheObjectifs.setAutorisationAcces(false);
-		ficheObjectifs.setDateFicheObjectifs(new Date());
+			for (Evaluation evaluation : bap.getFicheEvaluations().getEvaluations()) {
+				noteFinale += (evaluation.getResultat() * ((double) evaluation.getPoids() / 100));
 
-		for (Evaluation evaluation : bap.getFicheEvaluations().getEvaluations()) {
-			noteFinale += (evaluation.getResultat() * ((double) evaluation.getPoids() / 100));
+				if (evaluation.getObjectif().getAvancementObjectif() < 100) {
+					Objectif objectif = new Objectif();
+					objectif.setDescriptionObjectif(evaluation.getObjectif().getDescriptionObjectif());
+					objectif.setMesureObjectif(evaluation.getObjectif().getMesureObjectif());
+					objectif.setAvancementObjectif(evaluation.getObjectif().getAvancementObjectif());
 
-			if (evaluation.getObjectif().getAvancementObjectif() < 100) {
-				Objectif objectif = new Objectif();
-				objectif.setDescriptionObjectif(evaluation.getObjectif().getDescriptionObjectif());
-				objectif.setMesureObjectif(evaluation.getObjectif().getMesureObjectif());
-				objectif.setAvancementObjectif(evaluation.getObjectif().getAvancementObjectif());
-
-				ficheObjectifs.getObjectifs().add(objectif);
+					ficheObjectifs.getObjectifs().add(objectif);
+				}
 			}
+
+			bap.getCollaborateur().getFicheObjectifs().add(ficheObjectifs);
+			session.update(bap.getCollaborateur());
+
+			bap.getFicheEvaluations().setNoteFinale(noteFinale);
+
+			session.update(bap.getFicheEvaluations());
+
+			bap.setFicheObjectifsRediges(ficheObjectifs);
+			session.update(bap);
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
 		}
-
-		bap.getCollaborateur().getFicheObjectifs().add(ficheObjectifs);
-		session.update(bap.getCollaborateur());
-
-		bap.getFicheEvaluations().setNoteFinale(noteFinale);
-
-		session.update(bap.getFicheEvaluations());
-
-		bap.setFicheObjectifsRediges(ficheObjectifs);
-		session.update(bap);
-
-		session.getTransaction().commit();
 
 		return bap;
 	}
@@ -162,12 +192,18 @@ public class BAPService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public BAP validerBAPbyCollaborateur(BAP bap) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		bap.setStatut(StatutBAP.VALIDE);
-		session.saveOrUpdate(bap);
+		try {
+			session.beginTransaction();
+			bap.setStatut(StatutBAP.VALIDE);
+			session.saveOrUpdate(bap);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return bap;
 	}
@@ -177,48 +213,64 @@ public class BAPService {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public BAP rejeterBAPbyCollaborateur(BAP bap) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		bap.setNombreRejet(bap.getNombreRejet() + 1);
+		try {
+			session.beginTransaction();
+			bap.setNombreRejet(bap.getNombreRejet() + 1);
 
-		if (bap.getNombreRejet() >= 3)
-			bap.setStatut(StatutBAP.VALIDE);
-		else
-			bap.setStatut(StatutBAP.REJETE);
+			if (bap.getNombreRejet() >= 3)
+				bap.setStatut(StatutBAP.VALIDE);
+			else
+				bap.setStatut(StatutBAP.REJETE);
 
-		session.saveOrUpdate(bap);
+			session.saveOrUpdate(bap);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return bap;
 	}
-	
+
 	@Path("revalider/{id}")
 	@PUT
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public BAP revaliderBAPByManager(BAP bap) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		session.update(bap.getFicheObjectifsRediges());
-		session.getTransaction().commit();
 
-		session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		session.update(bap.getCollaborateur());
-		session.getTransaction().commit();
+		try {
+			session.beginTransaction();
+			session.update(bap.getFicheObjectifsRediges());
+			session.getTransaction().commit();
 
-		session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		
-		if (bap.getNombreRejet() >= 3)
-			bap.setStatut(StatutBAP.VALIDE);
-		else
-			bap.setStatut(StatutBAP.A_VALIDER);
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+			session.beginTransaction();
+			session.update(bap.getCollaborateur());
+			session.getTransaction().commit();
 
-		session.update(bap);
-		session.getTransaction().commit();
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+			session.beginTransaction();
+
+			if (bap.getNombreRejet() >= 3)
+				bap.setStatut(StatutBAP.VALIDE);
+			else
+				bap.setStatut(StatutBAP.A_VALIDER);
+
+			session.update(bap);
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return bap;
 	}
@@ -229,15 +281,23 @@ public class BAPService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public BAP modifierBAP(BAP bap) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		
-		session.beginTransaction();
-		session.update(bap.getFicheEvaluations());
-		session.getTransaction().commit();
-		
-		session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		session.saveOrUpdate(bap);
-		session.getTransaction().commit();
+
+		try {
+			session.beginTransaction();
+			session.update(bap.getFicheEvaluations());
+			session.getTransaction().commit();
+
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+			session.beginTransaction();
+			session.saveOrUpdate(bap);
+			session.getTransaction().commit();
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return bap;
 	}
@@ -246,39 +306,48 @@ public class BAPService {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public BAP ajouterBAP(BAP bap) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		BAP nouveauBap = new BAP();
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date());
-		cal.add(Calendar.YEAR, 1);
+		try {
+			session.beginTransaction();
+			BAP nouveauBap = new BAP();
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(new Date());
+			cal.add(Calendar.YEAR, 1);
 
-		nouveauBap.setDateBilan(cal.getTime());
-		nouveauBap.setStatut(StatutBAP.EN_ATTENTE);
-		nouveauBap.setCollaborateur(bap.getCollaborateur());
-		nouveauBap.setFicheEvaluations(bap.getFicheEvaluations());
-		nouveauBap.setFicheObjectifsTraites(bap.getFicheObjectifsRediges());
-		nouveauBap.setNombreRejet(0);
-		session.save(nouveauBap);
+			nouveauBap.setDateBilan(cal.getTime());
+			nouveauBap.setStatut(StatutBAP.EN_ATTENTE);
+			nouveauBap.setCollaborateur(bap.getCollaborateur());
+			nouveauBap.setFicheEvaluations(bap.getFicheEvaluations());
+			nouveauBap.setFicheObjectifsTraites(bap.getFicheObjectifsRediges());
+			nouveauBap.setNombreRejet(0);
+			session.save(nouveauBap);
 
-		session.getTransaction().commit();
+			session.getTransaction().commit();
 
-		session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		session.update(bap.getFicheObjectifsRediges());
-		session.getTransaction().commit();
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+			session.beginTransaction();
+			session.update(bap.getFicheObjectifsRediges());
+			session.getTransaction().commit();
 
-		session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		session.update(bap.getCollaborateur());
-		session.getTransaction().commit();
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+			session.beginTransaction();
+			session.update(bap.getCollaborateur());
+			session.getTransaction().commit();
 
-		session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		bap.setStatut(StatutBAP.A_VALIDER);
-		session.update(bap);
-		session.getTransaction().commit();
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+			session.beginTransaction();
+			bap.setStatut(StatutBAP.A_VALIDER);
+			session.update(bap);
+			session.getTransaction().commit();
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return bap;
 	}
@@ -287,13 +356,21 @@ public class BAPService {
 	@DELETE
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public BAP supprimerBAP(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		BAP bap = null;
 
-		BAP bap = (BAP) session.get(BAP.class, new Long(id));
-		session.delete(bap);
+		try {
+			session.beginTransaction();
+			bap = (BAP) session.get(BAP.class, new Long(id));
+			session.delete(bap);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return bap;
 	}

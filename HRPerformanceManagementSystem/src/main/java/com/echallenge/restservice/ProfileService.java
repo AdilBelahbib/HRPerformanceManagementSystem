@@ -19,59 +19,90 @@ import com.echallenge.util.HibernateUtil;
 
 @Path("/profiles")
 public class ProfileService {
-	
+
+	@SuppressWarnings("unchecked")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<Profile> getAllProfiles() {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		List<Profile> profiles = null;
 
-		@SuppressWarnings("unchecked")
-		List<Profile> profiles = session.createQuery("from Profile").list();
+		try {
+			session.beginTransaction();
+			profiles = session.createQuery("from Profile").list();
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 		return profiles;
 	}
-	
+
 	@Path("{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Profile getProfileById(@PathParam("id") int id) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		Profile profile = (Profile) session.get(Profile.class, new Long(id));
-		
-		session.getTransaction().commit();
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Profile profile = null;
+
+		try {
+			session.beginTransaction();
+			profile = (Profile) session.get(Profile.class, new Long(id));
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
+
 		return profile;
 	}
-	
+
 	@Path("/code/{code}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Profile getProfileCode(@PathParam("code") String code) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		Profile profile = (Profile) session.createQuery(
-				"from Profile profile WHERE profile.codeProfile = :code")
-				.setString("code", code).uniqueResult();
-		
-		session.getTransaction().commit();
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Profile profile = null;
+
+		try {
+			session.beginTransaction();
+			profile = (Profile) session.createQuery("from Profile profile WHERE profile.codeProfile = :code")
+					.setString("code", code).uniqueResult();
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
+
 		return profile;
 	}
-	
+
 	@Path("{id}")
 	@PUT
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Profile modifierProfile(Profile profile) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		session.saveOrUpdate(profile);
+		try {
+			session.beginTransaction();
+			session.saveOrUpdate(profile);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return profile;
 	}
@@ -81,12 +112,19 @@ public class ProfileService {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Profile ajouterProfile(Profile profile) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		session.save(profile);
+		try {
+			session.beginTransaction();
+			session.save(profile);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return profile;
 	}
@@ -95,15 +133,23 @@ public class ProfileService {
 	@DELETE
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Profile supprimerProfile(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		Profile profile = null;
 
-		Profile profile = (Profile) session.get(Profile.class, new Long(id));
-		session.delete(profile);
+		try {
+			session.beginTransaction();
+			profile = (Profile) session.get(Profile.class, new Long(id));
+			session.delete(profile);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return profile;
 	}
-	
+
 }

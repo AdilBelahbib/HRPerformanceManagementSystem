@@ -23,12 +23,21 @@ public class EnteteService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Entete getEnteteById(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		Entete entete = null;
 
-		Entete entete = (Entete) session.get(Entete.class, new Long(id));
+		try {
+			session.beginTransaction();
+			entete = (Entete) session.get(Entete.class, new Long(id));
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
+
 		return entete;
 	}
 
@@ -37,38 +46,45 @@ public class EnteteService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Entete getEnteteByFeedback(@PathParam("id") int id) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-
-		Feedback feedback = (Feedback) session.get(Feedback.class, new Long(id));
-
 		Entete entete = null;
 
-		if(feedback != null)
-		{
-			entete = (Entete) session.createQuery(
-					"select ent"
-					+ " from Entete ent, Feedback feed"
-					+ " WHERE feed = :feedback"
-					+ " AND feed.entete = ent")
-			.setEntity("feedback", feedback)
-			.uniqueResult();
+		try {
+			session.beginTransaction();
+			Feedback feedback = (Feedback) session.get(Feedback.class, new Long(id));
+
+			if (feedback != null) {
+				entete = (Entete) session.createQuery("select ent" + " from Entete ent, Feedback feed"
+						+ " WHERE feed = :feedback" + " AND feed.entete = ent").setEntity("feedback", feedback)
+						.uniqueResult();
+			}
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
 		}
 
-		session.getTransaction().commit();
 		return entete;
 	}
-	
+
 	@Path("{id}")
 	@PUT
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Entete modifierEntete(Entete entete) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		session.saveOrUpdate(entete);
+		try {
+			session.beginTransaction();
+			session.saveOrUpdate(entete);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return entete;
 	}
@@ -77,12 +93,19 @@ public class EnteteService {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Entete ajouterEntete(Entete entete) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		session.save(entete);
+		try {
+			session.beginTransaction();
+			session.save(entete);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return entete;
 	}
@@ -92,12 +115,19 @@ public class EnteteService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Entete supprimerEntete(@PathParam("id") int id) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		Entete entete = null;
 
-		Entete entete = (Entete) session.get(Entete.class, new Long(id));
-		session.delete(entete);
+		try {
+			session.beginTransaction();
+			entete = (Entete) session.get(Entete.class, new Long(id));
+			session.delete(entete);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return entete;
 	}

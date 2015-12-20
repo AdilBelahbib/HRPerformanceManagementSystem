@@ -17,7 +17,6 @@ import org.hibernate.Session;
 
 import com.echallenge.model.BIP;
 import com.echallenge.model.Collaborateur;
-import com.echallenge.model.Formation;
 import com.echallenge.util.HibernateUtil;
 
 @Path("/bips")
@@ -28,52 +27,70 @@ public class BIPService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public BIP getBIPById(@PathParam("id") int id) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		BIP bip = null;
 
-		BIP bip = (BIP) session.get(BIP.class, new Long(id));
-		
-		session.getTransaction().commit();
+		try {
+			session.beginTransaction();
+			bip = (BIP) session.get(BIP.class, new Long(id));
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
+
 		return bip;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Path("/collaborateur/{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<BIP> getBapByCollaborateur(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-
-		Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
-
 		List<BIP> bips = null;
 
-		if(collaborateur != null)
-		{
-			bips = session.createQuery(
-					" select bip from BIP bip , Collaborateur col"
-					+ " where col = :collaborateur"
-					+ " AND bip.ficheObjectifsTraites IN elements(col.ficheObjectifs)"
-					+ " ORDER BY bip.dateBilan DESC")
-					.setEntity("collaborateur", collaborateur)
-					.list();
+		try {
+			session.beginTransaction();
+			Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
+
+			if (collaborateur != null) {
+				bips = session
+						.createQuery(" select bip from BIP bip , Collaborateur col" + " where col = :collaborateur"
+								+ " AND bip.ficheObjectifsTraites IN elements(col.ficheObjectifs)"
+								+ " ORDER BY bip.dateBilan DESC")
+						.setEntity("collaborateur", collaborateur).list();
+			}
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
 		}
 
-		session.getTransaction().commit();
 		return bips;
 	}
-	
+
 	@Path("{id}")
 	@PUT
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public BIP modifierBIP(BIP bip) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		session.saveOrUpdate(bip);
+		try {
+			session.beginTransaction();
+			session.saveOrUpdate(bip);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return bip;
 	}
@@ -83,27 +100,34 @@ public class BIPService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public BIP ajouterBIP(BIP bip) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		
-		session.beginTransaction();
-		
-		bip.getCollaborateur().getFormations().addAll(bip.getFormations());
-		session.update(bip.getCollaborateur());
-		session.getTransaction().commit();
 
-		session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		
-		bip.setDateBilan(new Date());
-		
-		session.save(bip);
+		try {
+			session.beginTransaction();
+			bip.getCollaborateur().getFormations().addAll(bip.getFormations());
+			session.update(bip.getCollaborateur());
+			session.getTransaction().commit();
 
-		session.getTransaction().commit();
-		
-		session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		session.update(bip.getFicheObjectifsTraites());
-		session.getTransaction().commit();
-		
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+			session.beginTransaction();
+
+			bip.setDateBilan(new Date());
+
+			session.save(bip);
+
+			session.getTransaction().commit();
+
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+			session.beginTransaction();
+			session.update(bip.getFicheObjectifsTraites());
+			session.getTransaction().commit();
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
+
 		return bip;
 	}
 
@@ -112,12 +136,19 @@ public class BIPService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public BIP supprimerBIP(@PathParam("id") int id) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		BIP bip = null;
 
-		BIP bip = (BIP) session.get(BIP.class, new Long(id));
-		session.delete(bip);
+		try {
+			session.beginTransaction();
+			bip = (BIP) session.get(BIP.class, new Long(id));
+			session.delete(bip);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return bip;
 	}

@@ -20,30 +20,48 @@ import com.echallenge.util.Security;
 
 @Path("/encadrants")
 public class EncadrantService {
-	
+
+	@SuppressWarnings("unchecked")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<Encadrant> getAllEncadrants() {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		List<Encadrant> encadrants = null;
 
-		@SuppressWarnings("unchecked")
-		List<Encadrant> encadrants = session.createQuery("from Encadrant").list();
+		try {
+			session.beginTransaction();
+			encadrants = session.createQuery("from Encadrant").list();
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
+
 		return encadrants;
 	}
-	
+
 	@Path("{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Encadrant getEncadrantById(@PathParam("id") int id) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		Encadrant encadrant = (Encadrant) session.get(Encadrant.class, new Long(id));
-		
-		session.getTransaction().commit();
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Encadrant encadrant = null;
+
+		try {
+			session.beginTransaction();
+			encadrant = (Encadrant) session.get(Encadrant.class, new Long(id));
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
+
 		return encadrant;
 	}
 
@@ -52,18 +70,25 @@ public class EncadrantService {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Encadrant modifierEncadrant(Encadrant encadrant) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		String mdp = (String) session.createQuery("select enc.motDePasse from Encadrant enc WHERE enc = :encadrant")
-				.setEntity("encadrant", encadrant).uniqueResult();
+		try {
+			session.beginTransaction();
 
-		if (!encadrant.getMotDePasse().equals(mdp))
-			encadrant.setMotDePasse(Security.get_SHA_1_SecurePassword(encadrant.getMotDePasse()));
+			String mdp = (String) session.createQuery("select enc.motDePasse from Encadrant enc WHERE enc = :encadrant")
+					.setEntity("encadrant", encadrant).uniqueResult();
 
-		session.update(encadrant);
+			if (!encadrant.getMotDePasse().equals(mdp))
+				encadrant.setMotDePasse(Security.get_SHA_1_SecurePassword(encadrant.getMotDePasse()));
 
-		session.getTransaction().commit();
+			session.update(encadrant);
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return encadrant;
 	}
@@ -72,14 +97,21 @@ public class EncadrantService {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Encadrant ajouterEncadrant(Encadrant encadrant) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		encadrant.setMotDePasse(Security.get_SHA_1_SecurePassword(encadrant.getMotDePasse()));
+		try {
+			session.beginTransaction();
+			encadrant.setMotDePasse(Security.get_SHA_1_SecurePassword(encadrant.getMotDePasse()));
 
-		session.save(encadrant);
+			session.save(encadrant);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return encadrant;
 	}
@@ -88,13 +120,21 @@ public class EncadrantService {
 	@DELETE
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Encadrant supprimerEncadrant(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		Encadrant encadrant = null;
 
-		Encadrant encadrant = (Encadrant) session.get(Encadrant.class, new Long(id));
-		session.delete(encadrant);
+		try {
+			session.beginTransaction();
+			encadrant = (Encadrant) session.get(Encadrant.class, new Long(id));
+			session.delete(encadrant);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return encadrant;
 	}

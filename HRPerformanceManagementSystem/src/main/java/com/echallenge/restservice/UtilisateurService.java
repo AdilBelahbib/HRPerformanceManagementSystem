@@ -26,37 +26,44 @@ public class UtilisateurService {
 	@Path("auth/{email}/{mdp}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public AuthAccessElement authentification(@Context HttpServletRequest request, @PathParam("email") String email, @PathParam("mdp") String mdp) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+	public AuthAccessElement authentification(@Context HttpServletRequest request, @PathParam("email") String email,
+			@PathParam("mdp") String mdp) {
 
-		Utilisateur utilisateur = (Utilisateur) session
-				.createQuery(
-						"from Utilisateur as utilisateur where utilisateur.email = ? AND utilisateur.motDePasse = ?")
-				.setString(0, email).setString(1, Security.get_SHA_1_SecurePassword(mdp)).uniqueResult();
-		
-		session.getTransaction().commit();
-		
-		if(utilisateur != null)
-		{
-			if(utilisateur instanceof Collaborateur)
-				utilisateur.setType("C");
-			else if(utilisateur instanceof ManagerRh)
-				utilisateur.setType("M");
-			else if(utilisateur instanceof Encadrant)
-				utilisateur.setType("E");
-			else if(utilisateur instanceof Administrateur)
-				utilisateur.setType("A");
-			
-			AuthAccessElement authAccessElement = new AuthAccessElement();
-			authAccessElement.setUtilisateur(utilisateur);
-			authAccessElement.setToken(Security.getSalt());
-			
-			request.getSession().setAttribute(utilisateur.getEmail(), authAccessElement.getToken());
-			
-			return authAccessElement;
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+
+		try {
+			session.beginTransaction();
+			Utilisateur utilisateur = (Utilisateur) session
+					.createQuery(
+							"from Utilisateur as utilisateur where utilisateur.email = ? AND utilisateur.motDePasse = ?")
+					.setString(0, email).setString(1, Security.get_SHA_1_SecurePassword(mdp)).uniqueResult();
+
+			if (utilisateur != null) {
+				if (utilisateur instanceof Collaborateur)
+					utilisateur.setType("C");
+				else if (utilisateur instanceof ManagerRh)
+					utilisateur.setType("M");
+				else if (utilisateur instanceof Encadrant)
+					utilisateur.setType("E");
+				else if (utilisateur instanceof Administrateur)
+					utilisateur.setType("A");
+
+				AuthAccessElement authAccessElement = new AuthAccessElement();
+				authAccessElement.setUtilisateur(utilisateur);
+				authAccessElement.setToken(Security.getSalt());
+
+				request.getSession().setAttribute(utilisateur.getEmail(), authAccessElement.getToken());
+
+				return authAccessElement;
+			}
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
 		}
-		
+
 		return null;
 	}
 

@@ -14,8 +14,8 @@ import javax.ws.rs.core.MediaType;
 
 import org.hibernate.Session;
 
-import com.echallenge.model.Collaborateur;
 import com.echallenge.model.Action;
+import com.echallenge.model.Collaborateur;
 import com.echallenge.util.HibernateUtil;
 
 @Path("/actions")
@@ -25,26 +25,21 @@ public class ActionService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Action getActionById(@PathParam("id") int id) {
-		
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		Action action = 
-		try
-		{
+		Action action = null;
+		try {
 			session.beginTransaction();
-			
-		}catch(Exception e)
-		{
-			if(session.getTransaction() != null)
+
+			action = (Action) session.get(Action.class, new Long(id));
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
-		}
-		finally
-		{
+		} finally {
 			session.getTransaction().commit();
 		}
-		
-		Action action = (Action) session.get(Action.class, new Long(id));
 
-		session.getTransaction().commit();
 		return action;
 	}
 
@@ -60,15 +55,12 @@ public class ActionService {
 		try {
 			session.beginTransaction();
 
-			Collaborateur collaborateur = (Collaborateur) session.get(
-					Collaborateur.class, new Long(id));
+			Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
 
 			if (collaborateur != null) {
 				actions = session
-						.createQuery(
-								" select act from Action act , Collaborateur col"
-										+ " where col = :collaborateur"
-										+ " AND act IN elements(col.plansAmelioration)")
+						.createQuery(" select act from Action act , Collaborateur col" + " where col = :collaborateur"
+								+ " AND act IN elements(col.plansAmelioration)")
 						.setEntity("collaborateur", collaborateur).list();
 			}
 		} catch (Exception e) {
@@ -86,12 +78,19 @@ public class ActionService {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Action modifierAction(Action action) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		session.saveOrUpdate(action);
+		try {
+			session.beginTransaction();
+			session.saveOrUpdate(action);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return action;
 	}
@@ -100,12 +99,19 @@ public class ActionService {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Action ajouterAction(Action action) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		session.save(action);
+		try {
+			session.beginTransaction();
+			session.save(action);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return action;
 	}
@@ -114,13 +120,20 @@ public class ActionService {
 	@DELETE
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Action supprimerAction(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		Action action = null;
+		try {
+			session.beginTransaction();
+			action = (Action) session.get(Action.class, new Long(id));
+			session.delete(action);
 
-		Action action = (Action) session.get(Action.class, new Long(id));
-		session.delete(action);
-
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return action;
 	}

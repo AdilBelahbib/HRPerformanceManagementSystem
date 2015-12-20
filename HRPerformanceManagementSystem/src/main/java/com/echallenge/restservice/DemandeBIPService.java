@@ -17,6 +17,7 @@ import org.hibernate.Session;
 import com.echallenge.model.Collaborateur;
 import com.echallenge.model.DemandeBIP;
 import com.echallenge.model.Encadrant;
+import com.echallenge.model.ManagerRh;
 import com.echallenge.util.HibernateUtil;
 
 @Path("/demandebips")
@@ -26,12 +27,21 @@ public class DemandeBIPService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public DemandeBIP getDemandeBIPById(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		DemandeBIP demandeBIP = null;
 
-		DemandeBIP demandeBIP = (DemandeBIP) session.get(DemandeBIP.class, new Long(id));
+		try {
+			session.beginTransaction();
+			demandeBIP = (DemandeBIP) session.get(DemandeBIP.class, new Long(id));
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
+
 		return demandeBIP;
 	}
 
@@ -40,22 +50,56 @@ public class DemandeBIPService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<DemandeBIP> getDemandeBIPByCollaborateur(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-
-		Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
-
 		List<DemandeBIP> demandeBIPs = null;
 
-		if(collaborateur != null)
-		{
-			demandeBIPs = session.createQuery(
-					"from DemandeBIP dem WHERE dem.collaborateur = :collaborateur")
-			.setEntity("collaborateur", collaborateur)
-			.list();
+		try {
+			session.beginTransaction();
+			Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
+
+			if (collaborateur != null) {
+				demandeBIPs = session.createQuery("from DemandeBIP dem WHERE dem.collaborateur = :collaborateur")
+						.setEntity("collaborateur", collaborateur).list();
+			}
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
 		}
 
 		session.getTransaction().commit();
+		return demandeBIPs;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Path("/managerrh/{id}")
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public List<DemandeBIP> getDemandeBIPByManagerRh(@PathParam("id") int id) {
+
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		List<DemandeBIP> demandeBIPs = null;
+
+		try {
+			session.beginTransaction();
+			ManagerRh manager = (ManagerRh) session.get(ManagerRh.class, new Long(id));
+
+			if (manager != null) {
+				demandeBIPs = session.createQuery("select dem from DemandeBIP dem, ManagerRh manager"
+						+ " WHERE manager = :manager AND dem.collaborateur IN elements(manager.collaborateurs)")
+						.setEntity("manager", manager).list();
+			}
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
+
 		return demandeBIPs;
 	}
 	
@@ -64,36 +108,47 @@ public class DemandeBIPService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<DemandeBIP> getDemandeBIPByEncadrant(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-
-		Encadrant encadrant = (Encadrant) session.get(Encadrant.class, new Long(id));
-
 		List<DemandeBIP> demandeBIPs = null;
 
-		if(encadrant != null)
-		{
-			demandeBIPs = session.createQuery(
-					"from DemandeBIP dem WHERE dem.encadrant = :encadrant")
-			.setEntity("encadrant", encadrant)
-			.list();
+		try {
+			session.beginTransaction();
+			Encadrant encadrant = (Encadrant) session.get(Encadrant.class, new Long(id));
+
+			if (encadrant != null) {
+				demandeBIPs = session.createQuery("from DemandeBIP dem WHERE dem.encadrant = :encadrant")
+						.setEntity("encadrant", encadrant).list();
+			}
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
 		}
 
-		session.getTransaction().commit();
 		return demandeBIPs;
 	}
-	
+
 	@Path("{id}")
 	@PUT
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public DemandeBIP modifierDemandeBIP(DemandeBIP demandeBIP) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		session.saveOrUpdate(demandeBIP);
+		try {
+			session.beginTransaction();
+			session.saveOrUpdate(demandeBIP);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return demandeBIP;
 	}
@@ -102,12 +157,19 @@ public class DemandeBIPService {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public DemandeBIP ajouterDemandeBIP(DemandeBIP demandeBIP) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		session.save(demandeBIP);
+		try {
+			session.beginTransaction();
+			session.save(demandeBIP);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return demandeBIP;
 	}
@@ -116,13 +178,22 @@ public class DemandeBIPService {
 	@DELETE
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public DemandeBIP supprimerDemandeBIP(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		DemandeBIP demandeBIP = null;
 
-		DemandeBIP demandeBIP = (DemandeBIP) session.get(DemandeBIP.class, new Long(id));
-		session.delete(demandeBIP);
+		try {
+			session.beginTransaction();
 
-		session.getTransaction().commit();
+			demandeBIP = (DemandeBIP) session.get(DemandeBIP.class, new Long(id));
+			session.delete(demandeBIP);
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return demandeBIP;
 	}

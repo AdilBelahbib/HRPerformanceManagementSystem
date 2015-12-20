@@ -14,216 +14,226 @@ import javax.ws.rs.core.MediaType;
 
 import org.hibernate.Session;
 
-import com.echallenge.model.BAP;
 import com.echallenge.model.Collaborateur;
-import com.echallenge.model.Encadrant;
 import com.echallenge.model.Evaluation;
 import com.echallenge.model.FicheEvaluations;
 import com.echallenge.util.HibernateUtil;
 
 @Path("/evaluations")
 public class EvaluationService {
-	
+
 	@Path("{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Evaluation getEvaluationById(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		Evaluation evaluation = null;
 
-		Evaluation evaluation = (Evaluation) session.get(Evaluation.class, new Long(id));
+		try {
+			session.beginTransaction();
+			evaluation = (Evaluation) session.get(Evaluation.class, new Long(id));
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
+
 		return evaluation;
 	}
-	
+
 	@Path("ficheevaluationscourantes/collaborateur/{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public FicheEvaluations getFicheEvaluationsCourantesByCollaborateur(@PathParam("id") int id)
-	{
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+	public FicheEvaluations getFicheEvaluationsCourantesByCollaborateur(@PathParam("id") int id) {
 
-		Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
-		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		FicheEvaluations ficheEvaluations = null;
-		
-		if(collaborateur != null)
-		{
-			ficheEvaluations = (FicheEvaluations) session.createQuery(
-					" select fiche from FicheEvaluations fiche, Collaborateur col"
-					+ " where col = :collaborateur"
-					+ " AND fiche IN elements(col.fichesEvaluations)"
-					+ " ORDER BY fiche.dateEvaluation DESC")
-					.setEntity("collaborateur", collaborateur).setMaxResults(1).uniqueResult();
+
+		try {
+			session.beginTransaction();
+			Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
+
+			if (collaborateur != null) {
+				ficheEvaluations = (FicheEvaluations) session
+						.createQuery(" select fiche from FicheEvaluations fiche, Collaborateur col"
+								+ " where col = :collaborateur" + " AND fiche IN elements(col.fichesEvaluations)"
+								+ " ORDER BY fiche.dateEvaluation DESC")
+						.setEntity("collaborateur", collaborateur).setMaxResults(1).uniqueResult();
+			}
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
 		}
-		
-		session.getTransaction().commit();
+
 		return ficheEvaluations;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Path("ficheevaluations/collaborateur/{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public List<FicheEvaluations> getFicheEvaluationsByCollaborateur(@PathParam("id") int id)
-	{
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+	public List<FicheEvaluations> getFicheEvaluationsByCollaborateur(@PathParam("id") int id) {
 
-		Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
-		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		List<FicheEvaluations> fichesEvaluations = null;
-		
-		if(collaborateur != null)
-		{
-			fichesEvaluations = session.createQuery(
-					" select fiche from FicheEvaluations fiche, Collaborateur col"
-					+ " where col = :collaborateur"
-					+ " AND fiche IN elements(col.fichesEvaluations)"
-					+ " ORDER BY fiche.dateEvaluation DESC")
-					.setEntity("collaborateur", collaborateur).list();
+
+		try {
+			session.beginTransaction();
+			Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
+
+			if (collaborateur != null) {
+				fichesEvaluations = session
+						.createQuery(" select fiche from FicheEvaluations fiche, Collaborateur col"
+								+ " where col = :collaborateur" + " AND fiche IN elements(col.fichesEvaluations)"
+								+ " ORDER BY fiche.dateEvaluation DESC")
+						.setEntity("collaborateur", collaborateur).list();
+			}
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
 		}
-		
-		session.getTransaction().commit();
+
 		return fichesEvaluations;
 	}
-	
-	@Path("/link/ficheevaluation/{idevaluation}/{idficheevaluations}")
-	@GET
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public FicheEvaluations linkEvaluationToFicheEvaluation(@PathParam("idevaluation") int idEvaluation,@PathParam("idficheevaluations") int idFicheEvaluations)
-	{
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		Evaluation evaluation = (Evaluation) session.get(Evaluation.class, new Long(idEvaluation));
-		FicheEvaluations ficheEvaluations = (FicheEvaluations) session.get(FicheEvaluations.class, new Long(idFicheEvaluations));
-				
-		if((evaluation != null) && (ficheEvaluations != null))
-		{
-			ficheEvaluations.getEvaluations().add(evaluation);
-			session.update(ficheEvaluations);
-		}
-		
-		session.getTransaction().commit();
-		return ficheEvaluations;
-	}
-	
-//	@SuppressWarnings("unchecked")
-//	@Path("/bap/encadrant/{idbap}/{idencadrant}")
-//	@GET
-//	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-//	public List<Evaluation> getEvaluationsByBapAndEncadrant(@PathParam("idbap") int idBap,@PathParam("idencadrant") int idEncadrant)
-//	{
-//		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-//		session.beginTransaction();
-//
-//		BAP bap = (BAP) session.get(BAP.class, new Long(idBap));
-//		Encadrant encadrant = (Encadrant) session.get(Encadrant.class, new Long(idEncadrant));
-//		
-//		List<Evaluation> evaluations = null;
-//		
-//		if((bap != null) && (encadrant != null))
-//		{
-//			evaluations = session.createQuery("FROM Evaluation ev, FicheEvaluations fiche, BAP bap"
-//					+ "	WHERE ev.encadrant = :encadrant AND bap.ficheEvaluations = fiche AND bap = :bap"
-//					+ "	AND ev IN elements(fiche.evaluations)")
-//					.setEntity("encadrant", encadrant)
-//					.setEntity("bap", bap)
-//					.list();
-//		}
-//		
-//		session.getTransaction().commit();
-//		return evaluations;
-//	}
-//	
 	@Path("/ficheevaluations")
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public FicheEvaluations ajouterFicheEvaluations(FicheEvaluations ficheEvaluations) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		session.save(ficheEvaluations);
+		try {
+			session.beginTransaction();
+			session.save(ficheEvaluations);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return ficheEvaluations;
 	}
-	
+
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Evaluation ajouterEvaluation(Evaluation evaluation) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		session.save(evaluation);
+		try {
+			session.beginTransaction();
+			session.save(evaluation);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return evaluation;
 	}
-	
+
 	@Path("/ficheevaluations/{id}")
 	@PUT
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public FicheEvaluations modifierFicheEvaluations(FicheEvaluations ficheEvaluations) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		session.saveOrUpdate(ficheEvaluations);
+		try {
+			session.beginTransaction();
+			session.saveOrUpdate(ficheEvaluations);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return ficheEvaluations;
 	}
-	
+
 	@Path("{id}")
 	@PUT
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Evaluation modifierEvaluation(Evaluation evaluation) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		session.saveOrUpdate(evaluation);
+		try {
+			session.beginTransaction();
+			session.saveOrUpdate(evaluation);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return evaluation;
 	}
-	
+
 	@Path("/ficheevaluations/{id}")
 	@DELETE
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public FicheEvaluations supprimerFicheEvaluations(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		FicheEvaluations ficheEvaluations = null;
 
-		FicheEvaluations ficheEvaluations = (FicheEvaluations) session.get(FicheEvaluations.class, new Long(id));
-		session.delete(ficheEvaluations);
+		try {
+			session.beginTransaction();
+			ficheEvaluations = (FicheEvaluations) session.get(FicheEvaluations.class, new Long(id));
+			session.delete(ficheEvaluations);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return ficheEvaluations;
 	}
-	
+
 	@Path("{id}")
 	@DELETE
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Evaluation supprimerEvaluation(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		Evaluation evaluation = (Evaluation) session.get(Evaluation.class, new Long(id));
-		session.delete(evaluation);
+		Evaluation evaluation = null;
 
-		session.getTransaction().commit();
+		try {
+			session.beginTransaction();
+			evaluation = (Evaluation) session.get(Evaluation.class, new Long(id));
+			session.delete(evaluation);
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return evaluation;
 	}

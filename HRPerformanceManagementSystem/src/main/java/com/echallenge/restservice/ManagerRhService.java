@@ -20,34 +20,26 @@ import com.echallenge.util.Security;
 
 @Path("/managersrh")
 public class ManagerRhService {
-	
-	@Path("/test")
-	@GET
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public ManagerRh addTestManagerRh() {
-		ManagerRh managerRh = new ManagerRh();
-		managerRh.setEmail("tanji@mail.com");
-		managerRh.setMotDePasse(Security.get_SHA_1_SecurePassword("motDePasse"));
-		managerRh.setNom("TANJI");
-		managerRh.setPrenom("Hamza");
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		session.save(managerRh);
-		session.getTransaction().commit();
 
-		return managerRh;
-	}
-	
+	@SuppressWarnings("unchecked")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<ManagerRh> getAllManagerRh() {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		List<ManagerRh> managersRh = null;
 
-		@SuppressWarnings("unchecked")
-		List<ManagerRh> managersRh = session.createQuery("from ManagerRh").list();
+		try {
+			session.beginTransaction();
+			managersRh = session.createQuery("from ManagerRh").list();
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
+
 		return managersRh;
 	}
 
@@ -56,11 +48,19 @@ public class ManagerRhService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public ManagerRh getManagerRhById(@PathParam("id") int id) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		ManagerRh managerRh = null;
 
-		ManagerRh managerRh = (ManagerRh) session.get(ManagerRh.class, new Long(id));
-		
-		session.getTransaction().commit();
+		try {
+			session.beginTransaction();
+			managerRh = (ManagerRh) session.get(ManagerRh.class, new Long(id));
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
+
 		return managerRh;
 	}
 
@@ -69,18 +69,25 @@ public class ManagerRhService {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public ManagerRh modifierManagerRh(ManagerRh managerRh) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		String mdp = (String) session.createQuery("select ma.motDePasse from ManagerRh ma WHERE ma = :manager")
-				.setEntity("manager", managerRh).uniqueResult();
+		try {
+			session.beginTransaction();
+			String mdp = (String) session.createQuery("select ma.motDePasse from ManagerRh ma WHERE ma = :manager")
+					.setEntity("manager", managerRh).uniqueResult();
 
-		if (!managerRh.getMotDePasse().equals(mdp))
-			managerRh.setMotDePasse(Security.get_SHA_1_SecurePassword(managerRh.getMotDePasse()));
+			if (!managerRh.getMotDePasse().equals(mdp))
+				managerRh.setMotDePasse(Security.get_SHA_1_SecurePassword(managerRh.getMotDePasse()));
 
-		session.update(managerRh);
+			session.update(managerRh);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return managerRh;
 	}
@@ -89,14 +96,21 @@ public class ManagerRhService {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public ManagerRh ajouterManagerRh(ManagerRh managerRh) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
 
-		managerRh.setMotDePasse(Security.get_SHA_1_SecurePassword(managerRh.getMotDePasse()));
+		try {
+			session.beginTransaction();
+			managerRh.setMotDePasse(Security.get_SHA_1_SecurePassword(managerRh.getMotDePasse()));
 
-		session.save(managerRh);
+			session.save(managerRh);
 
-		session.getTransaction().commit();
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return managerRh;
 	}
@@ -105,13 +119,22 @@ public class ManagerRhService {
 	@DELETE
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public ManagerRh supprimerManagerRh(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+		ManagerRh managerRh = null;
 
-		ManagerRh managerRh = (ManagerRh) session.get(ManagerRh.class, new Long(id));
-		session.delete(managerRh);
+		try {
+			session.beginTransaction();
 
-		session.getTransaction().commit();
+			managerRh = (ManagerRh) session.get(ManagerRh.class, new Long(id));
+			session.delete(managerRh);
+
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+		}
 
 		return managerRh;
 	}
