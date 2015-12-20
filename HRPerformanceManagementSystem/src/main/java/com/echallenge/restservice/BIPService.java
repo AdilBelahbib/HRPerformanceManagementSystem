@@ -83,6 +83,14 @@ public class BIPService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public BIP ajouterBIP(BIP bip) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		
+		session.beginTransaction();
+		
+		bip.getCollaborateur().getFormations().addAll(bip.getFormations());
+		session.update(bip.getCollaborateur());
+		session.getTransaction().commit();
+
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		
 		bip.setDateBilan(new Date());
@@ -96,17 +104,6 @@ public class BIPService {
 		session.update(bip.getFicheObjectifsTraites());
 		session.getTransaction().commit();
 		
-		session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		for(Formation formation: bip.getFormations())
-			session.update(formation);
-		session.getTransaction().commit();
-
-		session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		session.update(bip.getCollaborateur());
-		session.getTransaction().commit();
-
 		return bip;
 	}
 

@@ -26,8 +26,7 @@
 			<column name="idFicheObjectifsTraites" />
 		</many-to-one>
 
-		<set name="formations" table="formation" inverse="true"
-			lazy="false" cascade="all">
+		<set name="formations" table="formation" inverse="false" lazy="false" cascade="all">
 			<key column="idBip" />
 			<one-to-many class="Formation" />
 		</set>

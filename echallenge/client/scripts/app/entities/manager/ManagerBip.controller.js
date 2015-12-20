@@ -120,9 +120,7 @@ $scope.saveBip = function  () {
   console.log(bip);
 
   Bip.save(bip);
-  Bip.get({id:1} , function  (result) {
-    console.log(result);
-  })
+  
 }
 
 

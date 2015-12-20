@@ -20,43 +20,65 @@ import com.echallenge.util.HibernateUtil;
 
 @Path("/actions")
 public class ActionService {
-	
+
 	@Path("{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Action getActionById(@PathParam("id") int id) {
+		
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-
+		Action action = 
+		try
+		{
+			session.beginTransaction();
+			
+		}catch(Exception e)
+		{
+			if(session.getTransaction() != null)
+				session.getTransaction().rollback();
+		}
+		finally
+		{
+			session.getTransaction().commit();
+		}
+		
 		Action action = (Action) session.get(Action.class, new Long(id));
 
 		session.getTransaction().commit();
 		return action;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "finally" })
 	@Path("/collaborateur/{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<Action> getActionByCollaborateur(@PathParam("id") int id) {
+
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-
-		Collaborateur collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
-
 		List<Action> actions = null;
 
-		if (collaborateur != null) {
-			actions = session.createQuery(
-					" select act from Action act , Collaborateur col"
-					+ " where col = :collaborateur"
-					+ " AND act IN elements(col.plansAmelioration)")
-					.setEntity("collaborateur", collaborateur)
-					.list();
+		try {
+			session.beginTransaction();
+
+			Collaborateur collaborateur = (Collaborateur) session.get(
+					Collaborateur.class, new Long(id));
+
+			if (collaborateur != null) {
+				actions = session
+						.createQuery(
+								" select act from Action act , Collaborateur col"
+										+ " where col = :collaborateur"
+										+ " AND act IN elements(col.plansAmelioration)")
+						.setEntity("collaborateur", collaborateur).list();
+			}
+		} catch (Exception e) {
+			if (session.getTransaction() != null)
+				session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+			return actions;
 		}
 
-		session.getTransaction().commit();
-		return actions;
 	}
 
 	@Path("{id}")

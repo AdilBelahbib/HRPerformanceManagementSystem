@@ -50,8 +50,8 @@
 				<one-to-many class="FicheEvaluations" />
 			</set>
 
-			<set name="formations" table="formation" inverse="true"
-				lazy="false" cascade="delete,refresh">
+			<set name="formations" table="formation" inverse="false"
+				lazy="false" cascade="all">
 				<key column="idCollaborateur" />
 				<one-to-many class="Formation" />
 			</set>
