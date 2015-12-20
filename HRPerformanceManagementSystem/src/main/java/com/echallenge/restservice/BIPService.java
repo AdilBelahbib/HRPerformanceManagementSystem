@@ -114,9 +114,8 @@ public class BIPService {
 			session.beginTransaction();
 			bip.getCollaborateur().getFormations().addAll(bip.getFormations());
 			session.update(bip.getCollaborateur());
-			if (session.isOpen()) {
-				session.close();
-			}
+
+			session.getTransaction().commit();
 
 			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			session.beginTransaction();
@@ -125,16 +124,11 @@ public class BIPService {
 
 			session.save(bip);
 
-			if (session.isOpen()) {
-				session.close();
-			}
+			session.getTransaction().commit();
 
 			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			session.update(bip.getFicheObjectifsTraites());
-			if (session.isOpen()) {
-				session.close();
-			}
 
 			session.getTransaction().commit();
 		} catch (Exception e) {

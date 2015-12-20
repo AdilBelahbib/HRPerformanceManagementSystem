@@ -228,9 +228,7 @@ public class CollaborateurService {
 
 				managerRh.getCollaborateurs().add(collaborateur);
 				session.update(managerRh);
-				if (session.isOpen()) {
-					session.close();
-				}
+				session.getTransaction().commit();
 
 				BAP nouveauBap = new BAP();
 				Calendar cal = Calendar.getInstance();

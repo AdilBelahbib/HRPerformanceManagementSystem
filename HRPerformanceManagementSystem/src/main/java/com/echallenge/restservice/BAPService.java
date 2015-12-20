@@ -269,16 +269,14 @@ public class BAPService {
 		try {
 			session.beginTransaction();
 			session.update(bap.getFicheObjectifsRediges());
-			if (session.isOpen()) {
-				session.close();
-			}
+
+			session.getTransaction().commit();
 
 			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			session.update(bap.getCollaborateur());
-			if (session.isOpen()) {
-				session.close();
-			}
+
+			session.getTransaction().commit();
 
 			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			session.beginTransaction();
@@ -313,16 +311,12 @@ public class BAPService {
 		try {
 			session.beginTransaction();
 			session.update(bap.getFicheEvaluations());
-			if (session.isOpen()) {
-				session.close();
-			}
+
+			session.getTransaction().commit();
 
 			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			session.saveOrUpdate(bap);
-			if (session.isOpen()) {
-				session.close();
-			}
 
 			session.getTransaction().commit();
 		} catch (Exception e) {
@@ -359,33 +353,24 @@ public class BAPService {
 			nouveauBap.setNombreRejet(0);
 			session.save(nouveauBap);
 
-			if (session.isOpen()) {
-				session.close();
-			}
+			session.getTransaction().commit();
 
 			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			session.update(bap.getFicheObjectifsRediges());
-			if (session.isOpen()) {
-				session.close();
-			}
+			session.getTransaction().commit();
 
 			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			session.update(bap.getCollaborateur());
-			if (session.isOpen()) {
-				session.close();
-			}
+			session.getTransaction().commit();
 
 			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			bap.setStatut(StatutBAP.A_VALIDER);
 			session.update(bap);
-			if (session.isOpen()) {
-				session.close();
-			}
-
 			session.getTransaction().commit();
+			
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
