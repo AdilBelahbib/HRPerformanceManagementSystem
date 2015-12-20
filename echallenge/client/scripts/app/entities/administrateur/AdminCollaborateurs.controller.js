@@ -47,7 +47,8 @@ app
 	
 	$scope.ajouter = function  () {
 	
-		
+		console.log("id manager "+$scope.managerupdt.id+"collaborateur");
+		console.log($scope.newcollaborateur);
 		 Collaborateur.new({idmanager : $scope.managerupdt.id} ,$scope.newcollaborateur ) ;
 		$('#addModal').modal('hide');                                         
 

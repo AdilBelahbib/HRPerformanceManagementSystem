@@ -1,0 +1,50 @@
+<div class="col-md-12  content">
+  <div class="jumbotron">
+
+
+    <h3>Collaborateur :  </h3>
+    <br>
+    <div class="col-md-6">
+      <div class="well well-sm bg-light">
+        <div class="row">
+          <div class="col-md-3"><h4>Nom : </h4></div> <div class="col-md-9 pull-right "><h4  class="black-text">{{collaborateur.nom}}</h4></div>
+        </div>
+        <div class="row">
+          <div class="col-md-3"><h4>Prenom : </h4></div> <div class="col-md-9 pull-right "><h4 class="black-text">{{collaborateur.prenom}}</h4></div>
+        </div>
+        <div class="row">
+          <div class="col-md-3"><h4>Email : </h4></div> <div class="col-md-9 pull-right "><h4 class="black-text">{{collaborateur.email}}</h4></div>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-6">
+
+
+      <div class="row">
+        <div class="well well-sm bg-light center-block">
+          <h5>Actions :</h5>
+          <div class="col-md-6 center-block ">
+            <a ui-sref="administrateur.fiches({ id : collaborateur.id })" class="btn  btn-default">Archive de Fiches</a>
+          </div>
+          <div class="col-md-6 center-block">
+            <a class="btn btn-primary">Imprimer Fiche</a>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+      
+  </div>
+
+  <div class="clearfix"></div>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+

@@ -32,7 +32,7 @@
          <td> <div ng-hide="modif[$index]">****************</div>
            <input class="form-control" type="text" ng-show="modif[$index]" ng-model="collaborateur.motDePasse">
          </td>
-         <td>  <a ui-sref ="admin.collaborateur({ id : collaborateur.id })" ng-hide="modif[$index]" class="btn btn-default" >consulter</a> 
+         <td>  <a ui-sref ="administrateur.collaborateur({ id : collaborateur.id })" ng-hide="modif[$index]" class="btn btn-default" >consulter</a> 
            <a class="btn btn-info" ng-click="initModif($index)" ng-hide="modif[$index]" >modifier</a> 
            <a class="btn btn-success" ng-click="modifier($index,collaborateur)" ng-show="modif[$index]" >Confirmer</a> 
            <a class="btn btn-danger" ng-click="initsupprimer(collaborateur)" ng-hide="modif[$index]" >supprimer</a> 
