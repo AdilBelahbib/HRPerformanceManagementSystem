@@ -21,6 +21,12 @@ app
                         isArray: true,
                         url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/collaborateurs/managerrh/:id'
                       },
+
+            'new' : { 
+                        method: 'POST', 
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/collaborateurs/:idmanager'
+                      },
+                      
             'bap' : { 
                         method: 'GET',
                         isArray: true,

@@ -7,8 +7,8 @@ app
                 url: '/admin',
                 views: {
                     'content@': {
-                        templateUrl: 'scripts/app/entities/administrateur/dashboard.html',
-                        controller: 'AdminController'
+                        templateUrl: 'scripts/app/entities/administrateur/listcollaborateurs.html',
+                        controller: 'AdminCollaborateursController'
                     },
                     'navbar@': {
                         templateUrl: 'scripts/app/partials/navbar-a.partial.html'

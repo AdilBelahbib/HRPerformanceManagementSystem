@@ -27,7 +27,7 @@ public class ActionService {
 	public Action getActionById(@PathParam("id") int id) {
 		
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		Action action = 
+		 
 		try
 		{
 			session.beginTransaction();

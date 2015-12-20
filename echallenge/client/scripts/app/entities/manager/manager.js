@@ -27,6 +27,16 @@ app
                     }
                 }
             })
+            .state('manager.demandesbip', {
+                url: '/demandesbip',
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/entities/manager/demandes.html',
+                        controller: 'demandeBipsController'
+                    }
+                }
+            })
+            
             .state('manager.collaborateur', {
                 url: '/collaborateur/:id',
                 views: {
