@@ -7,18 +7,8 @@ app
         
           Collaborateur.get({id: 154}, function(result) {
                 $scope.collaborateur = result;
-                
-                $scope.collaborateur.fichesobjectifs.forEach(function (entity) {
-                entity.dateFicheObjectifs = $filter('date')(entity.dateFicheObjectifs, 'yyyy-MM-dd');    
-                });
-                $scope.collaborateur.fichesevaluations.forEach(function (entity) {
-                entity.dateEvaluation = $filter('date')(entity.dateEvaluation, 'yyyy-MM-dd');    
-                });
-                //filter provisoir 
-                
                 $scope.collaborateur.fichesobjectifs= $scope.collaborateur.fichesobjectifs.filter(function (entity) { return entity.autorisationAcces==1;});
                 $scope.collaborateur.fichesevaluations= $scope.collaborateur.fichesevaluations.filter(function (entity) { return entity.autorisationAcces==1;});
-                
                 
             });  
 
@@ -54,6 +44,13 @@ app
                 $scope.fichesobjectif=fichesobjectif[0];
                 if($scope.fichesobjectif.objectifs.length==0)$scope.hideobjectifs=true;
                 $('#objectifsModal').modal('show');
+        };
+        $scope.showEvaluations = function (id) {
+                $scope.hidevaluations=false;
+                var fichesevaluation= $scope.collaborateur.fichesevaluations.filter(function (entity) { return entity.id==id;});
+                $scope.fichesevaluation=fichesevaluation[0];
+                if($scope.fichesevaluation.evaluations.length==0)$scope.hidevaluations=true;
+                $('#evaluationModal').modal('show');
         };
          
     });

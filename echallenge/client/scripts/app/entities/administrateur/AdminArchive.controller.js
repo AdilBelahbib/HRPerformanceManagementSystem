@@ -7,18 +7,7 @@ Collaborateur.get({id : $stateParams.id} , function  (result) {
 	
 	$scope.collaborateur = result; 
 
-            $scope.collaborateur.fichesobjectifs.forEach(function (entity) {
-
-                entity.dateFicheObjectifs = $filter('date')(entity.dateFicheObjectifs, 'yyyy-MM-dd');    
-
-            });
             
-            $scope.collaborateur.fichesevaluations.forEach(function (entity) {
-
-                entity.dateEvaluation = $filter('date')(entity.dateEvaluation, 'yyyy-MM-dd');    
-
-            });
-
         });  
 
         $scope.showObjectifs = function (id) {

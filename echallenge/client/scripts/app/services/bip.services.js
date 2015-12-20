@@ -7,7 +7,11 @@ app
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
-                isArray : false
+                isArray : false,
+                transformResponse: function (data) {
+                data = angular.fromJson(data);
+                data.dateBilan = $filter('date')(data.dateBilan, 'yyyy-MM-dd');    
+                return data;}
             },
             'collaborateur' : { 
                         method: 'GET',
