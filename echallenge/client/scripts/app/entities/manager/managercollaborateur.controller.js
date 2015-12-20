@@ -33,6 +33,13 @@ app
     if(obje.poids != '' )$scope.totalaValider+=parseInt(obje.poids); 
   });
 
+    $scope.bapToValidate.feedbacks.forEach(function (f) {
+
+      var q = Feedback.qualificationglobale({id : f.id}); 
+      f.qualificationglobal = q ;
+  });
+
+
   $scope.current = 1;
   $('#step1_1').show();	
   $('#step1_2').hide();	

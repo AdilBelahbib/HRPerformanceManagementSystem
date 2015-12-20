@@ -7,9 +7,9 @@ app
 
 
 
-        $scope.encadrant = Encadrant.get({id:161});
+        $scope.encadrant = Encadrant.get({id:149});
 
-        Collaborateur.encadrant({id:161},function  (result) {
+        Collaborateur.encadrant({id:149},function  (result) {
             
            $scope.collaborateurs=result;
         })        

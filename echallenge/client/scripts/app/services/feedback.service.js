@@ -24,7 +24,7 @@ app
             
             'qualificationglobale' : { 
                         method: 'GET',
-                        isArray: true,
+                        isArray: false,
                         url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/feedbacks/qualificationglobale/:id'
                       },
             'bap' : { 
