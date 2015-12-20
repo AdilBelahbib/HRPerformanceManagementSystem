@@ -1,0 +1,89 @@
+﻿<html>
+<head>
+
+	<title>HR Performance Management System  </title>
+<!-- injecter les fichiers css en utilisant grunt -->
+  
+ <!-- bower:css -->
+ <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+ <!-- endbower -->
+  
+  <!-- injector:css -->
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/themify-icons.css">
+  <!-- endinjector -->
+
+
+</head>
+ <body ng-app="hrPerformanceApp" ui-view="login" ng-controller="mainController"> 
+    
+    <nav  class="first-nav navbar-fixed-top">
+    <div class="container">
+      <ul class="pull-left">
+        
+        <li> <a href="#" id="menu-toggle"><span class="ti-menu big-menu"></span>HR Performance Management System </a></li>
+
+      </ul>
+      <ul class="pull-right menu-right">
+        
+        
+        <li><a href ="" ng-click="logOut()">Déconnexion</a></li>
+      </ul>
+      <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
+  </nav>
+  <div class="clearfix"></div>
+
+   <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        HRPMS
+                    </a>
+                </li>
+                <div  ui-view="navbar"><div/>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper --> 
+	<div class="container" ui-view="content">
+<br>
+   
+
+        
+      </div>
+
+
+
+</div>
+  <!-- HRMP :injecter les scripts en utilisant grunt  -->
+    
+  <!-- bower:js -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="bower_components/angular-resource/angular-resource.js"></script>
+  <script src="bower_components/angular-resource/angular-resource.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  <!-- endbower -->
+
+  <!-- injector:js -->
+  <script src="dist/app.js"></script>
+	
+	
+
+	
+	 <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
+
+	  
+  </body>
+
+</html>

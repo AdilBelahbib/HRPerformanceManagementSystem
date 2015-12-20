@@ -1,0 +1,126 @@
+<div class="col-md-12  content">
+  <div class="jumbotron">
+    <h3>Gestion des collaborateurs :</h3>
+    <div class="col-md-12 table-header">
+      <div class="col-md-11">
+        <h4 class="pull-left">liste des collaborateurs </h4>
+        <button class="btn btn-primary pull-right" ng-click="initajouter()"> Ajouter</button>
+      </div>
+    </div>
+
+    <table class="table  table-bordered  table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Nom </th>
+          <th>Prenom </th>
+          <th>email</th>
+          <th>Mot de passe</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="collaborateur in collaborateurs" >
+          <td> <div ng-hide="modif[$index]">{{collaborateur.nom}}  </div>
+           <input class="form-control" type="text" ng-show="modif[$index]" ng-model="collaborateur.nom">
+         </td>
+         <td><div ng-hide="modif[$index]">{{collaborateur.prenom}}</div>
+           <input class="form-control" type="text" ng-show="modif[$index]" ng-model="collaborateur.prenom">
+         </td>
+         <td> <div ng-hide="modif[$index]">{{collaborateur.email}}</div>
+           <input class="form-control" type="text" ng-show="modif[$index]" ng-model="collaborateur.email">
+         </td>
+         <td> <div ng-hide="modif[$index]">****************</div>
+           <input class="form-control" type="text" ng-show="modif[$index]" ng-model="collaborateur.motDePasse">
+         </td>
+         <td>  <a ui-sref ="administrateur.collaborateur({ id : collaborateur.id })" ng-hide="modif[$index]" class="btn btn-default" >consulter</a> 
+           <a class="btn btn-info" ng-click="initModif($index)" ng-hide="modif[$index]" >modifier</a> 
+           <a class="btn btn-success" ng-click="modifier($index,collaborateur)" ng-show="modif[$index]" >Confirmer</a> 
+           <a class="btn btn-danger" ng-click="initsupprimer(collaborateur)" ng-hide="modif[$index]" >supprimer</a> 
+         </td>
+       </tr>
+     </tbody>
+   </table>
+   <div class="col-md-12 table-footer">
+
+   </div>
+   <div class="clearfix"></div>
+ </div>
+</div>
+
+
+
+
+<!-- modals  -->
+
+<div class="modal fade bs-example-modal-md" id="suppressionModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Confirmation de la Suppression du collaborateur </h4>
+      </div>
+      <div class="modal-body">
+        <p>etes-vous sur de supprimer le  le collaborateur {{collaborateursup.nom}} {{collaborateursup.prenom}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
+        <button type="button" class="btn btn-danger" ng-click="supprimer()">Oui</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div>
+</div>
+
+
+<div class="modal fade bs-example-modal-md" id="addModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Ajout d'un collaborateur </h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label class="col-lg-2 control-label">nom : </label>
+            <div class="col-lg-10">
+              <input type="text" class="form-control" ng-model = "newcollaborateur.nom">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">prenom : </label>
+            <div class="col-lg-10">
+              <input type="text" class="form-control" ng-model = "newcollaborateur.prenom">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">email :  </label>
+            <div class="col-lg-10">
+              <input type="text" class="form-control" ng-model = "newcollaborateur.email">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">mot de passe :  </label>
+            <div class="col-lg-10">
+              <input type="password" class="form-control" ng-model = "newcollaborateur.motDePasse">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label"> Manager Rh :  </label>
+            <div class="col-lg-10">
+              <select  class="form-control" ng-model="managerupdt" 
+              data-ng-options="manager as (manager.nom+' '+manager.prenom)  for manager in managers">
+              <option value="">Select Manager</option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      
+      <button type="button" class="btn btn-success" ng-click="ajouter()">Ajouter</button>
+      <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+    </div>
+  </div><!-- /.modal-content -->
+</div>
+</div>
+

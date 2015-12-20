@@ -1,15 +1,376 @@
-var app=angular.module('hrPerformanceApp',['ui.router','ngResource']);
-app.config(['$locationProvider', function($locationProvider) {
-     // $locationProvider.html5Mode({
-     //             enabled: true,
-     //             requireBase: false
-     //      });
+var app=angular.module('hrPerformanceApp',['ui.router','ngResource','ngCookies']);
+app.config(['$locationProvider', function($scope,$locationProvider, Utilisateur) {
+     // 
 
-  }]);
+ }]);
+app.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
+
+        //enable CSRF
+        
+
+        
+        $stateProvider.state('site', {
+            'abstract': true,
+            views: {
+                'navbar@': {
+                    templateUrl: 'scripts/components/navbar/navbar.html',
+                    controller: 'NavbarController'
+                }
+            },
+            resolve: {
+                // authorize: ['Auth',
+                //     function (Auth) {
+                //         return Auth.authorize();
+                //     }
+                // ]
+            }
+        });
+
+    });
+
+app.controller('mainController', function ($scope, $state, $cookieStore,$stateParams,$filter ) {
+
+
+    $scope.logOut = function  () {
+
+        $cookieStore.remove('connectedUser');
+        $cookieStore.remove('logged');    
+        $state.go('login');
+    }
+
+    
+});
+
+
+
+
+
+
 
 console.log('after-config');
 
 
+;/**
+ * @license AngularJS v1.5.0-rc.0
+ * (c) 2010-2015 Google, Inc. http://angularjs.org
+ * License: MIT
+ */
+(function(window, angular, undefined) {'use strict';
+
+/**
+ * @ngdoc module
+ * @name ngCookies
+ * @description
+ *
+ * # ngCookies
+ *
+ * The `ngCookies` module provides a convenient wrapper for reading and writing browser cookies.
+ *
+ *
+ * <div doc-module-components="ngCookies"></div>
+ *
+ * See {@link ngCookies.$cookies `$cookies`} for usage.
+ */
+
+
+angular.module('ngCookies', ['ng']).
+  /**
+   * @ngdoc provider
+   * @name $cookiesProvider
+   * @description
+   * Use `$cookiesProvider` to change the default behavior of the {@link ngCookies.$cookies $cookies} service.
+   * */
+   provider('$cookies', [function $CookiesProvider() {
+    /**
+     * @ngdoc property
+     * @name $cookiesProvider#defaults
+     * @description
+     *
+     * Object containing default options to pass when setting cookies.
+     *
+     * The object may have following properties:
+     *
+     * - **path** - `{string}` - The cookie will be available only for this path and its
+     *   sub-paths. By default, this would be the URL that appears in your base tag.
+     * - **domain** - `{string}` - The cookie will be available only for this domain and
+     *   its sub-domains. For obvious security reasons the user agent will not accept the
+     *   cookie if the current domain is not a sub domain or equals to the requested domain.
+     * - **expires** - `{string|Date}` - String of the form "Wdy, DD Mon YYYY HH:MM:SS GMT"
+     *   or a Date object indicating the exact date/time this cookie will expire.
+     * - **secure** - `{boolean}` - The cookie will be available only in secured connection.
+     *
+     * Note: by default the address that appears in your `<base>` tag will be used as path.
+     * This is important so that cookies will be visible for all routes in case html5mode is enabled
+     *
+     **/
+    var defaults = this.defaults = {};
+
+    function calcOptions(options) {
+      return options ? angular.extend({}, defaults, options) : defaults;
+    }
+
+    /**
+     * @ngdoc service
+     * @name $cookies
+     *
+     * @description
+     * Provides read/write access to browser's cookies.
+     *
+     * <div class="alert alert-info">
+     * Up until Angular 1.3, `$cookies` exposed properties that represented the
+     * current browser cookie values. In version 1.4, this behavior has changed, and
+     * `$cookies` now provides a standard api of getters, setters etc.
+     * </div>
+     *
+     * Requires the {@link ngCookies `ngCookies`} module to be installed.
+     *
+     * @example
+     *
+     * ```js
+     * angular.module('cookiesExample', ['ngCookies'])
+     *   .controller('ExampleController', ['$cookies', function($cookies) {
+     *     // Retrieving a cookie
+     *     var favoriteCookie = $cookies.get('myFavorite');
+     *     // Setting a cookie
+     *     $cookies.put('myFavorite', 'oatmeal');
+     *   }]);
+     * ```
+     */
+    this.$get = ['$$cookieReader', '$$cookieWriter', function($$cookieReader, $$cookieWriter) {
+      return {
+        /**
+         * @ngdoc method
+         * @name $cookies#get
+         *
+         * @description
+         * Returns the value of given cookie key
+         *
+         * @param {string} key Id to use for lookup.
+         * @returns {string} Raw cookie value.
+         */
+        get: function(key) {
+          return $$cookieReader()[key];
+        },
+
+        /**
+         * @ngdoc method
+         * @name $cookies#getObject
+         *
+         * @description
+         * Returns the deserialized value of given cookie key
+         *
+         * @param {string} key Id to use for lookup.
+         * @returns {Object} Deserialized cookie value.
+         */
+        getObject: function(key) {
+          var value = this.get(key);
+          return value ? angular.fromJson(value) : value;
+        },
+
+        /**
+         * @ngdoc method
+         * @name $cookies#getAll
+         *
+         * @description
+         * Returns a key value object with all the cookies
+         *
+         * @returns {Object} All cookies
+         */
+        getAll: function() {
+          return $$cookieReader();
+        },
+
+        /**
+         * @ngdoc method
+         * @name $cookies#put
+         *
+         * @description
+         * Sets a value for given cookie key
+         *
+         * @param {string} key Id for the `value`.
+         * @param {string} value Raw value to be stored.
+         * @param {Object=} options Options object.
+         *    See {@link ngCookies.$cookiesProvider#defaults $cookiesProvider.defaults}
+         */
+        put: function(key, value, options) {
+          $$cookieWriter(key, value, calcOptions(options));
+        },
+
+        /**
+         * @ngdoc method
+         * @name $cookies#putObject
+         *
+         * @description
+         * Serializes and sets a value for given cookie key
+         *
+         * @param {string} key Id for the `value`.
+         * @param {Object} value Value to be stored.
+         * @param {Object=} options Options object.
+         *    See {@link ngCookies.$cookiesProvider#defaults $cookiesProvider.defaults}
+         */
+        putObject: function(key, value, options) {
+          this.put(key, angular.toJson(value), options);
+        },
+
+        /**
+         * @ngdoc method
+         * @name $cookies#remove
+         *
+         * @description
+         * Remove given cookie
+         *
+         * @param {string} key Id of the key-value pair to delete.
+         * @param {Object=} options Options object.
+         *    See {@link ngCookies.$cookiesProvider#defaults $cookiesProvider.defaults}
+         */
+        remove: function(key, options) {
+          $$cookieWriter(key, undefined, calcOptions(options));
+        }
+      };
+    }];
+  }]);
+
+angular.module('ngCookies').
+/**
+ * @ngdoc service
+ * @name $cookieStore
+ * @deprecated
+ * @requires $cookies
+ *
+ * @description
+ * Provides a key-value (string-object) storage, that is backed by session cookies.
+ * Objects put or retrieved from this storage are automatically serialized or
+ * deserialized by angular's toJson/fromJson.
+ *
+ * Requires the {@link ngCookies `ngCookies`} module to be installed.
+ *
+ * <div class="alert alert-danger">
+ * **Note:** The $cookieStore service is **deprecated**.
+ * Please use the {@link ngCookies.$cookies `$cookies`} service instead.
+ * </div>
+ *
+ * @example
+ *
+ * ```js
+ * angular.module('cookieStoreExample', ['ngCookies'])
+ *   .controller('ExampleController', ['$cookieStore', function($cookieStore) {
+ *     // Put cookie
+ *     $cookieStore.put('myFavorite','oatmeal');
+ *     // Get cookie
+ *     var favoriteCookie = $cookieStore.get('myFavorite');
+ *     // Removing a cookie
+ *     $cookieStore.remove('myFavorite');
+ *   }]);
+ * ```
+ */
+ factory('$cookieStore', ['$cookies', function($cookies) {
+
+    return {
+      /**
+       * @ngdoc method
+       * @name $cookieStore#get
+       *
+       * @description
+       * Returns the value of given cookie key
+       *
+       * @param {string} key Id to use for lookup.
+       * @returns {Object} Deserialized cookie value, undefined if the cookie does not exist.
+       */
+      get: function(key) {
+        return $cookies.getObject(key);
+      },
+
+      /**
+       * @ngdoc method
+       * @name $cookieStore#put
+       *
+       * @description
+       * Sets a value for given cookie key
+       *
+       * @param {string} key Id for the `value`.
+       * @param {Object} value Value to be stored.
+       */
+      put: function(key, value) {
+        $cookies.putObject(key, value);
+      },
+
+      /**
+       * @ngdoc method
+       * @name $cookieStore#remove
+       *
+       * @description
+       * Remove given cookie
+       *
+       * @param {string} key Id of the key-value pair to delete.
+       */
+      remove: function(key) {
+        $cookies.remove(key);
+      }
+    };
+
+  }]);
+
+/**
+ * @name $$cookieWriter
+ * @requires $document
+ *
+ * @description
+ * This is a private service for writing cookies
+ *
+ * @param {string} name Cookie name
+ * @param {string=} value Cookie value (if undefined, cookie will be deleted)
+ * @param {Object=} options Object with options that need to be stored for the cookie.
+ */
+function $$CookieWriter($document, $log, $browser) {
+  var cookiePath = $browser.baseHref();
+  var rawDocument = $document[0];
+
+  function buildCookieString(name, value, options) {
+    var path, expires;
+    options = options || {};
+    expires = options.expires;
+    path = angular.isDefined(options.path) ? options.path : cookiePath;
+    if (angular.isUndefined(value)) {
+      expires = 'Thu, 01 Jan 1970 00:00:00 GMT';
+      value = '';
+    }
+    if (angular.isString(expires)) {
+      expires = new Date(expires);
+    }
+
+    var str = encodeURIComponent(name) + '=' + encodeURIComponent(value);
+    str += path ? ';path=' + path : '';
+    str += options.domain ? ';domain=' + options.domain : '';
+    str += expires ? ';expires=' + expires.toUTCString() : '';
+    str += options.secure ? ';secure' : '';
+
+    // per http://www.ietf.org/rfc/rfc2109.txt browser must allow at minimum:
+    // - 300 cookies
+    // - 20 cookies per unique domain
+    // - 4096 bytes per cookie
+    var cookieLength = str.length + 1;
+    if (cookieLength > 4096) {
+      $log.warn("Cookie '" + name +
+        "' possibly not set or overflowed because it was too large (" +
+        cookieLength + " > 4096 bytes)!");
+    }
+
+    return str;
+  }
+
+  return function(name, value, options) {
+    rawDocument.cookie = buildCookieString(name, value, options);
+  };
+}
+
+$$CookieWriter.$inject = ['$document', '$log', '$browser'];
+
+angular.module('ngCookies').provider('$$cookieWriter', function $$CookieWriterProvider() {
+  this.$get = $$CookieWriter;
+});
+
+
+})(window, window.angular);
 ;/**
  * @license AngularJS v1.4.0
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -681,64 +1042,423 @@ angular.module('ngResource', ['ng']).
 ;'use strict';
 
 app
-    .controller('UserController', function ($scope, $stateParams, User) {
-        console.log("Testing the rest API");
-        
-        $scope.users = User.query();
+.controller('AdminController', function ($scope, $state, $cookieStore,$stateParams,$filter ) {
 
-        console.log($scope.users);
+	console.log("admin");
 
-        $scope.loadAll=function  () {
-        	$scope.users = User.query();
 
-        }
+	$scope.user = $cookieStore.get('connectedUser');
+	 if(!$scope.user )
+  {
+  	 $state.go('login');
+  }
+   else if($scope.user.utilisateur.type != 'A')
+	{
+		$state.go('login');
+	}
+	else
+	{
+		$scope.id = $scope.user.utilisateur.id ;
+	}
+});
 
-        $scope.addUser=function() {
-        
-                $('#addModal').modal('show');
-        }
 
-        $scope.showEditUser = function(user) {
-        	console.log("edit modal...");
-        	User.get({id:user.id}, function(result) {
-                $scope.currentUser = result;
-                
-                $('#editModal').modal('show');
-            });
-        };
 
-        $scope.EditUser = function() {
-        	console.log("edit modal2...");
-        	
-        	 User.update({id: $scope.currentUser.id},$scope.currentUser , function(){
-        	 $scope.loadAll();
-        	$('#editModal').modal('hide'); 	
-        	 });
-        	
-            
-        };
 
-        $scope.deleteUser=function  (user) {
-        	  User.delete({id: user.id},
-                function () {
-                    $scope.loadAll();
-                });
-        }
-        
-        
-         
-    });
+;'use strict';
+
+app
+.controller('AdminArchiveController', function ($scope, $state,$stateParams,$filter, $cookieStore , Collaborateur ) {
+
+    $scope.user = $cookieStore.get('connectedUser');
+     if(!$scope.user )
+  {
+  	 $state.go('login');
+  }
+   else if($scope.user.utilisateur.type != 'A')
+    {
+        $state.go('login');
+    }
+    else
+    {
+        $scope.id = $scope.user.utilisateur.id ;
+    }
+    Collaborateur.get({id : $stateParams.id} , function  (result) {
+
+       $scope.collaborateur = result; 
+
+
+   });  
+
+    $scope.showObjectifs = function (id) {
+
+        $scope.hideobjectifs=false;
+
+        var fichesobjectif= $scope.collaborateur.fichesobjectifs.filter(function (entity) { return entity.id==id;});
+
+        $scope.fichesobjectif=fichesobjectif[0];
+
+        if($scope.fichesobjectif.objectifs.length==0)$scope.hideobjectifs=true;
+
+        $('#objectifsModal').modal('show');
+    };
+
+    $scope.showEvaluations = function (id) {
+
+        $scope.hideevaluations=false;
+
+        var fichesevaluations= $scope.collaborateur.fichesevaluations.filter(function (entity) { return entity.id==id;});
+
+        $scope.fichesevaluation=fichesevaluations[0];
+
+        if($scope.fichesevaluation.evaluations.length==0)$scope.hideevaluations=true;
+
+        $('#evaluationModal').modal('show');
+    };
+
+
+});
+
+
+
+
+;'use strict';
+
+app
+.controller('AdminCollaborateurController', function ($scope, $state,$stateParams,$filter , $cookieStore, Collaborateur) {
+
+$scope.user = $cookieStore.get('connectedUser');
+	 if(!$scope.user )
+  {
+  	 $state.go('login');
+  }
+   else if($scope.user.utilisateur.type != 'A')
+	{
+		$state.go('login');
+	}
+	else
+	{
+		$scope.id = $scope.user.utilisateur.id ;
+	}
+console.log("admin");
+Collaborateur.get({id:$stateParams.id}, function  (result) {
+	
+	$scope.collaborateur = result;
+
+})
+
+
+});
+
+
+
+
+;'use strict';
+
+app
+.controller('AdminCollaborateursController', function ($scope, $state,$stateParams,$filter ,$cookieStore , Collaborateur , Manager , connect ) {
+
+	console.log("admin collaborateur");
+	
+  $scope.user = $cookieStore.get('connectedUser');
+	 if(!$scope.user )
+  {
+  	 $state.go('login');
+  }
+   else if($scope.user.utilisateur.type != 'A')
+	{
+		$state.go('login');
+	}
+	else
+	{
+		$scope.id = $scope.user.utilisateur.id ;
+	}
+
+	$scope.managerupdt = {};
+	$scope.modif = [];
+	$scope.newcollaborateur = {};
+	$scope.collaborateurs = Collaborateur.query();
+	
+
+	
+
+	$scope.initModif=function (i)
+	{	
+		$scope.collaborateurs.forEach(function  (collaborateur) {
+			collaborateur.motDePasse = "";
+
+		})
+
+		$scope.modif[i] =true;
+	}
+
+	$scope.modifier = function  (i,collaborateur) {
+
+		$scope.modif[i] =false;
+		Collaborateur.update({id:collaborateur.id},collaborateur);
+
+
+	}
+
+
+	$scope.initsupprimer = function  (collaborateur) {
+
+		$scope.collaborateursup = collaborateur;
+		$('#suppressionModal').modal('show');                                         
+	}
+
+
+	$scope.supprimer=function  () {
+		Collaborateur.delete({id:$scope.collaborateursup.id} , $scope.collaborateursup);
+		$('#suppressionModal').modal('hide');                                         
+		$scope.collaborateurs = Collaborateur.query();
+	}
+
+	
+	$scope.ajouter = function  () {
+	
+		console.log("id manager "+$scope.managerupdt.id+"collaborateur");
+		console.log($scope.newcollaborateur);
+		 Collaborateur.new({idmanager : $scope.managerupdt.id} ,$scope.newcollaborateur ) ;
+		$('#addModal').modal('hide');                                         
+
+	}
+
+	$scope.initajouter = function  () {
+		$scope.managers = Manager.query();
+		$('#addModal').modal('show');                                         
+
+	}
+
+});
+
+
+
+
+;'use strict';
+
+app
+.controller('AdminEncadrantsController', function ($scope, $state,$stateParams,$filter ,$cookieStore, Encadrant ) {
+
+	console.log("admin encadrant");
+	$scope.user = $cookieStore.get('connectedUser');
+	 if(!$scope.user )
+  {
+  	 $state.go('login');
+  }
+   else if($scope.user.utilisateur.type != 'A')
+	{
+		$state.go('login');
+	}
+	else
+	{
+		$scope.id = $scope.user.utilisateur.id ;
+	}
+	$scope.modif = [];
+	$scope.newencadrant = {};
+	$scope.encadrants = Encadrant.query();
+	
+
+	Encadrant.get({id:161},function  (result) {
+
+		console.log(result);
+	})
+
+	$scope.initModif=function (i)
+	{	
+		$scope.encadrants.forEach(function  (encadrant) {
+			encadrant.motDePasse = "";
+
+		})
+
+		$scope.modif[i] =true;
+	}
+
+	$scope.modifier = function  (i,encadrant) {
+
+		$scope.modif[i] =false;
+		Encadrant.update({id:encadrant.id},encadrant);
+
+
+	}
+
+
+	$scope.initsupprimer = function  (encadrant) {
+
+		$scope.encadrantsup = encadrant;
+		$('#suppressionModal').modal('show');  
+
+	}
+
+
+	$scope.supprimer=function  () {
+		Encadrant.delete({id:$scope.encadrantsup.id} , $scope.encadrantsup);
+		$('#suppressionModal').modal('hide');                                         
+		$scope.encadrants = Encadrant.query();
+	}
+
+
+	$scope.ajouter = function  () {
+
+		
+		Encadrant.save($scope.newencadrant)
+		$('#addModal').modal('hide');                                         
+
+	}
+
+	$scope.initajouter = function  () {
+		
+		$('#addModal').modal('show');                                         
+
+	}
+
+});
+
+
+
+
+;'use strict';
+
+app
+.controller('AdminManagersController', function ($scope, $state,$stateParams,$filter ,$cookieStore, Manager ) {
+
+	console.log("admin manager");
+	$scope.user = $cookieStore.get('connectedUser');
+	 if(!$scope.user )
+  {
+  	 $state.go('login');
+  }
+   else if($scope.user.utilisateur.type != 'A')
+	{
+		$state.go('login');
+	}
+	else
+	{
+		$scope.id = $scope.user.utilisateur.id ;
+	}
+	$scope.modif = [];
+	$scope.newmanager = {};
+	$scope.managers = Manager.query();
+	
+
+	
+
+	$scope.initModif=function (i)
+	{	
+		$scope.managers.forEach(function  (manager) {
+			manager.motDePasse = "";
+
+		})
+
+		$scope.modif[i] =true;
+	}
+
+	$scope.modifier = function  (i,manager) {
+
+		$scope.modif[i] =false;
+		Manager.update({id:manager.id},manager);
+
+
+	}
+
+
+	$scope.initsupprimer = function  (manager) {
+
+		$scope.managersup = manager;
+		$('#suppressionModal').modal('show');                                         
+	}
+
+
+	$scope.supprimer=function  () {
+		Manager.delete({id:$scope.managersup.id} , $scope.managersup);
+		$('#suppressionModal').modal('hide');                                         
+		$scope.managers = Manager.query();
+	}
+
+
+	
+	$scope.ajouter = function  () { 
+		
+		Manager.save($scope.newmanager ) ;
+		$('#addModal').modal('hide');                                         
+		
+
+	}
+
+	$scope.initajouter = function  () {
+		
+		$('#addModal').modal('show');                                         
+
+	}
+
+
+
+});
+
+
+
+
 ;'use strict';
 
 app
     .config(function ($stateProvider) {
         $stateProvider
-            .state('user', {
-                url: '/',
+            .state('administrateur', {
+                url: '/admin',
                 views: {
                     'content@': {
-                        templateUrl: 'scripts/app/entities/user/user.html',
-                        controller: 'UserController'
+                        templateUrl: 'scripts/app/entities/administrateur/listcollaborateurs.html',
+                        controller: 'AdminCollaborateursController'
+                    },
+                    'navbar@': {
+                        templateUrl: 'scripts/app/partials/navbar-a.partial.html'
+                    }
+                    
+                    },
+                    
+            })
+            .state('administrateur.fiches', {
+                url: '/fiches/:id',
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/entities/administrateur/fiches.html',
+                        controller: 'AdminArchiveController'
+                    }
+                }
+            })
+            .state('administrateur.collaborateur', {
+                url: '/collaborateur/:id',
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/entities/administrateur/detailcollaborateur.html',
+                        controller: 'AdminCollaborateurController'
+                    }
+                }
+            })
+            .state('administrateur.collaborateurs', {
+                url: '/collaborateurs',
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/entities/administrateur/listcollaborateurs.html',
+                        controller: 'AdminCollaborateursController'
+                    }
+                }
+            })
+            .state('administrateur.Encadrants', {
+                url: '/Encadrants',
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/entities/administrateur/listEncadrants.html',
+                        controller: 'AdminEncadrantsController'
+                    }
+                }
+            })
+            .state('administrateur.Managers', {
+                url: '/Managers',
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/entities/administrateur/listManagers.html',
+                        controller: 'AdminManagersController'
                     }
                 }
             });
@@ -747,8 +1467,1285 @@ app
 ;'use strict';
 
 app
-    .factory('User', function ($resource, $filter) {
-        return $resource('http://localhost:8080/hrpms/resources/users/:id', {}, {
+.controller('CollaborateurController', function ($scope, $stateParams,$filter, Collaborateur , $cookieStore,$state ,Objectif, Utilisateur , Bap) {
+    console.log("Testing the rest API");
+
+    $scope.user = $cookieStore.get('connectedUser');
+     if(!$scope.user )
+  {
+  	 $state.go('login');
+  }
+   else if($scope.user.utilisateur.type != 'C')
+    {
+       $state.go('login');
+   }
+   else
+   {
+    $scope.id = $scope.user.utilisateur.id ;
+   }
+   Collaborateur.get({id: $scope.id}, function(result) {
+    $scope.collaborateur = result;
+    $scope.collaborateur.fichesobjectifs= $scope.collaborateur.fichesobjectifs.filter(function (entity) { return entity.autorisationAcces==1;});
+    $scope.collaborateur.fichesevaluations= $scope.collaborateur.fichesevaluations.filter(function (entity) { return entity.autorisationAcces==1;});
+
+});  
+
+   $scope.currentfiche =Objectif.currentfiche({id:$scope.id});
+
+   Bap.bapByStatut({id:$scope.id, statut : "A_VALIDER"},function(result)
+   {
+    $scope.bap =result;
+    $scope.ficheEnAttente = result.ficheObjectifsRediges;        
+});
+
+
+   $scope.loadAll=function  () {
+    $scope.collaborateurs = Collaborateur.query();
+
+}
+$scope.valider =function ()
+{
+
+    console.log($scope.bap);
+    Bap.valider($scope.bap);
+}
+
+$scope.rejeter =function ()
+{
+   
+    console.log($scope.bap);
+    Bap.rejeter($scope.bap);
+}
+$scope.showObjectifs = function (id) {
+    $scope.hideobjectifs=false;
+    var fichesobjectif= $scope.collaborateur.fichesobjectifs.filter(function (entity) { return entity.id==id;});
+    $scope.fichesobjectif=fichesobjectif[0];
+    if($scope.fichesobjectif.objectifs.length==0)$scope.hideobjectifs=true;
+    $('#objectifsModal').modal('show');
+};
+$scope.showEvaluations = function (id) {
+    $scope.hidevaluations=false;
+    var fichesevaluation= $scope.collaborateur.fichesevaluations.filter(function (entity) { return entity.id==id;});
+    $scope.fichesevaluation=fichesevaluation[0];
+    if($scope.fichesevaluation.evaluations.length==0)$scope.hidevaluations=true;
+    $('#evaluationModal').modal('show');
+};
+
+});
+;'use strict';
+
+app
+    .config(function ($stateProvider) {
+        $stateProvider
+            .state('test', {
+                url: '/tests',
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/entities/collaborateur/test.html',
+                        controller: 'TestController'
+                    }
+                }
+            })
+            .state('collaborateur', {
+                url: '/collaborateurs',
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/entities/collaborateur/collaborateur.html',
+                        controller: 'CollaborateurController'
+                    },
+                    'navbar@': {
+                        templateUrl: 'scripts/app/partials/navbar-c.partial.html'
+                    }
+                    
+                    }
+
+                
+            })
+            .state('collaborateur.fichesobjectifs', {
+                url: '/collaborateurs/fichesobjectifs',
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/entities/collaborateur/fichesobjectifs.html',
+                        controller: 'CollaborateurController'
+                    }
+                }
+            })
+            .state('collaborateur.fichesevaluation', {
+                url: '/collaborateurs/fichesevaluation',
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/entities/collaborateur/fichesevaluation.html',
+                        controller: 'CollaborateurController'
+                    }
+                }
+            });
+            
+    });
+;'use strict';
+
+app
+    .controller('TestController', function ($scope, $stateParams,$filter ,Encadrant) {
+        console.log("Testing the rest API");
+         
+         // Put/Post errors
+                //collaborateur+encadrant+feedback+manager put,Post :Unrecognized field "autoformation" (Class com.echallenge.model.PlanAmelioration), not marked as ignorable
+                //Bap Validé 
+                //put,Post action {
+                                // idcollaborateur cannot be null ?!
+                                // }
+
+                   // put , Post Bip :
+                    // Unrecognized field "collaborateur" (Class com.echallenge.model.BIP),
+                     // not marked as ignorable
+
+        //Post , put Evaluation :idEncadrant cannot be null        
+        //Post , put Formation : idCollaborateur cannot be null        
+                
+                
+
+                Encadrant.get({id:149},function (result) {
+                    
+                   
+                    console.log(result);
+                    
+                    result.evaluations[0].poids=-1;
+                    Encadrant.update({id:149},result);
+
+
+                    
+
+                    // Formation.save(result);
+
+
+
+                });
+                
+    
+         
+    });
+;'use strict';
+
+app
+.controller('EncadrantCollaborateurController', function ($scope, $state,$stateParams,$filter , Bap ,DemandeBip ,Feedback ,$cookieStore, Collaborateur , Encadrant ) {
+
+
+  $scope.user = $cookieStore.get('connectedUser');
+   if($scope.user.utilisateur.type != 'E')
+   {
+     $state.go('login');
+ }
+ else
+ {
+    $scope.id = $scope.user.utilisateur.id ;
+}
+
+
+    $scope.modif = [];
+    $scope.feedback = {};
+    $scope.feedback.qualificationstheme =[];
+    $scope.newqualification={};
+    $scope.encadrant = Encadrant.get({id:$scope.id});
+    Bap.bapCourant({id:$stateParams.id},function  (result) {
+
+        $scope.bap=result;
+        console.log($scope.encadrant);
+
+    });
+
+
+
+
+    
+    $scope.initdemandeBip = function  (collaborateur) {
+            // afficher modal
+            $scope.collaborateurdemande = collaborateur ; 
+            console.log(collaborateur);
+            $('#demandeBipModal').modal('show');
+            console.log($scope.encadrant);
+        }
+
+        $scope.demandeBip = function  (collaborateur) {
+            // save demandeBip
+            console.log("demande bip confirmé ...");
+            var demandeBip = {};
+            demandeBip.collaborateur= collaborateur ;
+            demandeBip.dateDemande = new Date();
+            demandeBip.encadrant = $scope.encadrant;
+
+            DemandeBip.save(demandeBip)   ;
+            $('#demandeBipModal').modal('hide');             
+        }
+
+        $scope.evaluer= function  (collaborateur) {
+
+            Bap.update({id:$scope.bap.id} , $scope.bap);
+
+
+        }
+        $scope.initEvaluation = function  () {
+
+
+            $('#evaluationModal').modal('show');             
+
+        }
+        $scope.initFeedBack =function  () {
+            $('#feedbackModal').modal('show');                                         
+        }
+
+        $scope.feedBack= function  () {
+            $scope.feedback.encadrant =$scope.encadrant ; 
+            $scope.feedback.entete.dateDebutIntervention = new Date($scope.feedback.entete.dateDebutIntervention );
+            $scope.feedback.entete.dateFinIntervention = new Date($scope.feedback.entete.dateFinIntervention );
+            console.log($scope.feedback);
+            Feedback.save($scope.feedback);
+
+        }
+
+        $scope.addqualification=function  () {
+            $scope.feedback.qualificationstheme.push( $scope.newqualification);
+            $scope.newqualification={};
+        }
+
+        $scope.supprimerQualification=function  (i) {
+            $scope.feedback.qualificationstheme.splice(i,1);
+
+        }
+        
+        $scope.initModif=function (i)
+        {
+
+            $scope.modif[i] =true;
+        }
+
+        $scope.Modif = function  (i) {
+         $scope.modif[i] =false; 
+     }
+
+
+ });
+
+;'use strict';
+
+app
+.controller('EncadrantController', function ($scope,$stateParams,$filter , Manager ,$cookieStore,$state , Encadrant,Bap , Collaborateur , DemandeBip) {
+
+
+   $scope.user = $cookieStore.get('connectedUser');
+   if($scope.user.utilisateur.type != 'E')
+   {
+     $state.go('login');
+ }
+ else
+ {
+    $scope.id = $scope.user.utilisateur.id ;
+}
+
+
+$scope.encadrant = Encadrant.get({id:$scope.id});
+
+Collaborateur.encadrant({id:$scope.id},function  (result) {
+
+ $scope.collaborateurs=result;
+})        
+
+$scope.initdemandeBip = function  (collaborateur) {
+            // afficher modal
+            $scope.collaborateurdemande = collaborateur ; 
+
+            $('#demandeBipModal').modal('show');
+
+        }
+
+        $scope.demandeBip = function  (collaborateur) {
+            // save demandeBip
+            console.log("demande bip confirmé ...");
+            var demandeBip = {};
+            demandeBip.collaborateur= collaborateur ;
+            demandeBip.dateDemande = new Date();
+            demandeBip.encadrant = $scope.encadrant;
+
+            DemandeBip.save(demandeBip)   ;
+            $('#demandeBipModal').modal('hide');             
+        }
+
+        $scope.evaluer= function  (collaborateur) {
+        // lancer l'evaluation 
+        // 1 selectionner l'objectif  à evaluer du collaborateur encadré
+        // 2 evaluer => resultat
+
+
+    }
+
+    $scope.class = function  (bap) {
+        if(bap.statut=="EN_COURS") return  "info";
+        if(bap.statut=="EN_ATTENTE") return "warning";
+        if(bap.statut=="VALIDE") return "primary";
+        if(bap.statut=="REJETE") return "danger";
+    }
+
+});
+
+
+
+
+;'use strict';
+
+app
+    .config(function ($stateProvider) {
+        $stateProvider
+            .state('encadrant', {
+                url: '/encadrants',
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/entities/encadrant/encadrant.html',
+                        controller: 'EncadrantController'
+                    },
+                    'navbar@': {
+                        templateUrl: 'scripts/app/partials/navbar-e.partial.html'
+                    }
+                    
+                    }
+
+                
+            })
+            .state('encadrant.fiches', {
+                url: '/fiches/:id',
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/entities/encadrant/fiches.html',
+                        controller: 'EncadrantArchiveController'
+                    }
+                }
+            })
+            .state('encadrant.collaborateur', {
+                url: '/collaborateur/:id',
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/entities/encadrant/detailcollaborateur.html',
+                        controller: 'EncadrantCollaborateurController'
+                    }
+                }
+            })
+            .state('encadrant.collaborateurs', {
+                url: '/collaborateurs',
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/entities/encadrant/listcollaborateurs.html',
+                        controller: 'EncadrantCollaborateursController'
+                    }
+                }
+            });
+            
+    });
+;'use strict';
+
+app
+.controller('ManagerBipController', function ($scope, $stateParams,$filter , Collaborateur , $cookieStore,$state,Objectif , Bip ) {
+
+
+  $scope.user = $cookieStore.get('connectedUser');
+   if(!$scope.user )
+  {
+  	 $state.go('login');
+  }
+   else if($scope.user.utilisateur.type != 'M')
+  {
+   $state.go('login');
+ }
+ else
+ {
+  $scope.id = $scope.user.utilisateur.id ;
+}
+
+$scope.modif = [];
+$scope.modif2 = [];
+$scope.modif3 = [];
+$scope.Actions =[]  ;
+$scope.objectifsFormation ={};
+$scope.objectifsFormation.objectifs =[];
+$scope.objectifsFormation.autoformation=false;
+$scope.Formations = [];
+
+$scope.newobjectifnewobjectifFormation ={};
+Collaborateur.get({id:$stateParams.id},function  (result) {
+
+  $scope.collaborateur=result;
+  
+  Objectif.ficheEnCours({id:$scope.collaborateur.id},function  (result2) {
+
+    $scope.ficheCourant = result2;
+    console.log($scope.ficheCourant);
+  })
+
+});
+
+
+$scope.addObjectif=function  () {
+  $scope.ficheCourant.objectifs.push($scope.newobjectif);
+  $scope.newobjectif={};
+}
+
+$scope.addObjectifFormation=function  () {
+  $scope.newobjectifnewobjectifFormation.avancementObjectif = 0 ;
+  $scope.objectifsFormation.objectifs.push( $scope.newobjectifnewobjectifFormation);
+  
+  console.log($scope.objectifsFormation);
+  $scope.newobjectifnewobjectifFormation={};
+}
+$scope.addAction=function  () {
+  $scope.Actions.push( $scope.newaction);
+  $scope.newaction={};
+}
+
+$scope.supprimerAction=function  (i) {
+  $scope.Actions.splice(i,1);
+
+}
+$scope.supprimerObjectif=function  (i) {
+  $scope.ficheCourant.objectifs.splice(i,1);
+
+}
+$scope.supprimerObjectifFormation=function  (i) {
+  $scope.objectifsFormation.splice(i,1);
+
+}
+$scope.initModif=function (i)
+{
+
+  $scope.modif[i] =true;
+}
+
+$scope.Modif = function  (i) {
+ $scope.modif[i] =false; 
+}
+
+$scope.initModif2=function (i)
+{
+
+  $scope.modif2[i] =true;
+}
+
+$scope.Modif2 = function  (i) {
+ $scope.modif2[i] =false; 
+}
+
+$scope.initModif3=function (i)
+{
+
+  $scope.modif3[i] =true;
+}
+
+$scope.Modif3 = function  (i) {
+ $scope.modif3[i] =false; 
+}
+
+
+$scope.initFormation = function  () {
+ $('#FormationModal').modal('show');
+}
+
+$scope.initAction = function  () {
+ $('#ActionModal').modal('show'); 
+}
+
+$scope.MAJFormation = function  () {
+
+  $scope.Formations.push($scope.objectifsFormation);
+  $scope.objectifsFormation = {} ;
+  $scope.objectifsFormation.objectifs =[];
+  $scope.objectifsFormation.autoformation=false;
+  $('#FormationModal').modal('hide');    
+
+
+}
+$scope.MAJAction = function  () {
+
+  $('#ActionModal').modal('hide');    
+}
+
+$scope.saveBip = function  () {
+  
+  var bip = {};
+  bip.ficheObjectifsTraites = $scope.ficheCourant ; 
+  bip.collaborateur = $scope.collaborateur ; 
+  bip.actions = $scope.Actions  ;
+  bip.formations = $scope.Formations ;
+  bip.dateBilan = new Date();
+  console.log(bip);
+
+  Bip.save(bip);
+  
+}
+
+
+});
+
+
+;'use strict';
+
+app
+.controller('demandeBipsController', function ($scope, $stateParams,$filter , Manager ,$cookieStore,$state , DemandeBip ) {
+
+	
+  $scope.user = $cookieStore.get('connectedUser');
+    if(!$scope.user )
+  {
+  	 $state.go('login');
+  }
+   else if($scope.user.utilisateur.type != 'M')
+   {
+     $state.go('login');
+ }
+ else
+ {
+    $scope.id = $scope.user.utilisateur.id ;
+}
+
+
+Manager.get({id : $scope.id}, function  (result) {
+$scope.collaborateurs = result.collaborateurs;
+    
+});
+
+DemandeBip.collaborateur({id : $scope.id}, function  (result) {
+	$scope.demandes = result;
+	console.log(result);
+})
+
+
+});
+
+;'use strict';
+
+app
+.controller('ManagerController', function ($scope,$stateParams,$filter , Manager ,$cookieStore,$state, Bap , Collaborateur) {
+
+  $scope.user = $cookieStore.get('connectedUser');
+    if(!$scope.user )
+  {
+  	 $state.go('login');
+  }
+   else if($scope.user.utilisateur.type != 'M')
+   {
+     $state.go('login');
+ }
+ else
+ {
+    $scope.id = $scope.user.utilisateur.id ;
+}
+
+
+
+
+       Manager.get({id: $scope.id}, function(result) {
+            $scope.manager = result;
+            //collaborateurs du managerRH avec un BAp statut en cours
+            $scope.collaborateurs = $scope.manager.collaborateurs;        
+            });
+    
+        $scope.class = function  (bap) {
+            if(bap.statut=="EN_COURS") return  "info";
+            if(bap.statut=="EN_ATTENTE") return "warning";
+            if(bap.statut=="VALIDE") return "primary";
+            if(bap.statut=="REJETE") return "danger";
+        }
+
+    });
+
+;'use strict';
+
+app
+    .config(function ($stateProvider) {
+        $stateProvider
+            .state('manager', {
+                url: '/managers',
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/entities/manager/listcollaborateurs.html',
+                        controller: 'ManagerCollaborateursController'
+                    },
+                    'navbar@': {
+                        templateUrl: 'scripts/app/partials/navbar-m.partial.html'
+                    }
+                    
+                    }
+
+                
+            })
+            .state('manager.fiches', {
+                url: '/fiches/:id',
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/entities/manager/fiches.html',
+                        controller: 'ManagerArchiveController'
+                    }
+                }
+            })
+            .state('manager.demandesbip', {
+                url: '/demandesbip',
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/entities/manager/demandes.html',
+                        controller: 'demandeBipsController'
+                    }
+                }
+            })
+            
+            .state('manager.collaborateur', {
+                url: '/collaborateur/:id',
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/entities/manager/detailcollaborateur.html',
+                        controller: 'ManagerCollaborateurController'
+                    }
+                }
+            })
+            .state('manager.bip', {
+                url: '/bip/:id',
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/entities/manager/bipcollaborateur.html',
+                        controller: 'ManagerBipController'
+                    }
+                }
+            })
+            .state('manager.collaborateurs', {
+                url: '/collaborateurs',
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/entities/manager/listcollaborateurs.html',
+                        controller: 'ManagerCollaborateursController'
+                    }
+                }
+            });
+            
+    });
+;'use strict';
+
+app
+.controller('ManagerArchiveController', function ($scope, $stateParams,$filter  ,$cookieStore,$state, Collaborateur) {
+
+  $scope.user = $cookieStore.get('connectedUser');
+   if(!$scope.user )
+  {
+  	 $state.go('login');
+  }
+   else if($scope.user.utilisateur.type != 'M')
+  {
+   $state.go('login');
+}
+else
+{
+    $scope.id = $scope.user.utilisateur.id ;
+}
+
+
+        //recupérer les fiches du  collaborateur selectionné
+
+        Collaborateur.get({id: $stateParams.id}, function(result) {
+
+            $scope.collaborateur = result;
+            
+            console.log(result);
+
+            $scope.collaborateur.fichesobjectifs.forEach(function (entity) {
+
+                entity.dateFicheObjectifs = $filter('date')(entity.dateFicheObjectifs, 'yyyy-MM-dd');    
+
+            });
+            
+            $scope.collaborateur.fichesevaluations.forEach(function (entity) {
+
+                entity.dateEvaluation = $filter('date')(entity.dateEvaluation, 'yyyy-MM-dd');    
+
+            });
+
+        });  
+
+        $scope.showObjectifs = function (id) {
+
+            $scope.hideobjectifs=false;
+
+            var fichesobjectif= $scope.collaborateur.fichesobjectifs.filter(function (entity) { return entity.id==id;});
+
+            $scope.fichesobjectif=fichesobjectif[0];
+
+            if($scope.fichesobjectif.objectifs.length==0)$scope.hideobjectifs=true;
+
+            $('#objectifsModal').modal('show');
+        };
+
+        $scope.showEvaluations = function (id) {
+
+            $scope.hideevaluations=false;
+
+            var fichesevaluations= $scope.collaborateur.fichesevaluations.filter(function (entity) { return entity.id==id;});
+
+            $scope.fichesevaluation=fichesevaluations[0];
+
+            if($scope.fichesevaluation.evaluations.length==0)$scope.hideevaluations=true;
+
+            $('#evaluationModal').modal('show');
+        };
+
+
+
+    });
+
+;'use strict';
+
+app
+.controller('ManagerCollaborateurController', function ($scope, $stateParams,$filter , Bap  , Objectif ,Encadrant , Feedback , $cookieStore,$state,Collaborateur) {
+
+
+  $scope.user = $cookieStore.get('connectedUser');
+  
+   if(!$scope.user )
+  {
+  	 $state.go('login');
+  }
+   else if($scope.user.utilisateur.type != 'M')
+  {
+   $state.go('login');
+ }
+ else
+ {
+  $scope.id = $scope.user.utilisateur.id ;
+}
+
+$scope.modif = [];
+Bap.bapCourant({id:$stateParams.id},function  (result) {
+
+  $scope.bap=result;
+  console.log(result);
+
+});
+
+
+
+
+$scope.initModif=function (i)
+{
+
+  $scope.modif[i] =true;
+}
+
+$scope.Modif = function  (i) {
+ $scope.modif[i] =false; 
+}
+$scope.initValiderBap = function  (bap) {
+
+
+  $scope.bapToValidate = bap;
+
+  $scope.totalaValider = 0
+  $scope.bapToValidate.ficheEvaluations.evaluations.forEach(function (obje) {
+
+    if(obje.poids != '' )$scope.totalaValider+=parseInt(obje.poids); 
+  });
+
+  $scope.bapToValidate.feedbacks.forEach(function (f) {
+
+    var q = Feedback.qualificationglobale({id : f.id}); 
+    f.qualificationglobal = q ;
+  });
+
+
+  $scope.current = 1;
+  $('#step1_1').show();	
+  $('#step1_2').hide();	
+  $('#step1_3').hide();	
+  $('#step1_4').hide(); 
+  $('#step1_5').hide(); 
+  $('#BapModal').modal('show');
+
+}
+
+
+$scope.valider=function  (o,i) {
+        // $('#objectif'+o.id).hide();
+
+        $scope.bapToValidate.ficheObjectifsRediges.objectifs.splice(i,1);
+
+        $scope.bapToValidate.ficheObjectifsTraites.objectifs.push(o);
+
+        $('#objectif'+o.id).html("objectif Validé");
+
+      }
+
+      $scope.reporter=function  (o) {
+
+       $('#objectif'+o.id).html("objectif Reporté");
+     }
+
+     $scope.nextStep=function()
+     {
+      if($scope.current==2)
+      {
+            //valider bap 
+            $scope.ValiderBap();
+            console.log($scope.bapToValidate);
+          }
+          if($scope.current==3)console.log($scope.bapToValidate);
+
+          $('#step1_'+$scope.current).hide();
+          $scope.current++;
+          $('#step1_'+$scope.current).show();
+        	// if($scope.current==3)$('#nextbtn').hide();	
+        }
+
+
+
+        $scope.addObjectif=function  () {
+        	$scope.bapToValidate.ficheObjectifsRediges.objectifs.push($scope.newobjectif);
+        	$scope.newobjectif={};
+        }
+
+
+        $scope.supprimerObjectif=function  (i) {
+        	$scope.bapToValidate.ficheObjectifsRediges.objectifs.splice(i,1);
+        }
+
+        $scope.ValiderBap=function()
+        {
+          $scope.totalaValider = 0
+          $scope.bapToValidate.ficheEvaluations.evaluations.forEach(function (obje) {
+            $scope.totalaValider+=parseInt(obje.poids); 
+          });
+          if($scope.totalaValider!=100)
+          {
+            $scope.error2=true;
+          }
+          else
+          {
+
+            Bap.valider($scope.bapToValidate,function  (result) {
+              console.log(result);
+              $scope.bapToValidate = result;
+            });
+
+          }
+
+
+
+        }
+
+
+
+
+        $scope.initPreparerBap = function  (bap) {
+
+         $scope.bapToPrepare = bap;
+
+         $scope.current = 1;
+         $('#step2_2').hide();   
+         $('#step2_3').hide();   
+         $('#step2_1').show();   
+         $('#BapModal2').modal('show');
+
+         $scope.total = 0
+         $scope.bapToPrepare.ficheEvaluations.evaluations.forEach(function (obje) {
+
+          $scope.total+=parseInt(obje.poids); 
+        });
+
+
+       }
+       $scope.majPoid = function  () {
+         $scope.total = 0
+         $scope.bapToPrepare.ficheEvaluations.evaluations.forEach(function (obje) {
+
+          if(obje.poids != '' )$scope.total+=parseInt(obje.poids); 
+        });
+       }
+       $scope.majPoidaValider = function  () {
+         $scope.totalaValider = 0
+         $scope.bapToValidate.ficheEvaluations.evaluations.forEach(function (obje) {
+
+          if(obje.poids != '' )$scope.totalaValider+=parseInt(obje.poids); 
+        });
+       }
+
+       $scope.MAJBap = function  () {
+        $scope.total = 0
+        $scope.bapToPrepare.ficheEvaluations.evaluations.forEach(function (obje) {
+          $scope.total+=parseInt(obje.poids); 
+        });
+        if($scope.total!=100)
+        {
+          $scope.error=true;
+        }
+        else
+        {
+
+          Bap.update({id :$scope.bapToPrepare } , $scope.bapToPrepare);
+          $('#BapModal2').modal('hide');
+        }
+      }
+
+
+      $scope.SaveBap = function  () {
+        console.log($scope.bapToValidate);
+        Bap.save($scope.bapToValidate,function  (result) {
+
+          $scope.newBap = result;
+
+          $scope.objectifsToLink = $scope.newBap.ficheObjectifsRediges.objectifs;
+          $scope.encadrants =Encadrant.query();
+          
+        });
+        
+        
+
+        $('#step1_'+$scope.current).hide();
+        $scope.current++;
+        $('#step1_'+$scope.current).show();
+      }
+
+      $scope.initLinkObject = function  (objectif ,encadrant) {
+        objectif.encadrant = encadrant;
+        console.log($scope.objectifsToLink);
+      }
+
+      $scope.LinkObjcetif =function  () {
+       $scope.objectifsToLink.forEach(function(objectif) {
+
+         console.log("linking objectif id "+objectif.id+" to encadrant id "+objectif.encadrant.id+"..." );
+         Objectif.linkToEncadrant({idObjectif : objectif.id , idencadrant : objectif.encadrant.id });
+
+       }); 
+     }
+
+   });
+
+;'use strict';
+
+app
+.controller('ManagerCollaborateursController', function ($scope, $stateParams,$filter , Manager ,$cookieStore,$state) {
+
+	
+  $scope.user = $cookieStore.get('connectedUser');
+  if(!$scope.user )
+  {
+  	 $state.go('login');
+  }
+   else if($scope.user.utilisateur.type != 'M')
+   {
+     $state.go('login');
+ }
+ else
+ {
+    $scope.id = $scope.user.utilisateur.id ;
+}
+
+Manager.get({id : $scope.id}, function  (result) {
+$scope.collaborateurs = result.collaborateurs;
+    
+});
+
+
+});
+
+;'use strict';
+
+app
+.controller('UtilisateurController', function ($scope, $stateParams, Utilisateur , $rootScope ,$cookieStore , $state) {
+    $scope.user = {};
+    $scope.login = function  () {
+        Utilisateur.auth({email : $scope.user.email , mdp : $scope.user.motDePasse} ,function  (result) {
+
+            if(result.token) 
+            {
+             
+                 $cookieStore.put('connectedUser', result);
+                 $cookieStore.put('logged', true);
+                 $scope.user = $cookieStore.get('connectedUser');
+                if($scope.user.utilisateur.type == 'A')
+                {
+                 $state.go('administrateur');
+                 }
+                 if($scope.user.utilisateur.type == 'C')
+                {
+                 $state.go('collaborateur');
+                 }
+                 if($scope.user.utilisateur.type == 'E')
+                {
+                 $state.go('encadrant');
+                 }
+                 if($scope.user.utilisateur.type == 'M')
+                {
+                 $state.go('manager');
+                 }
+           }
+           else
+           {
+            $cookieStore.put('logged', false);
+        }
+
+        $scope.$on('handleBroadcast', function() {
+        $scope.message = sharedService.message;
+    });
+
+    });
+    }        
+
+});
+;'use strict';
+
+app
+    .config(function ($stateProvider) {
+        $stateProvider
+            .state('login', {
+                url: '/login',
+                views: {
+                    'login@': {
+                        templateUrl: 'scripts/app/entities/utilisateur/utilisateur.html',
+                        controller: 'UtilisateurController'
+                    }
+                
+                },
+                data: {
+                    logged : false 
+                },
+            });
+            
+    });
+;app.directive('navbar', function () {
+return {
+	restrict: 'A',
+        scope: {
+            navbar: '='
+        },
+    templateUrl: function(elem, attr){
+    	 
+
+      return 'scripts/app/partials/navbar-'+"c"+'.partial.html';
+    
+      
+    }
+  };
+});'use strict';
+
+app
+    .factory('Action', function ($resource, $filter) {
+        
+        return $resource('http://localhost:8080/HRPerformanceManagementSystem/resources/actions/:id', {}, {
+            'query': { method: 'GET', isArray: true},
+            'get': {
+                method: 'GET',
+                isArray : false
+            },
+            'collaborateur' : { 
+                        method: 'GET',
+                        isArray: true,
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/actions/collaborateur/:id'
+                      },
+            
+            'update': { method:'PUT' },
+            'save': { method:'POST' }
+        });
+    });
+;    'use strict';
+
+    app
+    .factory('Bap', function ($resource, $filter) {
+
+        return $resource('http://localhost:8080/HRPerformanceManagementSystem/resources/baps/:id', {}, {
+            'query': { method: 'GET', isArray: true},
+            'get': {
+                method: 'GET',
+                isArray : false,
+                transformResponse: function (data) {
+                    data = angular.fromJson(data);
+                    data.dateBilan = $filter('date')(data.dateBilan, 'yyyy-MM-dd');    
+                    return data;  }  
+                },
+                'collaborateur' : { 
+                    method: 'GET',
+                    isArray : true,
+                    transformResponse: function (data) {
+                        data = angular.fromJson(data);
+                        data.dateBilan = $filter('date')(data.dateBilan, 'yyyy-MM-dd');    
+                        return data;},
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/baps/collaborateur/:id'
+                    },
+                    'bapByStatut' :
+                    {
+                     method: 'GET',
+                     url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/baps/collaborateur/statut/:id/:statut'
+                 },
+                 'bapCourant' :
+                 {
+                     method: 'GET',
+                     transformResponse: function (data) {
+                        data = angular.fromJson(data);
+                        data.dateBilan = $filter('date')(data.dateBilan, 'yyyy-MM-dd');    
+                        return data;},
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/baps/collaborateur/statut/:id/EN_COURS'
+                    },
+                    'valider' : {
+                        method : 'POST',
+                        isArray:false,
+                        url :'http://localhost:8080/HRPerformanceManagementSystem/resources/baps/valider'
+                    },
+                    'rejeter' : {
+                        method : 'POST',
+                        isArray:false,
+                        url :'http://localhost:8080/HRPerformanceManagementSystem/resources/baps/rejeter'
+                    },
+                    'update': { method:'PUT' },
+                    'save': { method:'POST' }
+                });
+});
+;'use strict';
+
+app
+    .factory('Bip', function ($resource, $filter) {
+        
+        return $resource('http://localhost:8080/HRPerformanceManagementSystem/resources/bips/:id', {}, {
+            'query': { method: 'GET', isArray: true},
+            'get': {
+                method: 'GET',
+                isArray : false,
+                transformResponse: function (data) {
+                data = angular.fromJson(data);
+                data.dateBilan = $filter('date')(data.dateBilan, 'yyyy-MM-dd');    
+                return data;}
+            },
+            'collaborateur' : { 
+                        method: 'GET',
+                        isArray: true,
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/bips/collaborateur/:id'
+                      },
+            
+            'update': { method:'PUT' },
+            'save': { method:'POST' }
+        });
+    });
+;'use strict';
+
+app
+.factory('Collaborateur', function ($resource, $filter) {
+    return $resource('http://localhost:8080/HRPerformanceManagementSystem/resources/collaborateurs/:id', {}, {
+        'query': { method: 'GET', isArray: true},
+        'get': {
+            method: 'GET',
+
+            transformResponse: function (data) {
+                data = angular.fromJson(data);
+                data.fichesobjectifs.forEach(function (entity) {
+                    entity.dateFicheObjectifs = $filter('date')(entity.dateFicheObjectifs, 'yyyy-MM-dd');    
+
+                });
+                data.fichesevaluations.forEach(function (entity) {
+                entity.dateEvaluation = $filter('date')(entity.dateEvaluation, 'yyyy-MM-dd');    
+            });
+                return data;
+            }
+        },
+        'encadrant' : { 
+            method: 'GET',
+            isArray: true,
+            url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/collaborateurs/encadrant/:id'
+        },
+        'manager' : { 
+            method: 'GET',
+            isArray: true,
+            url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/collaborateurs/managerrh/:id'
+        },
+
+        'new' : { 
+            method: 'POST', 
+            url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/collaborateurs/:idmanager'
+        },
+
+        'bap' : { 
+            method: 'GET',
+            isArray: true,
+            url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/collaborateurs/bapstatut/:idencadrant/:statut'
+        },
+        'update': { method:'PUT' },
+
+        'save': { method:'POST' }
+    });
+});
+;app.service('connect', function () {
+        var property ='none' ;
+
+        return {
+            getProperty: function () {
+                return property;
+            },
+            setProperty: function(value) {
+                property = value;
+            }
+        };
+    });;    'use strict';
+
+    app
+    .factory('DemandeBip', function ($resource, $filter) {
+
+        return $resource('http://localhost:8080/HRPerformanceManagementSystem/resources/demandebips/:id', {}, {
+            'query': { method: 'GET', isArray: true},
+            'get': {
+                method: 'GET',
+                isArray : false
+            },
+            'collaborateur' : { 
+                method: 'GET',
+                isArray : true,
+                url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/demandebips/collaborateur/:id'
+            },
+            'manager' : { 
+                method: 'GET',
+                isArray : true,
+                url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/demandebips/manager/:id'
+            },
+            'encadrant' :
+            {
+               method: 'GET',
+               url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/demandebips/encadrant/:id'
+           },
+           'update': { method:'PUT' },
+           'save': { method:'POST' }
+       });
+    });
+;'use strict';
+
+app
+    .factory('Encadrant', function ($resource, $filter) {
+        
+        return $resource('http://localhost:8080/HRPerformanceManagementSystem/resources/encadrants/:id', {}, {
+            'query': { method: 'GET', isArray: true},
+            'get': {
+                method: 'GET',
+                isArray : false
+            },
+            'update': { method:'PUT' },
+            'save': { method:'POST' }
+        });
+    });
+;'use strict';
+
+app
+    .factory('Entete', function ($resource, $filter) {
+        
+        return $resource('http://localhost:8080/HRPerformanceManagementSystem/resources/entetes/:id', {}, {
+            'query': { method: 'GET', isArray: true},
+            'get': {
+                method: 'GET',
+                isArray : false
+            },
+            'feedback':{method : 'GET',url:'http://localhost:8080/HRPerformanceManagementSystem/resources/entetes/feedback/:id'},
+            'update': { method:'PUT' },
+            'save': { method:'POST' }
+        });
+    });
+; 'use strict';
+
+app
+    .factory('Evaluation', function ($resource, $filter) {
+        return $resource('http://localhost:8080/HRPerformanceManagementSystem/resources/evaluations/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
@@ -757,13 +2754,253 @@ app
                     return data;
                 }
             },
-            'update': { method:'PUT' },
-            'bytags': { 
+            'ficheCouranteByCollaborateur' : { 
                         method: 'GET',
                         isArray: true,
-                        
-                        url: 'http://localhost:8080/hrpms/resources/users/tag/:tag'
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/evaluations/ficheevaluationscourantes/collaborateur/:id'
                       },
+            'collaborateur' : { 
+                        method: 'GET',
+                        isArray: true,
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/evaluations/ficheevaluations/collaborateur/:id'
+                      },
+            'linkObjectifToProjet' : { 
+                        method: 'GET',
+                        isArray: true,
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/evaluations/ficheevaluation/:idevaluation/:idficheevaluations'
+                      },
+            'addFiche' : { 
+                        method: 'POST',
+                        isArray: true,
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/evaluations/ficheevaluations'
+                      },
+            'updateFiche' : { 
+                        method: 'PUT',
+                        isArray: true,
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/evaluations/ficheevaluations/:id'
+                      },
+            'deleteFiche' : { 
+                        method: 'DELETE',
+                        isArray: true,
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/evaluations/ficheevaluations/:id'
+                      },
+            'update': { method:'PUT' },
+            
+            'save': { method:'POST' }
+        });
+    });
+;'use strict';
+
+app
+    .factory('Feedback', function ($resource, $filter) {
+        return $resource('http://localhost:8080/HRPerformanceManagementSystem/resources/feedbacks/:id', {}, {
+            'query': { method: 'GET', isArray: true},
+            'get': {
+                method: 'GET',
+                transformResponse: function (data) {
+                    data = angular.fromJson(data);
+                    return data;
+                }
+            },
+            'encadrant' : { 
+                        method: 'GET',
+                        isArray: true,
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/feedbacks/encadrant/:id'
+                      },
+            'collaborateur' : { 
+                        method: 'GET',
+                        isArray: true,
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/feedbacks/collaborateur/:id'
+                      },
+            
+            'qualificationglobale' : { 
+                        method: 'GET',
+                        isArray: false,
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/feedbacks/qualificationglobale/:id'
+                      },
+            'bap' : { 
+                        method: 'GET',
+                        isArray: true,
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/feedbacks/bap/:id'
+                      },
+            'update': { method:'PUT' },
+            
+            'save': { method:'POST' }
+        });
+    });
+;'use strict';
+
+app
+    .factory('Formation', function ($resource, $filter) {
+        
+        return $resource('http://localhost:8080/HRPerformanceManagementSystem/resources/formations/:id', {}, {
+            'query': { method: 'GET', isArray: true},
+            'get': {
+                method: 'GET',
+                isArray : false
+            },
+            'collaborateur' : { 
+                        method: 'GET',
+                        isArray: true,
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/formations/collaborateur/:id'
+                      },
+            
+            'update': { method:'PUT' },
+            'save': { method:'POST' }
+        });
+    });
+;'use strict';
+
+app
+    .factory('Manager', function ($resource, $filter) {
+        
+        return $resource('http://localhost:8080/HRPerformanceManagementSystem/resources/managersrh/:id', {}, {
+            'query': { method: 'GET', isArray: true},
+            'get': {
+                method: 'GET',
+                isArray : false
+            },
+            'update': { method:'PUT' },
+            'save': { method:'POST' }
+        });
+    });
+;'use strict';
+
+app
+.factory('Objectif', function ($resource, $filter) {
+  return $resource('http://localhost:8080/HRPerformanceManagementSystem/resources/objectifs/:id', {}, {
+    'query': { method: 'GET', isArray: true},
+    'get': {
+      method: 'GET',
+      transformResponse: function (data) {
+        data = angular.fromJson(data);
+        return data;
+      }
+    },
+    'update': { method:'PUT' },
+    'currentfiche': { 
+      method: 'GET',
+      isArray: false,
+
+      url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/objectifs/ficheobjectifscourants/collaborateur/:id'
+    },
+    'ficheEnCours' : {
+      method :'GET',
+      isArray : false,
+      url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/objectifs/ficheobjectifs/encours/:id'
+    },
+
+    'collaborateur': { 
+      method: 'GET',
+      isArray: false,
+
+      url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/objectifs/ficheobjectifs/collaborateur/:id'
+    },
+    'linkToFiche':
+    { 
+      method: 'GET',
+      isArray: false,
+      url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/objectifs/link/ficheobjectifs/:idobjectif/:idficheobjectif'
+    },
+    'linkToFormation':
+    { 
+      method: 'GET',
+      isArray: false,
+      url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/objectifs/link/formation/:idobjectif/:idformation'
+    },
+    'linkToEncadrant':
+    {
+      method: 'GET',
+      isArray: false,
+      url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/objectifs/link/encadrant/:idObjectif/:idencadrant'
+    },
+    'linkToProject':
+    { 
+      method: 'GET',
+      isArray: false,
+      url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/objectifs/link/projet/:idobjectif/:idprojet'
+    },
+
+    'addFiche':
+    { 
+      method: 'POST',
+      url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/objectifs/ficheobjectifs'
+    },
+    'updateFiche':
+    { 
+      method: 'PUT',
+      url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/objectifs/ficheobjectifs/:id'
+    },
+    'deleteFiche':
+    { 
+      method: 'DELETE',
+      url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/objectifs/ficheobjectifs/:id'
+    },
+    'save': { method:'POST' }
+  });
+});
+;'use strict';
+
+app
+    .factory('Profil', function ($resource, $filter) {
+        
+        return $resource('http://localhost:8080/HRPerformanceManagementSystem/resources/profils/:id', {}, {
+            'query': { method: 'GET', isArray: true},
+            'get': {
+                method: 'GET',
+                isArray : false
+            },
+            'code':
+                    {  
+                        method:'GET',
+                        url:'http://localhost:8080/HRPerformanceManagementSystem/resources/profils/bycode/:code'
+
+                    },
+            'update': { method:'PUT' },
+            'save': { method:'POST' }
+        });
+    });
+;'use strict';
+
+app
+    .factory('Projet', function ($resource, $filter) {
+        
+        return $resource('http://localhost:8080/HRPerformanceManagementSystem/resources/<projets></projets>/:id', {}, {
+            'query': { method: 'GET', isArray: true},
+            'get': {
+                method: 'GET',
+                isArray : false
+            },
+            'code':
+                    {  
+                        method:'GET',
+                        url:'http://localhost:8080/HRPerformanceManagementSystem/resources/profils/bycode/:code'
+
+                    },
+            'update': { method:'PUT' },
+            'save': { method:'POST' }
+        });
+    });
+;'use strict';
+
+app
+    .factory('Utilisateur', function ($resource, $filter) {
+        
+        return $resource('http://localhost:8080/HRPerformanceManagementSystem/resources/utilisateurs/:id', {}, {
+            'query': { method: 'GET', isArray: true},
+            'get': {
+                method: 'GET',
+                transformResponse: function (data) {
+                    data = angular.fromJson(data);
+                    return data;
+                }
+            },
+            'auth' : { 
+                        method: 'GET',
+                        isArray: false,
+                        url: 'http://localhost:8080/HRPerformanceManagementSystem/resources/utilisateurs/auth/:email/:mdp'
+                      },
+            'update': { method:'PUT' },
             'save': { method:'POST' }
         });
     });

@@ -1,0 +1,134 @@
+﻿<html>
+<head>
+
+	<title>HR Performance Management System  </title>
+<!-- injecter les fichiers css en utilisant grunt -->
+  
+ <!-- bower:css -->
+ <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+ <!-- endbower -->
+  
+  <!-- injector:css -->
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/themify-icons.css">
+  <!-- endinjector -->
+
+
+</head>
+ <body ng-app="hrPerformanceApp" ui-view="login" ng-controller="mainController"> 
+    
+    <nav  class="first-nav navbar-fixed-top">
+    <div class="container">
+      <ul class="pull-left">
+        
+        <li> <a href="#" id="menu-toggle"><span class="ti-menu big-menu"></span>HR Performance Management System </a></li>
+
+      </ul>
+      <ul class="pull-right menu-right">
+        
+        
+        <li><a href ="" ng-click="logOut()">Déconnexion</a></li>
+      </ul>
+      <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
+  </nav>
+  <div class="clearfix"></div>
+
+   <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        HRPMS
+                    </a>
+                </li>
+                <div  ui-view="navbar"><div/>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper --> 
+	<div class="container" ui-view="content">
+<br>
+   
+
+        
+      </div>
+
+
+
+</div>
+  <!-- HRMP :injecter les scripts en utilisant grunt  -->
+    
+  <!-- bower:js -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="bower_components/angular-resource/angular-resource.js"></script>
+  <script src="bower_components/angular-resource/angular-resource.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  <!-- endbower -->
+
+  <!-- injector:js -->
+  <script src="scripts/app/app.js"></script>
+  <script src="scripts/app/components/angular-cookies.js"></script>
+  <script src="scripts/app/components/angular-resource.js"></script>
+  <script src="scripts/app/entities/administrateur/Admin.controller.js"></script>
+  <script src="scripts/app/entities/administrateur/AdminArchive.controller.js"></script>
+  <script src="scripts/app/entities/administrateur/AdminCollaborateur.controller.js"></script>
+  <script src="scripts/app/entities/administrateur/AdminCollaborateurs.controller.js"></script>
+  <script src="scripts/app/entities/administrateur/AdminEncadrants.controller.js"></script>
+  <script src="scripts/app/entities/administrateur/AdminManagers.controller.js"></script>
+  <script src="scripts/app/entities/administrateur/administrateur.js"></script>
+  <script src="scripts/app/entities/collaborateur/collaborateur.controller.js"></script>
+  <script src="scripts/app/entities/collaborateur/collaborateur.js"></script>
+  <script src="scripts/app/entities/collaborateur/test.controller.js"></script>
+  <script src="scripts/app/entities/encadrant/EncadrantCollaborateur.controller.js"></script>
+  <script src="scripts/app/entities/encadrant/encadrant.controller.js"></script>
+  <script src="scripts/app/entities/encadrant/encadrant.js"></script>
+  <script src="scripts/app/entities/manager/ManagerBip.controller.js"></script>
+  <script src="scripts/app/entities/manager/demandeBips.controller.js"></script>
+  <script src="scripts/app/entities/manager/manager.controller.js"></script>
+  <script src="scripts/app/entities/manager/manager.js"></script>
+  <script src="scripts/app/entities/manager/managerarchive.controller.js"></script>
+  <script src="scripts/app/entities/manager/managercollaborateur.controller.js"></script>
+  <script src="scripts/app/entities/manager/managercollaborateurs.controller.js"></script>
+  <script src="scripts/app/entities/utilisateur/utilisateur.controller.js"></script>
+  <script src="scripts/app/entities/utilisateur/utilisateur.js"></script>
+  <script src="scripts/app/partials/navbar.directive.js"></script>
+  <script src="scripts/app/services/action.service.js"></script>
+  <script src="scripts/app/services/bap.service.js"></script>
+  <script src="scripts/app/services/bip.services.js"></script>
+  <script src="scripts/app/services/collaborateur.service.js"></script>
+  <script src="scripts/app/services/connect.service.js"></script>
+  <script src="scripts/app/services/demandebip.service.js"></script>
+  <script src="scripts/app/services/encadrant.service.js"></script>
+  <script src="scripts/app/services/entete.service.js"></script>
+  <script src="scripts/app/services/evaluation.service.js"></script>
+  <script src="scripts/app/services/feedback.service.js"></script>
+  <script src="scripts/app/services/formation.service.js"></script>
+  <script src="scripts/app/services/managerRh.service.js"></script>
+  <script src="scripts/app/services/objectif.service.js"></script>
+  <script src="scripts/app/services/profil.service.js"></script>
+  <script src="scripts/app/services/projet.service.js"></script>
+  <script src="scripts/app/services/utilisateur.service.js"></script>
+  <!-- endinjector -->
+
+  
+
+	
+	
+
+	
+	 <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
+
+	  
+  </body>
+
+</html>

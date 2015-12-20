@@ -1,0 +1,241 @@
+<div class="col-md-12  content">
+  <div class="jumbotron">
+
+
+    <h3>Création du Bip pour le collaborateur  {{collaborateur.nom}} {{collaborateur.prenom}}</h3>
+    <br>
+    <div class="col-md-10">
+      <div class="table-header"></div>
+      <table class="table  table-bordered  table-striped" >
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Mesure</th>
+              <th>Avancement</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="text" class="form-control" ng-model="newobjectif.descriptionObjectif"></td>
+              <td><input type="text" class="form-control" ng-model="newobjectif.mesureObjectif"></td>
+              <td><input type="text" class="form-control" ng-model="newobjectif.avancementObjectif"></td>
+              <td><button class="btn btn-info" ng-click="addObjectif()">ajouter</button>
+
+              </td>
+            </tr>
+            <tr   ng-repeat="objectif in ficheCourant.objectifs">
+
+
+              <td > <div ng-hide="modif[$index]">{{objectif.descriptionObjectif}}</div>
+                
+                <input type="text" class="form-control" ng-model="objectif.descriptionObjectif" ng-show="modif[$index]">
+              </td> 
+              <td ><div ng-hide="modif[$index]">{{objectif.mesureObjectif}}</div>
+                
+                <input type="text" class="form-control" ng-model="objectif.mesureObjectif" ng-show="modif[$index]"> 
+              </td> 
+              <td ><div class="progress" ng-hide="modif[$index]">
+                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{objectif.avancementObjectif}}" aria-valuemin="0" aria-valuemax="100" style="width: {{objectif.avancementObjectif}}%;">
+                  {{objectif.avancementObjectif}}%
+
+                </div>
+                <div class="clearfix"></div>
+              </div>
+              
+              <input type="text" class="form-control" ng-model="objectif.avancementObjectif" ng-show="modif[$index]">
+
+            </td> 
+            <td>
+              <div  id="objectif{{objectif.id}}">
+                <button class="btn btn-sm btn-info" ng-hide="modif[$index]" ng-click="initModif($index)">Modifier</button>
+                <button class="btn btn-sm btn-danger" ng-hide="modif[$index]" ng-click="supprimerObjectif($index)">Supprimer</button>
+                <button class="btn btn-sm btn-success" ng-show="modif[$index]" ng-click="Modif($index)">Confirmer</button>
+              </div>
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+      <div class="table-footer"></div>
+<div class="clearfix"></div>
+
+    </div>
+    
+
+    <div class="col-md-2">
+      <br><br>
+  <button class="btn btn-sm btn-info btn-block"  ng-click="initFormation()">ajouter une Formation</button>
+  <div class="clearfix"></div>
+  <br>
+  <button class="btn btn-sm btn-success btn-block"  ng-click="initAction()">ajouter une action </button>
+  
+
+<div class="clearfix"></div>
+</div>
+<div class="clearfix"></div>
+  <br>
+  <button class="btn btn-sm btn-primary pull-right"  ng-click="saveBip()">Créer le Bip</button>
+  <div class="clearfix"></div>
+</div>
+</div>
+
+
+
+<!-- modals  -->
+
+
+<div class="modal fade bs-example-modal-lg" id="FormationModal"  data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+
+      <div id="step2_1">
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="modalDissmiss()" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="exampleModalLabel">ajouter Formation  : </h4>
+        </div>
+        <div class="modal-body">
+<div class="table-header">
+  <h5>objectifs de la formation :</h5>
+
+</div>
+      <table class="table  table-bordered  table-striped" >
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Mesure</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="text" class="form-control" ng-model="newobjectifnewobjectifFormation.descriptionObjectif"></td>
+              <td><input type="text" class="form-control" ng-model="newobjectifnewobjectifFormation.mesureObjectif"></td>
+              <td><button class="btn btn-info" ng-click="addObjectifFormation()">ajouter</button>
+
+              </td>
+            </tr>
+            <tr   ng-repeat="objectif in objectifsFormation.objectifs">
+
+
+              <td > <div ng-hide="modif2[$index]">{{objectif.descriptionObjectif}}</div>
+                
+                <input type="text" class="form-control" ng-model="objectif.descriptionObjectif" ng-show="modif2[$index]">
+              </td> 
+              <td ><div ng-hide="modif2[$index]">{{objectif.mesureObjectif}}</div>
+                
+                <input type="text" class="form-control" ng-model="objectif.mesureObjectif" ng-show="modif2[$index]"> 
+              </td> 
+              
+            <td>
+              <div >
+                <button class="btn btn-sm btn-info" ng-hide="modif2[$index]" ng-click="initModif2($index)">Modifier</button>
+                <button class="btn btn-sm btn-danger" ng-hide="modif2[$index]" ng-click="supprimerObjectifFormation($index)">Supprimer</button>
+                <button class="btn btn-sm btn-success" ng-show="modif2[$index]" ng-click="Modif2($index)">Confirmer</button>
+              </div>
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+      <div class="table-footer">
+        <label> Autoformation  </label>&nbsp;<input type="checkbox" ng-model="objectifsFormation.autoformation">
+      </div>
+<div class="clearfix"></div>
+
+        </div>
+        
+        <div class="clearfix"></div>
+        
+        <div class="modal-footer">
+
+          <button type="button" class="btn btn-info" id="nextbtn" ng-click="MAJFormation()">Confirmer</button>
+          <button type="button" class="btn btn-default"  ng-click="modalDissmiss()" data-dismiss="modal">fermer</button>
+
+        </div>
+        
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+  <!-- action modal -->
+
+
+
+<div class="modal fade bs-example-modal-lg" id="ActionModal"  data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+
+      <div id="step2_1">
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="modalDissmiss()" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="exampleModalLabel">ajouter Action  : </h4>
+        </div>
+        <div class="modal-body">
+<div class="table-header">
+  <h5>Actions  :</h5>
+
+</div>
+      <table class="table  table-bordered  table-striped" >
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="text" class="form-control" ng-model="newaction.descriptionAction"></td>
+              <td><button class="btn btn-info" ng-click="addAction()">ajouter</button>
+
+              </td>
+            </tr>
+            <tr   ng-repeat="action in Actions">
+
+
+              <td > <div ng-hide="modif3[$index]">{{action.descriptionAction}}</div>
+                
+                <input type="text" class="form-control" ng-model="action.descriptionAction" ng-show="modif3[$index]">
+              </td> 
+              
+              
+            <td>
+              <div  >
+                <button class="btn btn-sm btn-info" ng-hide="modif3[$index]" ng-click="initModif3($index)">Modifier</button>
+                <button class="btn btn-sm btn-danger" ng-hide="modif3[$index]" ng-click="supprimerAction($index)">Supprimer</button>
+                <button class="btn btn-sm btn-success" ng-show="modif3[$index]" ng-click="Modif3($index)">Confirmer</button>
+              </div>
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+      <div class="table-footer">
+       
+      </div>
+<div class="clearfix"></div>
+
+        </div>
+        
+        <div class="clearfix"></div>
+        
+        <div class="modal-footer">
+
+          <button type="button" class="btn btn-info" id="nextbtn" ng-click="MAJAction()">Confirmer</button>
+          <button type="button" class="btn btn-default"  ng-click="modalDissmiss()" data-dismiss="modal">fermer</button>
+
+        </div>
+        
+      </div>
+      
+    </div>
+  </div>
+</div>
