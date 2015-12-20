@@ -1,5 +1,7 @@
 package com.echallenge.restservice;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -14,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.hibernate.Session;
 
+import com.echallenge.model.BAP;
 import com.echallenge.model.Collaborateur;
 import com.echallenge.model.Encadrant;
 import com.echallenge.model.ManagerRh;
@@ -135,6 +138,44 @@ public class CollaborateurService {
 			collaborateur.setMotDePasse(Security.get_SHA_1_SecurePassword(collaborateur.getMotDePasse()));
 
 		session.update(collaborateur);
+
+		session.getTransaction().commit();
+
+		return collaborateur;
+	}
+	
+	@Path("{idmanager}")
+	@POST
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public Collaborateur ajouterCollaborateurWithManager(Collaborateur collaborateur, @PathParam("idmanager") int idManager) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		
+		ManagerRh managerRh = (ManagerRh) session.get(ManagerRh.class, new Long(idManager));
+
+		if(managerRh != null)
+		{
+			collaborateur.setMotDePasse(Security.get_SHA_1_SecurePassword(collaborateur.getMotDePasse()));
+			
+			managerRh.getCollaborateurs().add(collaborateur);
+			session.update(managerRh);
+			session.getTransaction().commit();
+			
+			BAP nouveauBap = new BAP();
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(new Date());
+			cal.add(Calendar.YEAR, 1);
+
+			nouveauBap.setDateBilan(cal.getTime());
+			nouveauBap.setStatut(StatutBAP.EN_ATTENTE);
+			nouveauBap.setCollaborateur(collaborateur);
+			nouveauBap.setNombreRejet(0);
+			
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+			session.beginTransaction();
+			session.save(nouveauBap);
+		}
 
 		session.getTransaction().commit();
 
