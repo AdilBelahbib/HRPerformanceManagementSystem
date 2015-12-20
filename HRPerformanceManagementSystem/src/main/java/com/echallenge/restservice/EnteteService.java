@@ -31,11 +31,14 @@ public class EnteteService {
 			session.beginTransaction();
 			entete = (Entete) session.get(Entete.class, new Long(id));
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return entete;
@@ -58,11 +61,14 @@ public class EnteteService {
 						.uniqueResult();
 			}
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return entete;
@@ -79,11 +85,14 @@ public class EnteteService {
 			session.beginTransaction();
 			session.saveOrUpdate(entete);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return entete;
@@ -100,11 +109,14 @@ public class EnteteService {
 			session.beginTransaction();
 			session.save(entete);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return entete;
@@ -122,11 +134,14 @@ public class EnteteService {
 			entete = (Entete) session.get(Entete.class, new Long(id));
 			session.delete(entete);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return entete;

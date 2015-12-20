@@ -37,11 +37,14 @@ public class FeedbackService {
 			session.beginTransaction();
 			feedback = (Feedback) session.get(Feedback.class, new Long(id));
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return feedback;
@@ -65,11 +68,14 @@ public class FeedbackService {
 						.setEntity("collaborateur", collaborateur).list();
 			}
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return feedbacks;
@@ -94,11 +100,14 @@ public class FeedbackService {
 						.setEntity("encadrant", encadrant).list();
 			}
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return feedbacks;
@@ -136,11 +145,14 @@ public class FeedbackService {
 
 			}
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return qualificationGlobale;
@@ -164,11 +176,14 @@ public class FeedbackService {
 						+ " AND feed IN elements(bap.feedbacks)").setEntity("bap", bap).list();
 			}
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return feedbacks;
@@ -186,11 +201,14 @@ public class FeedbackService {
 			session.beginTransaction();
 			session.saveOrUpdate(feedback);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return feedback;
@@ -207,11 +225,14 @@ public class FeedbackService {
 			session.beginTransaction();
 			session.save(feedback);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return feedback;
@@ -230,11 +251,14 @@ public class FeedbackService {
 			feedback = (Feedback) session.get(Feedback.class, new Long(id));
 			session.delete(feedback);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return feedback;

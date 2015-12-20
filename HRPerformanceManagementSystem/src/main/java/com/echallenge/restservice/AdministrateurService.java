@@ -31,11 +31,14 @@ public class AdministrateurService {
 			session.beginTransaction();
 			administrateur = (Administrateur) session.get(Administrateur.class, new Long(id));
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return administrateur;
@@ -59,11 +62,14 @@ public class AdministrateurService {
 
 			session.update(administrateur);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return administrateur;
@@ -81,11 +87,14 @@ public class AdministrateurService {
 
 			session.save(administrateur);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return administrateur;
@@ -103,11 +112,14 @@ public class AdministrateurService {
 			administrateur = (Administrateur) session.get(Administrateur.class, new Long(id));
 			session.delete(administrateur);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return administrateur;

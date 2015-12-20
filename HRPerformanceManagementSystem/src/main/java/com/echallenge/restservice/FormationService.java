@@ -33,11 +33,14 @@ public class FormationService {
 			session.beginTransaction();
 			formation = (Formation) session.get(Formation.class, new Long(id));
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return formation;
@@ -61,11 +64,14 @@ public class FormationService {
 						.setEntity("collaborateur", collaborateur).list();
 			}
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return formations;
@@ -83,11 +89,14 @@ public class FormationService {
 			session.beginTransaction();
 			session.saveOrUpdate(formation);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return formation;
@@ -104,11 +113,14 @@ public class FormationService {
 			session.beginTransaction();
 			session.save(formation);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return formation;
@@ -127,11 +139,14 @@ public class FormationService {
 			formation = (Formation) session.get(Formation.class, new Long(id));
 			session.delete(formation);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return formation;

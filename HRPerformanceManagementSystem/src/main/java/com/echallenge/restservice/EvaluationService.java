@@ -34,11 +34,14 @@ public class EvaluationService {
 			session.beginTransaction();
 			evaluation = (Evaluation) session.get(Evaluation.class, new Long(id));
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return evaluation;
@@ -64,11 +67,14 @@ public class EvaluationService {
 						.setEntity("collaborateur", collaborateur).setMaxResults(1).uniqueResult();
 			}
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return ficheEvaluations;
@@ -95,11 +101,14 @@ public class EvaluationService {
 						.setEntity("collaborateur", collaborateur).list();
 			}
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return fichesEvaluations;
@@ -117,11 +126,14 @@ public class EvaluationService {
 			session.beginTransaction();
 			session.save(ficheEvaluations);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return ficheEvaluations;
@@ -138,11 +150,14 @@ public class EvaluationService {
 			session.beginTransaction();
 			session.save(evaluation);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return evaluation;
@@ -160,11 +175,14 @@ public class EvaluationService {
 			session.beginTransaction();
 			session.saveOrUpdate(ficheEvaluations);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return ficheEvaluations;
@@ -181,11 +199,14 @@ public class EvaluationService {
 			session.beginTransaction();
 			session.saveOrUpdate(evaluation);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return evaluation;
@@ -204,11 +225,14 @@ public class EvaluationService {
 			ficheEvaluations = (FicheEvaluations) session.get(FicheEvaluations.class, new Long(id));
 			session.delete(ficheEvaluations);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return ficheEvaluations;
@@ -228,11 +252,14 @@ public class EvaluationService {
 			evaluation = (Evaluation) session.get(Evaluation.class, new Long(id));
 			session.delete(evaluation);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return evaluation;

@@ -33,11 +33,14 @@ public class ActionService {
 
 			action = (Action) session.get(Action.class, new Long(id));
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return action;
@@ -63,11 +66,14 @@ public class ActionService {
 								+ " AND act IN elements(col.plansAmelioration)")
 						.setEntity("collaborateur", collaborateur).list();
 			}
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 			return actions;
 		}
 
@@ -85,11 +91,14 @@ public class ActionService {
 			session.beginTransaction();
 			session.saveOrUpdate(action);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return action;
@@ -106,11 +115,14 @@ public class ActionService {
 			session.beginTransaction();
 			session.save(action);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return action;
@@ -128,11 +140,14 @@ public class ActionService {
 			action = (Action) session.get(Action.class, new Long(id));
 			session.delete(action);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return action;

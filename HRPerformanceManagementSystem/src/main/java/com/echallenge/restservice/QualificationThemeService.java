@@ -33,11 +33,14 @@ public class QualificationThemeService {
 			session.beginTransaction();
 			qualificationTheme = (QualificationTheme) session.get(QualificationTheme.class, new Long(id));
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return qualificationTheme;
@@ -63,11 +66,14 @@ public class QualificationThemeService {
 						.setEntity("feedback", feedback).list();
 			}
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return qualificationThemes;
@@ -85,11 +91,14 @@ public class QualificationThemeService {
 			session.beginTransaction();
 			session.saveOrUpdate(qualificationTheme);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return qualificationTheme;
@@ -106,11 +115,14 @@ public class QualificationThemeService {
 			session.beginTransaction();
 			session.save(qualificationTheme);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return qualificationTheme;
@@ -129,11 +141,14 @@ public class QualificationThemeService {
 			qualificationTheme = (QualificationTheme) session.get(QualificationTheme.class, new Long(id));
 			session.delete(qualificationTheme);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return qualificationTheme;

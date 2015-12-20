@@ -54,6 +54,8 @@ public class UtilisateurService {
 
 				request.getSession().setAttribute(utilisateur.getEmail(), authAccessElement.getToken());
 
+				session.getTransaction().commit();
+
 				return authAccessElement;
 			}
 
@@ -61,7 +63,9 @@ public class UtilisateurService {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return null;

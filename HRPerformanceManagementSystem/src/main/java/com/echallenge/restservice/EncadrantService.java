@@ -33,11 +33,14 @@ public class EncadrantService {
 			session.beginTransaction();
 			encadrants = session.createQuery("from Encadrant").list();
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return encadrants;
@@ -55,11 +58,14 @@ public class EncadrantService {
 			session.beginTransaction();
 			encadrant = (Encadrant) session.get(Encadrant.class, new Long(id));
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return encadrant;
@@ -83,11 +89,14 @@ public class EncadrantService {
 				encadrant.setMotDePasse(Security.get_SHA_1_SecurePassword(encadrant.getMotDePasse()));
 
 			session.update(encadrant);
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return encadrant;
@@ -106,11 +115,14 @@ public class EncadrantService {
 
 			session.save(encadrant);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return encadrant;
@@ -129,11 +141,14 @@ public class EncadrantService {
 			encadrant = (Encadrant) session.get(Encadrant.class, new Long(id));
 			session.delete(encadrant);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return encadrant;

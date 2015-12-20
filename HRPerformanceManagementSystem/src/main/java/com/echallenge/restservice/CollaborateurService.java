@@ -39,11 +39,14 @@ public class CollaborateurService {
 			session.beginTransaction();
 			collaborateurs = session.createQuery("from Collaborateur").list();
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return collaborateurs;
@@ -61,11 +64,14 @@ public class CollaborateurService {
 			session.beginTransaction();
 			collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return collaborateur;
@@ -90,11 +96,14 @@ public class CollaborateurService {
 								+ " join fiche.evaluations as eval where eval.encadrant = :encadrant")
 						.setEntity("encadrant", encadrant).list();
 			}
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return collaborateurs;
@@ -114,16 +123,20 @@ public class CollaborateurService {
 			ManagerRh managerRh = (ManagerRh) session.get(ManagerRh.class, new Long(id));
 
 			if (managerRh != null) {
-				collaborateurs = session.createQuery(" select col from Collaborateur col, ManagerRh man"
-						+ " where man = :managerrh" + " AND col IN elements(man.collaborateurs)")
+				collaborateurs = session
+						.createQuery(" select col from Collaborateur col, ManagerRh man"
+								+ " where man = :managerrh AND col IN elements(man.collaborateurs)")
 						.setEntity("managerRh", managerRh).list();
 			}
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return collaborateurs;
@@ -152,11 +165,14 @@ public class CollaborateurService {
 						.setString("statut", statut.name()).setEntity("managerRh", managerRh).list();
 			}
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return collaborateurs;
@@ -181,11 +197,14 @@ public class CollaborateurService {
 
 			session.update(collaborateur);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return collaborateur;
@@ -209,7 +228,9 @@ public class CollaborateurService {
 
 				managerRh.getCollaborateurs().add(collaborateur);
 				session.update(managerRh);
-				session.getTransaction().commit();
+				if (session.isOpen()) {
+					session.close();
+				}
 
 				BAP nouveauBap = new BAP();
 				Calendar cal = Calendar.getInstance();
@@ -226,11 +247,14 @@ public class CollaborateurService {
 				session.save(nouveauBap);
 			}
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return collaborateur;
@@ -249,11 +273,14 @@ public class CollaborateurService {
 
 			session.save(collaborateur);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return collaborateur;
@@ -271,11 +298,14 @@ public class CollaborateurService {
 			collaborateur = (Collaborateur) session.get(Collaborateur.class, new Long(id));
 			session.delete(collaborateur);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return collaborateur;

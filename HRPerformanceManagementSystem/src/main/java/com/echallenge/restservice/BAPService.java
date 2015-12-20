@@ -39,11 +39,14 @@ public class BAPService {
 			session.beginTransaction();
 			bap = (BAP) session.get(BAP.class, new Long(id));
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return bap;
@@ -67,11 +70,14 @@ public class BAPService {
 						+ " ORDER BY bap.dateBilan DESC").setEntity("collaborateur", collaborateur).list();
 			}
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return baps;
@@ -97,11 +103,14 @@ public class BAPService {
 						.uniqueResult();
 			}
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return bap;
@@ -128,11 +137,14 @@ public class BAPService {
 						.setEntity("manager", manager).list();
 			}
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return baps;
@@ -176,11 +188,14 @@ public class BAPService {
 			bap.setFicheObjectifsRediges(ficheObjectifs);
 			session.update(bap);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return bap;
@@ -198,11 +213,14 @@ public class BAPService {
 			bap.setStatut(StatutBAP.VALIDE);
 			session.saveOrUpdate(bap);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return bap;
@@ -227,11 +245,14 @@ public class BAPService {
 
 			session.saveOrUpdate(bap);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return bap;
@@ -248,12 +269,16 @@ public class BAPService {
 		try {
 			session.beginTransaction();
 			session.update(bap.getFicheObjectifsRediges());
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 
 			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			session.update(bap.getCollaborateur());
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 
 			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			session.beginTransaction();
@@ -265,11 +290,14 @@ public class BAPService {
 
 			session.update(bap);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return bap;
@@ -285,18 +313,25 @@ public class BAPService {
 		try {
 			session.beginTransaction();
 			session.update(bap.getFicheEvaluations());
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 
 			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			session.saveOrUpdate(bap);
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return bap;
@@ -324,29 +359,40 @@ public class BAPService {
 			nouveauBap.setNombreRejet(0);
 			session.save(nouveauBap);
 
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 
 			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			session.update(bap.getFicheObjectifsRediges());
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 
 			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			session.update(bap.getCollaborateur());
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 
 			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			bap.setStatut(StatutBAP.A_VALIDER);
 			session.update(bap);
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return bap;
@@ -365,11 +411,14 @@ public class BAPService {
 			bap = (BAP) session.get(BAP.class, new Long(id));
 			session.delete(bap);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return bap;

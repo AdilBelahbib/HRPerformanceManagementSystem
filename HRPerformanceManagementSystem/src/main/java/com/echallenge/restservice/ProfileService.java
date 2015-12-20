@@ -32,11 +32,14 @@ public class ProfileService {
 			session.beginTransaction();
 			profiles = session.createQuery("from Profile").list();
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 		return profiles;
 	}
@@ -53,11 +56,14 @@ public class ProfileService {
 			session.beginTransaction();
 			profile = (Profile) session.get(Profile.class, new Long(id));
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return profile;
@@ -76,11 +82,14 @@ public class ProfileService {
 			profile = (Profile) session.createQuery("from Profile profile WHERE profile.codeProfile = :code")
 					.setString("code", code).uniqueResult();
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return profile;
@@ -97,11 +106,14 @@ public class ProfileService {
 			session.beginTransaction();
 			session.saveOrUpdate(profile);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return profile;
@@ -119,11 +131,14 @@ public class ProfileService {
 			session.beginTransaction();
 			session.save(profile);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return profile;
@@ -142,11 +157,14 @@ public class ProfileService {
 			profile = (Profile) session.get(Profile.class, new Long(id));
 			session.delete(profile);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return profile;

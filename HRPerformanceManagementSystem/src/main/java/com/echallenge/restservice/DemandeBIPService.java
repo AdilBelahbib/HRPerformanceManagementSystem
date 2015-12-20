@@ -35,11 +35,14 @@ public class DemandeBIPService {
 			session.beginTransaction();
 			demandeBIP = (DemandeBIP) session.get(DemandeBIP.class, new Long(id));
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return demandeBIP;
@@ -63,14 +66,16 @@ public class DemandeBIPService {
 						.setEntity("collaborateur", collaborateur).list();
 			}
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
-		session.getTransaction().commit();
 		return demandeBIPs;
 	}
 
@@ -88,21 +93,25 @@ public class DemandeBIPService {
 			ManagerRh manager = (ManagerRh) session.get(ManagerRh.class, new Long(id));
 
 			if (manager != null) {
-				demandeBIPs = session.createQuery("select dem from DemandeBIP dem, ManagerRh manager"
-						+ " WHERE manager = :manager AND dem.collaborateur IN elements(manager.collaborateurs)")
+				demandeBIPs = session
+						.createQuery("select dem from DemandeBIP dem, ManagerRh manager"
+								+ " WHERE manager = :manager AND dem.collaborateur IN elements(manager.collaborateurs)")
 						.setEntity("manager", manager).list();
 			}
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return demandeBIPs;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Path("/encadrant/{id}")
 	@GET
@@ -121,11 +130,14 @@ public class DemandeBIPService {
 						.setEntity("encadrant", encadrant).list();
 			}
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return demandeBIPs;
@@ -143,11 +155,14 @@ public class DemandeBIPService {
 			session.beginTransaction();
 			session.saveOrUpdate(demandeBIP);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return demandeBIP;
@@ -164,11 +179,14 @@ public class DemandeBIPService {
 			session.beginTransaction();
 			session.save(demandeBIP);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return demandeBIP;
@@ -188,11 +206,14 @@ public class DemandeBIPService {
 			demandeBIP = (DemandeBIP) session.get(DemandeBIP.class, new Long(id));
 			session.delete(demandeBIP);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return demandeBIP;

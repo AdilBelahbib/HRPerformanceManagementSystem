@@ -37,11 +37,14 @@ public class ObjectifService {
 			session.beginTransaction();
 			objectif = (Objectif) session.get(Objectif.class, new Long(id));
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return objectif;
@@ -68,11 +71,14 @@ public class ObjectifService {
 						.setEntity("collaborateur", collaborateur).list();
 			}
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return fichesObjectifs;
@@ -98,11 +104,14 @@ public class ObjectifService {
 						.setEntity("collaborateur", collaborateur).setMaxResults(1).uniqueResult();
 			}
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return ficheObjectifs;
@@ -141,11 +150,14 @@ public class ObjectifService {
 				session.update(ficheEvaluations);
 			}
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return evaluation;
@@ -163,11 +175,14 @@ public class ObjectifService {
 			session.beginTransaction();
 			session.save(ficheObjectifs);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return ficheObjectifs;
@@ -184,11 +199,14 @@ public class ObjectifService {
 			session.beginTransaction();
 			session.save(objectif);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return objectif;
@@ -206,11 +224,14 @@ public class ObjectifService {
 			session.beginTransaction();
 			session.saveOrUpdate(ficheObjectifs);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return ficheObjectifs;
@@ -228,11 +249,14 @@ public class ObjectifService {
 			session.beginTransaction();
 			session.saveOrUpdate(objectif);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return objectif;
@@ -251,11 +275,14 @@ public class ObjectifService {
 			ficheObjectifs = (FicheObjectifs) session.get(FicheObjectifs.class, new Long(id));
 			session.delete(ficheObjectifs);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return ficheObjectifs;
@@ -274,11 +301,14 @@ public class ObjectifService {
 			objectif = (Objectif) session.get(Objectif.class, new Long(id));
 			session.delete(objectif);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return objectif;

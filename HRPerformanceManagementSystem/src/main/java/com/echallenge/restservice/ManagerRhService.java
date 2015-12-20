@@ -33,11 +33,14 @@ public class ManagerRhService {
 			session.beginTransaction();
 			managersRh = session.createQuery("from ManagerRh").list();
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return managersRh;
@@ -54,11 +57,14 @@ public class ManagerRhService {
 			session.beginTransaction();
 			managerRh = (ManagerRh) session.get(ManagerRh.class, new Long(id));
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return managerRh;
@@ -82,11 +88,14 @@ public class ManagerRhService {
 
 			session.update(managerRh);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return managerRh;
@@ -105,11 +114,14 @@ public class ManagerRhService {
 
 			session.save(managerRh);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return managerRh;
@@ -129,11 +141,14 @@ public class ManagerRhService {
 			managerRh = (ManagerRh) session.get(ManagerRh.class, new Long(id));
 			session.delete(managerRh);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return managerRh;

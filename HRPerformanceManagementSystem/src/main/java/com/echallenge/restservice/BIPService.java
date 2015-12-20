@@ -33,11 +33,14 @@ public class BIPService {
 			session.beginTransaction();
 			bip = (BIP) session.get(BIP.class, new Long(id));
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return bip;
@@ -64,11 +67,14 @@ public class BIPService {
 						.setEntity("collaborateur", collaborateur).list();
 			}
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return bips;
@@ -85,11 +91,14 @@ public class BIPService {
 			session.beginTransaction();
 			session.saveOrUpdate(bip);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return bip;
@@ -105,7 +114,9 @@ public class BIPService {
 			session.beginTransaction();
 			bip.getCollaborateur().getFormations().addAll(bip.getFormations());
 			session.update(bip.getCollaborateur());
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 
 			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			session.beginTransaction();
@@ -114,18 +125,25 @@ public class BIPService {
 
 			session.save(bip);
 
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 
 			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			session.update(bip.getFicheObjectifsTraites());
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return bip;
@@ -143,11 +161,14 @@ public class BIPService {
 			bip = (BIP) session.get(BIP.class, new Long(id));
 			session.delete(bip);
 
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			if (session.getTransaction() != null)
 				session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
 		return bip;
