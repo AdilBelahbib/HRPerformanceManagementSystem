@@ -9,7 +9,7 @@ app
 
         $scope.encadrant = Encadrant.get({id:161});
 
-        Collaborateur.encadrant({id:162},function  (result) {
+        Collaborateur.encadrant({id:161},function  (result) {
             
            $scope.collaborateurs=result;
         })        

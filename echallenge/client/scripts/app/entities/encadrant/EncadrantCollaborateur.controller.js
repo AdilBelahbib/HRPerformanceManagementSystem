@@ -56,7 +56,11 @@ app
         }
 
         $scope.feedBack= function  () {
+            $scope.feedback.encadrant =$scope.encadrant ; 
+            $scope.feedback.entete.dateDebutIntervention = new Date($scope.feedback.entete.dateDebutIntervention );
+            $scope.feedback.entete.dateFinIntervention = new Date($scope.feedback.entete.dateFinIntervention );
             console.log($scope.feedback);
+            Feedback.save($scope.feedback);
 
         }
 

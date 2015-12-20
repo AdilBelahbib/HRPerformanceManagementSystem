@@ -46,8 +46,7 @@ app
 
 
 	
-	$scope.ajouter = function  () {
-
+	$scope.ajouter = function  () { 
 		
 		Manager.save($scope.newmanager ) ;
 		$('#addModal').modal('hide');                                         

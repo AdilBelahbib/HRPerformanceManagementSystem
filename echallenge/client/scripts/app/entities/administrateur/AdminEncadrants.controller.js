@@ -52,7 +52,7 @@ app
 	$scope.ajouter = function  () {
 
 		
-		Encadrant.save($scope.newencadrant)
+		 Encadrant.save($scope.newencadrant)
 		$('#addModal').modal('hide');                                         
 
 	}

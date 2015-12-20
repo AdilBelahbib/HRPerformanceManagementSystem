@@ -193,8 +193,28 @@
 
               <tbody>
                <tr>
-                <td><input type="text" class="form-control" ng-model="newqualification.theme"></td>
-                <td><input type="text" class="form-control" ng-model="newqualification.qualification"></td>
+                <td>
+                  <select class="form-control" ng-model="newqualification.theme"> <option>PRODUCTIVITE</option> 
+                    <option >QUALITE_FIABILITE</option>
+                    <option >TECHNICITE</option>
+                    <option >CONCEPTION</option>
+                    <option >AVANT_VENTE</option>
+                    <option >GESTION_DE_PROJET</option>
+                    <option >GESTION_DE_RELATION_CLIENT</option>
+                    <option>GESTION_DES_EQUIPES</option>
+                    <option>POLYVALENCE</option>
+                  </select>
+                </td>
+                <td>
+                  <select class="form-control" ng-model="newqualification.qualification">
+                    <option >CRITIQUE</option>
+                    <option >A_DEVELOPPER</option>
+                    <option >SELON_ATTENTE</option>
+                    <option >DEMONTRE_DES_FORCES</option>
+                    
+                  </select >
+                </td>
+                  
                 <td><input type="text" class="form-control" ng-model="newqualification.remarque"></td>
                 <td><button class="btn btn-info" ng-click="addqualification()">ajouter</button>
 
@@ -206,48 +226,48 @@
                 <td> <div ng-hide="modif[$index]">
                   {{qualification.theme}}
                 </div>
-                  <input type="text" class="form-control" ng-model="qualification.theme" ng-show="modif[$index]">
-                </td> 
-                <td> <div ng-hide="modif[$index]">
-                  {{qualification.qualification}} 
-                </div>
-                  <input type="text" class="form-control" ng-model="qualification.qualification" ng-show="modif[$index]">
-                </td> 
-                <td>
-                 <div ng-hide="modif[$index]">{{qualification.remarque}}
-                 </div>
-                  <input type="text" class="form-control" ng-model="qualification.remarque" ng-show="modif[$index]">
-                </td>
-                
-                
-                
-                <td>
-                  <div  >
-                    <button class="btn btn-sm btn-info" ng-hide="modif[$index]" ng-click="initModif($index)">Modifier</button>
-                    <button class="btn btn-sm btn-danger" ng-hide="modif[$index]" ng-click="supprimerQualification($index)">Supprimer</button>
-                    <button class="btn btn-sm btn-success" ng-show="modif[$index]" ng-click="Modif($index)">Confirmer</button>
-                  </div>
-                </td>
-
-
+                <input type="text" class="form-control" ng-model="qualification.theme" ng-show="modif[$index]">
+              </td> 
+              <td> <div ng-hide="modif[$index]">
+                {{qualification.qualification}} 
               </div>
+              <input type="text" class="form-control" ng-model="qualification.qualification" ng-show="modif[$index]">
             </td> 
-          </tr>
+            <td>
+             <div ng-hide="modif[$index]">{{qualification.remarque}}
+             </div>
+             <input type="text" class="form-control" ng-model="qualification.remarque" ng-show="modif[$index]">
+           </td>
 
-        </tbody>
-      </table>
-      <div class="table-footer"></div>
-      <br>
-      <legend>Remarque General </legend>
 
-      <div class="form-group">
-        <div class="col-lg-12">
-          <textarea class="form-control" rows="3" id="textArea" ng-model="feedback.remarqueGenerale"></textarea>
+
+           <td>
+            <div  >
+              <button class="btn btn-sm btn-info" ng-hide="modif[$index]" ng-click="initModif($index)">Modifier</button>
+              <button class="btn btn-sm btn-danger" ng-hide="modif[$index]" ng-click="supprimerQualification($index)">Supprimer</button>
+              <button class="btn btn-sm btn-success" ng-show="modif[$index]" ng-click="Modif($index)">Confirmer</button>
+            </div>
+          </td>
+
+
         </div>
-      </div>
+      </td> 
+    </tr>
 
-    </fieldset>
-  </form>
+  </tbody>
+</table>
+<div class="table-footer"></div>
+<br>
+<legend>Remarque General </legend>
+
+<div class="form-group">
+  <div class="col-lg-12">
+    <textarea class="form-control" rows="3" id="textArea" ng-model="feedback.remarqueGenerale"></textarea>
+  </div>
+</div>
+
+</fieldset>
+</form>
 
 </div>
 <div class="modal-footer">
