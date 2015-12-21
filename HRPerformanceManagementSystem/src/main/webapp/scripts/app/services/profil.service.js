@@ -3,7 +3,7 @@
 app
     .factory('Profil', function ($resource, $filter) {
         
-        return $resource('/resources/profils/:id', {}, {
+        return $resource('/HRPerformanceManagementSystem/resources/profils/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
@@ -12,7 +12,7 @@ app
             'code':
                     {  
                         method:'GET',
-                        url:'/resources/profils/bycode/:code'
+                        url:'/HRPerformanceManagementSystem/resources/profils/bycode/:code'
 
                     },
             'update': { method:'PUT' },

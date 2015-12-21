@@ -2,7 +2,7 @@
 
 app
     .factory('Feedback', function ($resource, $filter) {
-        return $resource('/resources/feedbacks/:id', {}, {
+        return $resource('/HRPerformanceManagementSystem/resources/feedbacks/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
@@ -14,23 +14,23 @@ app
             'encadrant' : { 
                         method: 'GET',
                         isArray: true,
-                        url: '/resources/feedbacks/encadrant/:id'
+                        url: '/HRPerformanceManagementSystem/resources/feedbacks/encadrant/:id'
                       },
             'collaborateur' : { 
                         method: 'GET',
                         isArray: true,
-                        url: '/resources/feedbacks/collaborateur/:id'
+                        url: '/HRPerformanceManagementSystem/resources/feedbacks/collaborateur/:id'
                       },
             
             'qualificationglobale' : { 
                         method: 'GET',
                         isArray: false,
-                        url: '/resources/feedbacks/qualificationglobale/:id'
+                        url: '/HRPerformanceManagementSystem/resources/feedbacks/qualificationglobale/:id'
                       },
             'bap' : { 
                         method: 'GET',
                         isArray: true,
-                        url: '/resources/feedbacks/bap/:id'
+                        url: '/HRPerformanceManagementSystem/resources/feedbacks/bap/:id'
                       },
             'update': { method:'PUT' },
             

@@ -3,7 +3,7 @@
     app
     .factory('DemandeBip', function ($resource, $filter) {
 
-        return $resource('/resources/demandebips/:id', {}, {
+        return $resource('/HRPerformanceManagementSystem/resources/demandebips/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
@@ -12,17 +12,17 @@
             'collaborateur' : { 
                 method: 'GET',
                 isArray : true,
-                url: '/resources/demandebips/collaborateur/:id'
+                url: '/HRPerformanceManagementSystem/resources/demandebips/collaborateur/:id'
             },
             'manager' : { 
                 method: 'GET',
                 isArray : true,
-                url: '/resources/demandebips/manager/:id'
+                url: '/HRPerformanceManagementSystem/resources/demandebips/manager/:id'
             },
             'encadrant' :
             {
                method: 'GET',
-               url: '/resources/demandebips/encadrant/:id'
+               url: '/HRPerformanceManagementSystem/resources/demandebips/encadrant/:id'
            },
            'update': { method:'PUT' },
            'save': { method:'POST' }

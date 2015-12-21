@@ -3,7 +3,7 @@
 app
     .factory('Utilisateur', function ($resource, $filter) {
         
-        return $resource('/resources/utilisateurs/:id', {}, {
+        return $resource('/HRPerformanceManagementSystem/resources/utilisateurs/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
@@ -15,7 +15,7 @@ app
             'auth' : { 
                         method: 'GET',
                         isArray: false,
-                        url: '/resources/utilisateurs/auth/:email/:mdp'
+                        url: '/HRPerformanceManagementSystem/resources/utilisateurs/auth/:email/:mdp'
                       },
             'update': { method:'PUT' },
             'save': { method:'POST' }

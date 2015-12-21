@@ -2,7 +2,7 @@
 
 app
 .factory('Objectif', function ($resource, $filter) {
-  return $resource('/resources/objectifs/:id', {}, {
+  return $resource('/HRPerformanceManagementSystem/resources/objectifs/:id', {}, {
     'query': { method: 'GET', isArray: true},
     'get': {
       method: 'GET',
@@ -16,59 +16,59 @@ app
       method: 'GET',
       isArray: false,
 
-      url: '/resources/objectifs/ficheobjectifscourants/collaborateur/:id'
+      url: '/HRPerformanceManagementSystem/resources/objectifs/ficheobjectifscourants/collaborateur/:id'
     },
     'ficheEnCours' : {
       method :'GET',
       isArray : false,
-      url: '/resources/objectifs/ficheobjectifs/encours/:id'
+      url: '/HRPerformanceManagementSystem/resources/objectifs/ficheobjectifs/encours/:id'
     },
 
     'collaborateur': { 
       method: 'GET',
       isArray: false,
 
-      url: '/resources/objectifs/ficheobjectifs/collaborateur/:id'
+      url: '/HRPerformanceManagementSystem/resources/objectifs/ficheobjectifs/collaborateur/:id'
     },
     'linkToFiche':
     { 
       method: 'GET',
       isArray: false,
-      url: '/resources/objectifs/link/ficheobjectifs/:idobjectif/:idficheobjectif'
+      url: '/HRPerformanceManagementSystem/resources/objectifs/link/ficheobjectifs/:idobjectif/:idficheobjectif'
     },
     'linkToFormation':
     { 
       method: 'GET',
       isArray: false,
-      url: '/resources/objectifs/link/formation/:idobjectif/:idformation'
+      url: '/HRPerformanceManagementSystem/resources/objectifs/link/formation/:idobjectif/:idformation'
     },
     'linkToEncadrant':
     {
       method: 'GET',
       isArray: false,
-      url: '/resources/objectifs/link/encadrant/:idObjectif/:idencadrant'
+      url: '/HRPerformanceManagementSystem/resources/objectifs/link/encadrant/:idObjectif/:idencadrant'
     },
     'linkToProject':
     { 
       method: 'GET',
       isArray: false,
-      url: '/resources/objectifs/link/projet/:idobjectif/:idprojet'
+      url: '/HRPerformanceManagementSystem/resources/objectifs/link/projet/:idobjectif/:idprojet'
     },
 
     'addFiche':
     { 
       method: 'POST',
-      url: '/resources/objectifs/ficheobjectifs'
+      url: '/HRPerformanceManagementSystem/resources/objectifs/ficheobjectifs'
     },
     'updateFiche':
     { 
       method: 'PUT',
-      url: '/resources/objectifs/ficheobjectifs/:id'
+      url: '/HRPerformanceManagementSystem/resources/objectifs/ficheobjectifs/:id'
     },
     'deleteFiche':
     { 
       method: 'DELETE',
-      url: '/resources/objectifs/ficheobjectifs/:id'
+      url: '/HRPerformanceManagementSystem/resources/objectifs/ficheobjectifs/:id'
     },
     'save': { method:'POST' }
   });

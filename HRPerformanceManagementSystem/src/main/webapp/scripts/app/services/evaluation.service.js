@@ -2,7 +2,7 @@
 
 app
     .factory('Evaluation', function ($resource, $filter) {
-        return $resource('/resources/evaluations/:id', {}, {
+        return $resource('/HRPerformanceManagementSystem/resources/evaluations/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
@@ -14,32 +14,32 @@ app
             'ficheCouranteByCollaborateur' : { 
                         method: 'GET',
                         isArray: true,
-                        url: '/resources/evaluations/ficheevaluationscourantes/collaborateur/:id'
+                        url: '/HRPerformanceManagementSystem/resources/evaluations/ficheevaluationscourantes/collaborateur/:id'
                       },
             'collaborateur' : { 
                         method: 'GET',
                         isArray: true,
-                        url: '/resources/evaluations/ficheevaluations/collaborateur/:id'
+                        url: '/HRPerformanceManagementSystem/resources/evaluations/ficheevaluations/collaborateur/:id'
                       },
             'linkObjectifToProjet' : { 
                         method: 'GET',
                         isArray: true,
-                        url: '/resources/evaluations/ficheevaluation/:idevaluation/:idficheevaluations'
+                        url: '/HRPerformanceManagementSystem/resources/evaluations/ficheevaluation/:idevaluation/:idficheevaluations'
                       },
             'addFiche' : { 
                         method: 'POST',
                         isArray: true,
-                        url: '/resources/evaluations/ficheevaluations'
+                        url: '/HRPerformanceManagementSystem/resources/evaluations/ficheevaluations'
                       },
             'updateFiche' : { 
                         method: 'PUT',
                         isArray: true,
-                        url: '/resources/evaluations/ficheevaluations/:id'
+                        url: '/HRPerformanceManagementSystem/resources/evaluations/ficheevaluations/:id'
                       },
             'deleteFiche' : { 
                         method: 'DELETE',
                         isArray: true,
-                        url: '/resources/evaluations/ficheevaluations/:id'
+                        url: '/HRPerformanceManagementSystem/resources/evaluations/ficheevaluations/:id'
                       },
             'update': { method:'PUT' },
             

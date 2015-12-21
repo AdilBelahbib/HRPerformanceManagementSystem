@@ -26,25 +26,25 @@ public class JobInitializer extends HttpServlet {
 	 */
 	public void init(ServletConfig config) throws ServletException {
 
-//		try {
-//			JobDetail job = JobBuilder.newJob(BAPJob.class).withIdentity("bapjob", "group1").build();
-//
-//			Trigger trigger = TriggerBuilder.newTrigger().withIdentity("bapjobtrigger", "group1")
-//					.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(60).repeatForever())
-//					.build();
-//
-//	        String key = "org.quartz.impl.StdSchedulerFactory.KEY";
-//	        ServletContext servletContext = config.getServletContext();
-//	        StdSchedulerFactory factory = (StdSchedulerFactory) servletContext.getAttribute(key);
-//	        Scheduler scheduler = factory.getScheduler("MyQuartzScheduler");
-//			
-//			scheduler.start();
-//			scheduler.scheduleJob(job, trigger);
-//			
-//		} catch (SchedulerException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		try {
+			JobDetail job = JobBuilder.newJob(BAPJob.class).withIdentity("bapjob", "group1").build();
+
+			Trigger trigger = TriggerBuilder.newTrigger().withIdentity("bapjobtrigger", "group1")
+					.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(60).repeatForever())
+					.build();
+
+	        String key = "org.quartz.impl.StdSchedulerFactory.KEY";
+	        ServletContext servletContext = config.getServletContext();
+	        StdSchedulerFactory factory = (StdSchedulerFactory) servletContext.getAttribute(key);
+	        Scheduler scheduler = factory.getScheduler("MyQuartzScheduler");
+			
+			scheduler.start();
+			scheduler.scheduleJob(job, trigger);
+			
+		} catch (SchedulerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 

@@ -2,7 +2,7 @@
 
 app
 .factory('Collaborateur', function ($resource, $filter) {
-    return $resource('/resources/collaborateurs/:id', {}, {
+    return $resource('/HRPerformanceManagementSystem/resources/collaborateurs/:id', {}, {
         'query': { method: 'GET', isArray: true},
         'get': {
             method: 'GET',
@@ -22,23 +22,23 @@ app
         'encadrant' : { 
             method: 'GET',
             isArray: true,
-            url: '/resources/collaborateurs/encadrant/:id'
+            url: '/HRPerformanceManagementSystem/resources/collaborateurs/encadrant/:id'
         },
         'manager' : { 
             method: 'GET',
             isArray: true,
-            url: '/resources/collaborateurs/managerrh/:id'
+            url: '/HRPerformanceManagementSystem/resources/collaborateurs/managerrh/:id'
         },
 
         'new' : { 
             method: 'POST', 
-            url: '/resources/collaborateurs/:idmanager'
+            url: '/HRPerformanceManagementSystem/resources/collaborateurs/:idmanager'
         },
 
         'bap' : { 
             method: 'GET',
             isArray: true,
-            url: '/resources/collaborateurs/bapstatut/:idencadrant/:statut'
+            url: '/HRPerformanceManagementSystem/resources/collaborateurs/bapstatut/:idencadrant/:statut'
         },
         'update': { method:'PUT' },
 

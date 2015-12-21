@@ -3,7 +3,7 @@
 app
     .factory('Bip', function ($resource, $filter) {
         
-        return $resource('/resources/bips/:id', {}, {
+        return $resource('/HRPerformanceManagementSystem/resources/bips/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
@@ -16,7 +16,7 @@ app
             'collaborateur' : { 
                         method: 'GET',
                         isArray: true,
-                        url: '/resources/bips/collaborateur/:id'
+                        url: '/HRPerformanceManagementSystem/resources/bips/collaborateur/:id'
                       },
             
             'update': { method:'PUT' },

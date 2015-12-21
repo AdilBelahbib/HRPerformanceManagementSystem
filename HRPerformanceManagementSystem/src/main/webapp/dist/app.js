@@ -2529,7 +2529,7 @@ return {
 app
     .factory('Action', function ($resource, $filter) {
         
-        return $resource('/resources/actions/:id', {}, {
+        return $resource('/HRPerformanceManagementSystem/resources/actions/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
@@ -2538,7 +2538,7 @@ app
             'collaborateur' : { 
                         method: 'GET',
                         isArray: true,
-                        url: '/resources/actions/collaborateur/:id'
+                        url: '/HRPerformanceManagementSystem/resources/actions/collaborateur/:id'
                       },
             
             'update': { method:'PUT' },
@@ -2550,7 +2550,7 @@ app
     app
     .factory('Bap', function ($resource, $filter) {
 
-        return $resource('/resources/baps/:id', {}, {
+        return $resource('/HRPerformanceManagementSystem/resources/baps/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
@@ -2567,12 +2567,12 @@ app
                         data = angular.fromJson(data);
                         data.dateBilan = $filter('date')(data.dateBilan, 'yyyy-MM-dd');    
                         return data;},
-                        url: '/resources/baps/collaborateur/:id'
+                        url: '/HRPerformanceManagementSystem/resources/baps/collaborateur/:id'
                     },
                     'bapByStatut' :
                     {
                      method: 'GET',
-                     url: '/resources/baps/collaborateur/statut/:id/:statut'
+                     url: '/HRPerformanceManagementSystem/resources/baps/collaborateur/statut/:id/:statut'
                  },
                  'bapCourant' :
                  {
@@ -2581,17 +2581,17 @@ app
                         data = angular.fromJson(data);
                         data.dateBilan = $filter('date')(data.dateBilan, 'yyyy-MM-dd');    
                         return data;},
-                        url: '/resources/baps/collaborateur/statut/:id/EN_COURS'
+                        url: '/HRPerformanceManagementSystem/resources/baps/collaborateur/statut/:id/EN_COURS'
                     },
                     'valider' : {
                         method : 'POST',
                         isArray:false,
-                        url :'/resources/baps/valider'
+                        url :'/HRPerformanceManagementSystem/resources/baps/valider'
                     },
                     'rejeter' : {
                         method : 'POST',
                         isArray:false,
-                        url :'/resources/baps/rejeter'
+                        url :'/HRPerformanceManagementSystem/resources/baps/rejeter'
                     },
                     'update': { method:'PUT' },
                     'save': { method:'POST' }
@@ -2602,7 +2602,7 @@ app
 app
     .factory('Bip', function ($resource, $filter) {
         
-        return $resource('/resources/bips/:id', {}, {
+        return $resource('/HRPerformanceManagementSystem/resources/bips/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
@@ -2615,7 +2615,7 @@ app
             'collaborateur' : { 
                         method: 'GET',
                         isArray: true,
-                        url: '/resources/bips/collaborateur/:id'
+                        url: '/HRPerformanceManagementSystem/resources/bips/collaborateur/:id'
                       },
             
             'update': { method:'PUT' },
@@ -2626,7 +2626,7 @@ app
 
 app
 .factory('Collaborateur', function ($resource, $filter) {
-    return $resource('/resources/collaborateurs/:id', {}, {
+    return $resource('/HRPerformanceManagementSystem/resources/collaborateurs/:id', {}, {
         'query': { method: 'GET', isArray: true},
         'get': {
             method: 'GET',
@@ -2646,23 +2646,23 @@ app
         'encadrant' : { 
             method: 'GET',
             isArray: true,
-            url: '/resources/collaborateurs/encadrant/:id'
+            url: '/HRPerformanceManagementSystem/resources/collaborateurs/encadrant/:id'
         },
         'manager' : { 
             method: 'GET',
             isArray: true,
-            url: '/resources/collaborateurs/managerrh/:id'
+            url: '/HRPerformanceManagementSystem/resources/collaborateurs/managerrh/:id'
         },
 
         'new' : { 
             method: 'POST', 
-            url: '/resources/collaborateurs/:idmanager'
+            url: '/HRPerformanceManagementSystem/resources/collaborateurs/:idmanager'
         },
 
         'bap' : { 
             method: 'GET',
             isArray: true,
-            url: '/resources/collaborateurs/bapstatut/:idencadrant/:statut'
+            url: '/HRPerformanceManagementSystem/resources/collaborateurs/bapstatut/:idencadrant/:statut'
         },
         'update': { method:'PUT' },
 
@@ -2685,7 +2685,7 @@ app
     app
     .factory('DemandeBip', function ($resource, $filter) {
 
-        return $resource('/resources/demandebips/:id', {}, {
+        return $resource('/HRPerformanceManagementSystem/resources/demandebips/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
@@ -2694,17 +2694,17 @@ app
             'collaborateur' : { 
                 method: 'GET',
                 isArray : true,
-                url: '/resources/demandebips/collaborateur/:id'
+                url: '/HRPerformanceManagementSystem/resources/demandebips/collaborateur/:id'
             },
             'manager' : { 
                 method: 'GET',
                 isArray : true,
-                url: '/resources/demandebips/manager/:id'
+                url: '/HRPerformanceManagementSystem/resources/demandebips/manager/:id'
             },
             'encadrant' :
             {
                method: 'GET',
-               url: '/resources/demandebips/encadrant/:id'
+               url: '/HRPerformanceManagementSystem/resources/demandebips/encadrant/:id'
            },
            'update': { method:'PUT' },
            'save': { method:'POST' }
@@ -2715,7 +2715,7 @@ app
 app
     .factory('Encadrant', function ($resource, $filter) {
         
-        return $resource('/resources/encadrants/:id', {}, {
+        return $resource('/HRPerformanceManagementSystem/resources/encadrants/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
@@ -2730,13 +2730,13 @@ app
 app
     .factory('Entete', function ($resource, $filter) {
         
-        return $resource('/resources/entetes/:id', {}, {
+        return $resource('/HRPerformanceManagementSystem/resources/entetes/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
                 isArray : false
             },
-            'feedback':{method : 'GET',url:'/resources/entetes/feedback/:id'},
+            'feedback':{method : 'GET',url:'/HRPerformanceManagementSystem/resources/entetes/feedback/:id'},
             'update': { method:'PUT' },
             'save': { method:'POST' }
         });
@@ -2745,7 +2745,7 @@ app
 
 app
     .factory('Evaluation', function ($resource, $filter) {
-        return $resource('/resources/evaluations/:id', {}, {
+        return $resource('/HRPerformanceManagementSystem/resources/evaluations/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
@@ -2757,32 +2757,32 @@ app
             'ficheCouranteByCollaborateur' : { 
                         method: 'GET',
                         isArray: true,
-                        url: '/resources/evaluations/ficheevaluationscourantes/collaborateur/:id'
+                        url: '/HRPerformanceManagementSystem/resources/evaluations/ficheevaluationscourantes/collaborateur/:id'
                       },
             'collaborateur' : { 
                         method: 'GET',
                         isArray: true,
-                        url: '/resources/evaluations/ficheevaluations/collaborateur/:id'
+                        url: '/HRPerformanceManagementSystem/resources/evaluations/ficheevaluations/collaborateur/:id'
                       },
             'linkObjectifToProjet' : { 
                         method: 'GET',
                         isArray: true,
-                        url: '/resources/evaluations/ficheevaluation/:idevaluation/:idficheevaluations'
+                        url: '/HRPerformanceManagementSystem/resources/evaluations/ficheevaluation/:idevaluation/:idficheevaluations'
                       },
             'addFiche' : { 
                         method: 'POST',
                         isArray: true,
-                        url: '/resources/evaluations/ficheevaluations'
+                        url: '/HRPerformanceManagementSystem/resources/evaluations/ficheevaluations'
                       },
             'updateFiche' : { 
                         method: 'PUT',
                         isArray: true,
-                        url: '/resources/evaluations/ficheevaluations/:id'
+                        url: '/HRPerformanceManagementSystem/resources/evaluations/ficheevaluations/:id'
                       },
             'deleteFiche' : { 
                         method: 'DELETE',
                         isArray: true,
-                        url: '/resources/evaluations/ficheevaluations/:id'
+                        url: '/HRPerformanceManagementSystem/resources/evaluations/ficheevaluations/:id'
                       },
             'update': { method:'PUT' },
             
@@ -2793,7 +2793,7 @@ app
 
 app
     .factory('Feedback', function ($resource, $filter) {
-        return $resource('/resources/feedbacks/:id', {}, {
+        return $resource('/HRPerformanceManagementSystem/resources/feedbacks/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
@@ -2805,23 +2805,23 @@ app
             'encadrant' : { 
                         method: 'GET',
                         isArray: true,
-                        url: '/resources/feedbacks/encadrant/:id'
+                        url: '/HRPerformanceManagementSystem/resources/feedbacks/encadrant/:id'
                       },
             'collaborateur' : { 
                         method: 'GET',
                         isArray: true,
-                        url: '/resources/feedbacks/collaborateur/:id'
+                        url: '/HRPerformanceManagementSystem/resources/feedbacks/collaborateur/:id'
                       },
             
             'qualificationglobale' : { 
                         method: 'GET',
                         isArray: false,
-                        url: '/resources/feedbacks/qualificationglobale/:id'
+                        url: '/HRPerformanceManagementSystem/resources/feedbacks/qualificationglobale/:id'
                       },
             'bap' : { 
                         method: 'GET',
                         isArray: true,
-                        url: '/resources/feedbacks/bap/:id'
+                        url: '/HRPerformanceManagementSystem/resources/feedbacks/bap/:id'
                       },
             'update': { method:'PUT' },
             
@@ -2833,7 +2833,7 @@ app
 app
     .factory('Formation', function ($resource, $filter) {
         
-        return $resource('/resources/formations/:id', {}, {
+        return $resource('/HRPerformanceManagementSystem/resources/formations/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
@@ -2842,7 +2842,7 @@ app
             'collaborateur' : { 
                         method: 'GET',
                         isArray: true,
-                        url: '/resources/formations/collaborateur/:id'
+                        url: '/HRPerformanceManagementSystem/resources/formations/collaborateur/:id'
                       },
             
             'update': { method:'PUT' },
@@ -2854,7 +2854,7 @@ app
 app
     .factory('Manager', function ($resource, $filter) {
         
-        return $resource('/resources/managersrh/:id', {}, {
+        return $resource('/HRPerformanceManagementSystem/resources/managersrh/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
@@ -2868,7 +2868,7 @@ app
 
 app
 .factory('Objectif', function ($resource, $filter) {
-  return $resource('/resources/objectifs/:id', {}, {
+  return $resource('/HRPerformanceManagementSystem/resources/objectifs/:id', {}, {
     'query': { method: 'GET', isArray: true},
     'get': {
       method: 'GET',
@@ -2882,59 +2882,59 @@ app
       method: 'GET',
       isArray: false,
 
-      url: '/resources/objectifs/ficheobjectifscourants/collaborateur/:id'
+      url: '/HRPerformanceManagementSystem/resources/objectifs/ficheobjectifscourants/collaborateur/:id'
     },
     'ficheEnCours' : {
       method :'GET',
       isArray : false,
-      url: '/resources/objectifs/ficheobjectifs/encours/:id'
+      url: '/HRPerformanceManagementSystem/resources/objectifs/ficheobjectifs/encours/:id'
     },
 
     'collaborateur': { 
       method: 'GET',
       isArray: false,
 
-      url: '/resources/objectifs/ficheobjectifs/collaborateur/:id'
+      url: '/HRPerformanceManagementSystem/resources/objectifs/ficheobjectifs/collaborateur/:id'
     },
     'linkToFiche':
     { 
       method: 'GET',
       isArray: false,
-      url: '/resources/objectifs/link/ficheobjectifs/:idobjectif/:idficheobjectif'
+      url: '/HRPerformanceManagementSystem/resources/objectifs/link/ficheobjectifs/:idobjectif/:idficheobjectif'
     },
     'linkToFormation':
     { 
       method: 'GET',
       isArray: false,
-      url: '/resources/objectifs/link/formation/:idobjectif/:idformation'
+      url: '/HRPerformanceManagementSystem/resources/objectifs/link/formation/:idobjectif/:idformation'
     },
     'linkToEncadrant':
     {
       method: 'GET',
       isArray: false,
-      url: '/resources/objectifs/link/encadrant/:idObjectif/:idencadrant'
+      url: '/HRPerformanceManagementSystem/resources/objectifs/link/encadrant/:idObjectif/:idencadrant'
     },
     'linkToProject':
     { 
       method: 'GET',
       isArray: false,
-      url: '/resources/objectifs/link/projet/:idobjectif/:idprojet'
+      url: '/HRPerformanceManagementSystem/resources/objectifs/link/projet/:idobjectif/:idprojet'
     },
 
     'addFiche':
     { 
       method: 'POST',
-      url: '/resources/objectifs/ficheobjectifs'
+      url: '/HRPerformanceManagementSystem/resources/objectifs/ficheobjectifs'
     },
     'updateFiche':
     { 
       method: 'PUT',
-      url: '/resources/objectifs/ficheobjectifs/:id'
+      url: '/HRPerformanceManagementSystem/resources/objectifs/ficheobjectifs/:id'
     },
     'deleteFiche':
     { 
       method: 'DELETE',
-      url: '/resources/objectifs/ficheobjectifs/:id'
+      url: '/HRPerformanceManagementSystem/resources/objectifs/ficheobjectifs/:id'
     },
     'save': { method:'POST' }
   });
@@ -2944,7 +2944,7 @@ app
 app
     .factory('Profil', function ($resource, $filter) {
         
-        return $resource('/resources/profils/:id', {}, {
+        return $resource('/HRPerformanceManagementSystem/resources/profils/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
@@ -2953,7 +2953,7 @@ app
             'code':
                     {  
                         method:'GET',
-                        url:'/resources/profils/bycode/:code'
+                        url:'/HRPerformanceManagementSystem/resources/profils/bycode/:code'
 
                     },
             'update': { method:'PUT' },
@@ -2965,7 +2965,7 @@ app
 app
     .factory('Projet', function ($resource, $filter) {
         
-        return $resource('/resources/<projets></projets>/:id', {}, {
+        return $resource('/HRPerformanceManagementSystem/resources/<projets></projets>/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
@@ -2974,7 +2974,7 @@ app
             'code':
                     {  
                         method:'GET',
-                        url:'/resources/profils/bycode/:code'
+                        url:'/HRPerformanceManagementSystem/resources/profils/bycode/:code'
 
                     },
             'update': { method:'PUT' },
@@ -2986,7 +2986,7 @@ app
 app
     .factory('Utilisateur', function ($resource, $filter) {
         
-        return $resource('/resources/utilisateurs/:id', {}, {
+        return $resource('/HRPerformanceManagementSystem/resources/utilisateurs/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
@@ -2998,7 +2998,7 @@ app
             'auth' : { 
                         method: 'GET',
                         isArray: false,
-                        url: '/resources/utilisateurs/auth/:email/:mdp'
+                        url: '/HRPerformanceManagementSystem/resources/utilisateurs/auth/:email/:mdp'
                       },
             'update': { method:'PUT' },
             'save': { method:'POST' }

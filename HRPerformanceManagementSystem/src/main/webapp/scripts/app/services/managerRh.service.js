@@ -3,7 +3,7 @@
 app
     .factory('Manager', function ($resource, $filter) {
         
-        return $resource('/resources/managersrh/:id', {}, {
+        return $resource('/HRPerformanceManagementSystem/resources/managersrh/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
