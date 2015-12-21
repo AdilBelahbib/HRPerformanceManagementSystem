@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 20, 2015 at 01:05 AM
+-- Generation Time: Dec 21, 2015 at 01:05 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -36,13 +36,6 @@ CREATE TABLE IF NOT EXISTS `action` (
   KEY `idCollaborateur` (`idCollaborateur`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
---
--- Dumping data for table `action`
---
-
-INSERT INTO `action` (`id`, `descriptionAction`, `idBip`, `idCollaborateur`) VALUES
-(1, 'descriptionAction 1', 1, 154);
-
 -- --------------------------------------------------------
 
 --
@@ -72,12 +65,9 @@ CREATE TABLE IF NOT EXISTS `bap` (
 --
 
 INSERT INTO `bap` (`id`, `dateBAP`, `StatutBAP`, `nombreRejet`, `idFicheObjectifsTraites`, `idFicheObjectifsRediges`, `idFicheEvaluations`, `idFicheEvaluationsInitialisee`, `idCollaborateur`) VALUES
-(1, '2015-12-16 00:00:00', 'ANNULE', 0, 7, 2, 1, 1, 154),
+(1, '2015-12-16 00:00:00', 'ANNULE', 0, NULL, 2, 1, 1, 154),
 (2, '2015-12-02 00:00:00', 'EN_COURS', 0, 2, 3, 2, 1, 154),
-(3, '2015-12-08 00:00:00', 'VALIDE', 0, 3, 3, 3, 1, 154),
-(16, '2015-12-08 00:00:00', 'EN_ATTENTE', 0, 6, 7, 5, 1, 164),
-(25, '2015-12-08 00:00:00', 'EN_COURS', 0, 6, 6, 5, 1, 163),
-(27, '2015-12-08 00:00:00', 'EN_COURS', 0, 6, 7, 5, 1, 164);
+(3, '2015-12-08 00:00:00', 'VALIDE', 0, 3, 3, NULL, 1, 154);
 
 -- --------------------------------------------------------
 
@@ -100,19 +90,7 @@ CREATE TABLE IF NOT EXISTS `bip` (
 --
 
 INSERT INTO `bip` (`id`, `dateBIP`, `idFicheObjectifsTraites`, `idCollaborateur`) VALUES
-(1, '2015-12-03 00:00:00', 5, 154),
-(2, '2015-12-10 00:00:00', 3, 154),
-(3, '2015-12-03 00:00:00', 5, 154),
-(8, '2015-12-19 18:21:24', 6, 163),
-(9, '2015-12-19 18:22:35', 6, 163),
-(10, '2015-12-19 18:25:34', 6, 163),
-(11, '2015-12-19 18:26:45', 6, 163),
-(12, '2015-12-19 18:34:11', 6, 163),
-(13, '2015-12-19 18:35:12', 6, 163),
-(14, '2015-12-19 18:36:36', 6, 163),
-(15, '2015-12-19 18:49:16', 6, 163),
-(16, '2015-12-19 18:49:42', 6, 163),
-(17, '2015-12-19 18:57:09', 6, 163);
+(2, '2015-12-10 00:00:00', 3, 154);
 
 -- --------------------------------------------------------
 
@@ -134,10 +112,7 @@ CREATE TABLE IF NOT EXISTS `collaborateur` (
 INSERT INTO `collaborateur` (`id`, `id_manager`) VALUES
 (154, 151),
 (156, 151),
-(157, 151),
-(155, 159),
-(163, 160),
-(164, 160);
+(157, 151);
 
 -- --------------------------------------------------------
 
@@ -160,12 +135,7 @@ CREATE TABLE IF NOT EXISTS `demande_bip` (
 --
 
 INSERT INTO `demande_bip` (`id`, `dateDemande`, `idCollaborateur`, `idEncadrant`) VALUES
-(1, '2015-12-04', 154, 149),
-(2, '2015-12-15', 155, 149),
-(3, '2015-12-06', 156, 161),
-(4, '2015-12-03', 155, 149),
-(5, '2015-12-19', 163, 161),
-(6, '2015-12-19', 164, 161);
+(1, '2015-12-04', 154, 149);
 
 -- --------------------------------------------------------
 
@@ -203,13 +173,6 @@ CREATE TABLE IF NOT EXISTS `evaluation` (
   KEY `idFicheEvaluations` (`idFicheEvaluations`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
---
--- Dumping data for table `evaluation`
---
-
-INSERT INTO `evaluation` (`id`, `poids`, `resultat`, `idEncadrant`, `idObjectif`, `idFicheEvaluations`) VALUES
-(3, 120, 110, 149, 3, 3);
-
 -- --------------------------------------------------------
 
 --
@@ -228,14 +191,6 @@ CREATE TABLE IF NOT EXISTS `feedback` (
   KEY `idEntete` (`idEntete`),
   KEY `idBap` (`idBap`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `feedback`
---
-
-INSERT INTO `feedback` (`id`, `remarqueGenerale`, `validation`, `idEntete`, `idEncadrant`, `idBap`) VALUES
-(1, 'remarque ', b'1', NULL, 161, 27),
-(2, 'remarque 2', b'0', NULL, 161, 27);
 
 -- --------------------------------------------------------
 
@@ -258,11 +213,7 @@ CREATE TABLE IF NOT EXISTS `fiche_evaluations` (
 
 INSERT INTO `fiche_evaluations` (`id`, `dateEvaluation`, `autorisationAcces`, `idCollaborateur`) VALUES
 (1, '2015-12-07 00:00:00', b'1', 154),
-(2, '2015-12-09 00:00:00', b'1', 154),
-(3, '2015-12-25 00:00:00', b'1', 155),
-(4, '2015-12-02 00:00:00', b'1', 163),
-(5, '2015-12-05 00:00:00', b'1', 164),
-(6, '2015-12-02 00:00:00', b'1', 163);
+(2, '2015-12-09 00:00:00', b'1', 154);
 
 -- --------------------------------------------------------
 
@@ -285,10 +236,7 @@ CREATE TABLE IF NOT EXISTS `fiche_objectifs` (
 
 INSERT INTO `fiche_objectifs` (`id`, `dateFicheObjectifs`, `autorisationAcces`, `idCollaborateur`) VALUES
 (2, '2015-12-24 00:00:00', b'1', 156),
-(3, '2015-12-09 00:00:00', b'1', 154),
-(5, '2015-12-10 00:00:00', b'1', 155),
-(6, '2015-12-09 00:00:00', b'1', 163),
-(7, '2015-12-07 00:00:00', b'1', 164);
+(3, '2015-12-09 00:00:00', b'1', 154);
 
 -- --------------------------------------------------------
 
@@ -336,15 +284,13 @@ INSERT INTO `objectif` (`id`, `descriptionObjectif`, `mesureObjectif`, `avanceme
 (5, 'hadi lli khassha tji2', 'sfgsfgsfdadaa', 10, 3, NULL, 15),
 (17, 'ddd', 'ddd', 50, NULL, NULL, NULL),
 (18, 'aad', 'ddda', 40, NULL, NULL, NULL),
-(29, 'objectif', 'mdada', 58, 7, NULL, NULL),
 (30, 'aaaa', 'aaaa', 78, NULL, NULL, NULL),
 (31, 'lelele', 'lelele', 30, NULL, NULL, NULL),
 (32, 'lelele', 'lelele', 30, NULL, NULL, NULL),
 (33, 'lelele', 'lelele', 30, NULL, NULL, NULL),
 (34, 'lelele', 'lelele', 30, NULL, NULL, NULL),
 (35, 'lelele', 'lelele', 30, NULL, NULL, NULL),
-(36, 'lelele', 'lelele', 30, NULL, NULL, NULL),
-(39, 'fatma', 'zetmi afak', 20, 6, NULL, NULL);
+(36, 'lelele', 'lelele', 30, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -411,13 +357,6 @@ CREATE TABLE IF NOT EXISTS `qualification_theme` (
   KEY `idFeedback` (`idFeedback`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
---
--- Dumping data for table `qualification_theme`
---
-
-INSERT INTO `qualification_theme` (`id`, `theme`, `qualification`, `remarque`, `idFeedback`) VALUES
-(1, 'QUALITE_FIABILITE', 'CRITIQUE', 'rrrr', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -448,13 +387,7 @@ INSERT INTO `utilisateur` (`id`, `email`, `motDePasse`, `nom`, `prenom`, `typeUt
 (154, 'belahbib@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'testing', 'Adil', 'C', NULL),
 (155, 'belahbib2@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB155', 'Adil2', 'C', NULL),
 (156, 'belahbib3@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB2156', 'Adil2', 'C', NULL),
-(157, 'belahbib4@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB157', 'Adil2', 'C', NULL),
-(159, 'tanji2@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'TANJI', 'Hamza', 'M', NULL),
-(160, 'tanji3@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'TANJI', 'Hamza', 'M', NULL),
-(161, 'adil2@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB', 'Adil', 'E', NULL),
-(162, 'adil3@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB', 'Adil', 'E', NULL),
-(163, 'email', '1829bca2a2e6210239ce329dabf70722a71d8873', 'Elmedkouri', 'Amine', 'C', NULL),
-(164, 'ded', '1829bca2a2e6210239ce329dabf70722a71d8873', 'moustaid', 'ayoub', 'C', NULL);
+(157, 'belahbib4@mail.com', '1829bca2a2e6210239ce329dabf70722a71d8873', 'BELAHBIB157', 'Adil2', 'C', NULL);
 
 --
 -- Constraints for dumped tables
